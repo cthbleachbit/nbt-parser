@@ -2,6 +2,7 @@
 #define __libnbtp_tag
 
 #include <stdio.h>
+#include <string.h>
 
 typedef char tag_header;
 
@@ -44,25 +45,18 @@ typedef struct tag {
 #define TAG_INTS        11
 #define TAG_LONGS       12
 
-/*
- * Unit payload sizes for nbt in bytes
+/* Return whether this type can have variable payload size */
+int tag_variable_length(tag_header header);
+
+/* Return the unit payload length */
+int type_length(tag_header header);
+
+
+/* Calculates the size of tags when written in nbt binary
  *
- *  0 = Not applicable
+ * nbt:     Tag to be calculated
  */
-
-static int tag_payload_size[13] = {0, 1, 2, 4, 8, 4, 8, 1, 0, 0, 0, 4, 8};
-
-inline int tag_variable_length(tag_header header) {
-    return (header > 6);
-}
-
-int type_length(tag_header header) {
-    if (header > 12) {
-        fprintf(stderr, "Looking up tag type %d?!", header);
-        return 0;
-    }
-    return tag_payload_size[(int) header];
-}
+int binary_size(tag* nbt);
 
 #endif
 
