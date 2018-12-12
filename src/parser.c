@@ -92,15 +92,8 @@ tag* nextTag(const char *buffer, int *offset) {
 			*offset += length;
 			nbt -> size = length;
 		} else if (header == TAG_STRING) {
-			// Read short size of payload in multiple of bytes
-			int16_t length = (int16_t) be16toh(*((uint16_t*) (buffer + *offset)));
-			printf("string len %i\n", length);
-			*offset += 2;
-			// Read in next length bytes
-			payload = p_calloc(1, length + 1);
-			strncpy(payload, buffer + *offset, length);
-			*offset += length;
-			nbt -> size = (int32_t) length;
+			payload = nextString(buffer, offset);
+			nbt -> size = strlen((char *) payload);
 		}
 		nbt -> payload = payload;
 	}
@@ -111,9 +104,9 @@ tag* nextTag(const char *buffer, int *offset) {
  * Parse next string length + string combo
  */
 char* nextString(const char* buffer, int* offset) {
-	// Read in 4 bytes
-	int length = be32toh(*((uint32_t*) (buffer + *offset)));
-	*offset += 4;
+	// Read in 2 bytes
+	int16_t length = (int16_t) be16toh(*((uint16_t*) (buffer + *offset)));
+	*offset += 2;
 	// Read in next length bytes
 	char *str = p_calloc(1, length + 1);
 	strncpy(str, buffer + *offset, length);
@@ -172,16 +165,16 @@ void printTag(tag *nbt, FILE *f, int indent) {
 		char *payload = (char*) nbt -> payload;
 		printIndent(f, indent);
 		fprintf(f, "Bytes: name = \"%s\", size = %i\n", name, nbt -> size);
-		for (int i = 0; i < nbt -> size / 16; i++) {
+		for (int i = 0; i < nbt -> size / 32; i++) {
 			printIndent(f, indent + 1);
-			for (int j = 0; j < 16; j++) {
+			for (int j = 0; j < 32; j++) {
 				if (j % 4 == 0) { fprintf(f, " "); }
-				fprintf(f, "%02x", *(payload + 16 * i +j));
+				fprintf(f, "%02x", *((unsigned char*) payload + 32 * i +j));
 			}
 			fprintf(f, "\n");
 		}
 		printIndent(f, indent + 1);
-		for (int i = nbt -> size / 16 * 16; i < nbt -> size; i++) {
+		for (int i = nbt -> size / 32 * 32; i < nbt -> size; i++) {
 			if (i % 4 == 0) { fprintf(f, " "); }
 			fprintf(f, "%02x", *(payload + i));
 		}
