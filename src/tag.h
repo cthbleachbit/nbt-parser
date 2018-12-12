@@ -58,6 +58,11 @@ int type_length(tag_header header);
  */
 int binary_size(tag* nbt);
 
+/*
+ * Deallocate tags on heap
+ */
+void freeTag(tag* nbt);
+
 #endif
 
 // vim: set tabstop=4 expandtab :

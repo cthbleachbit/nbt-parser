@@ -21,5 +21,7 @@ int main(int argc, char** argv) {
 	printTag(nbt, stdout, 0);
 	munmap(bin, size);
 	close(fd);
+
+	freeTag(nbt);
 	return 0;
 }

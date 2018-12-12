@@ -1,5 +1,7 @@
 #include "tag.h"
 
+#include <stdlib.h>
+
 /*
  * Unit payload sizes for nbt in bytes
  *
@@ -31,6 +33,27 @@ int binary_size(tag* nbt) {
 /* Return whether this type can have variable payload size */
 int tag_variable_length(tag_header header) {
     return (header > 6);
+}
+
+/*
+ * Deallocate tags on heap
+ */
+void freeTag(tag* nbt) {
+    tag_header header = nbt -> header;
+    if (header == TAG_COMPOUND) {
+        tag **subtags = (tag**) nbt -> payload;
+        int size = nbt -> size;
+        for (int i = 0; i < size; i++) {
+            freeTag(*(subtags + i));
+        }
+        free(subtags);
+    } else if (header == TAG_LIST) {
+        // TODO
+    } else {
+        free(nbt -> payload);
+    }
+    free(nbt -> name);
+    free(nbt);
 }
 
 // vim: set tabstop=4 expandtab :
