@@ -43,8 +43,8 @@ tag **chainToArray(linked_tag *head, int size) {
 	linked_tag *next = head;
 	tag **tagArray = p_malloc(size * sizeof(tag*));
 	for (int i = 0; i < size; i++) {
-		next = head -> next;
-		tagArray[i] = next -> nbt;
+		next = next -> next;
+		*(tagArray + i) = next -> nbt;
 	}
 	return tagArray;
 }

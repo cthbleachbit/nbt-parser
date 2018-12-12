@@ -61,7 +61,7 @@ tag* nextTag(const char *buffer, int *offset) {
 			*((char*) payload) = *(buffer + *offset);
 		} else if (header == TAG_SHORT) {
 			uint16_t s = be16toh(*(buffer + *offset));
-			fprintf(stderr, "IFound Short %i\n", s);
+			fprintf(stderr, "Found Short %i\n", s);
 			*((int16_t*) payload) = (int16_t) s;
 		} else if (header == TAG_INT) {
 			uint32_t s = be32toh(*(buffer + *offset));
@@ -71,15 +71,38 @@ tag* nextTag(const char *buffer, int *offset) {
 			uint64_t s = be64toh(*(buffer + *offset));
 			fprintf(stderr, "Found Long %li\n", s);
 			*((int64_t*) payload) = (int64_t) s;
-		} else {
-			// Float or double then
-			memcpy(nbt -> payload, buffer + *offset, type_length(header));
+		} else if (header == TAG_FLOAT) {
+			float s = (float) be32toh(*(buffer + *offset));
+			fprintf(stderr, "Found Float %f\n", s);
+			*((float*) payload) = s;
+		} else if (header == TAG_DOUBLE) {
+			double s = (double) be64toh(*(buffer + *offset));
+			fprintf(stderr, "Found Double %f\n", s);
+			*((double*) payload) = s;
 		}
 		*offset += type_length(header);
 	} else {
+		void *payload;
 		if (header == TAG_BYTES) {
-			// TODO
+			// Read int size of payload in multiple of bytes
+			int32_t length = (int32_t) be32toh(*((uint32_t*) (buffer + *offset)));
+			*offset += 4;
+			payload = p_malloc(length);
+			memcpy(payload, buffer + *offset, length);
+			*offset += length;
+			nbt -> size = length;
+		} else if (header == TAG_STRING) {
+			// Read short size of payload in multiple of bytes
+			int16_t length = (int16_t) be16toh(*((uint16_t*) (buffer + *offset)));
+			printf("string len %i\n", length);
+			*offset += 2;
+			// Read in next length bytes
+			payload = p_calloc(1, length + 1);
+			strncpy(payload, buffer + *offset, length);
+			*offset += length;
+			nbt -> size = (int32_t) length;
 		}
+		nbt -> payload = payload;
 	}
 	return nbt;
 }
@@ -116,6 +139,7 @@ void printIndent(FILE *f, int indent) {
  */
 void printTag(tag *nbt, FILE *f, int indent) {
 	tag_header header = nbt -> header;
+	char *name = nbt -> name;
 	if (header == TAG_END) {
 		// This should not happen
 		fprintf(stderr, "Unexpected TAG_END while printing\n");
@@ -123,31 +147,45 @@ void printTag(tag *nbt, FILE *f, int indent) {
 	} else if (header == TAG_BYTE) {
 		printIndent(f, indent);
 		char *payload = (char*) nbt -> payload;
-		fprintf(f, "Byte\t%x\n", *payload);
+		fprintf(f, "Byte: name = \"%s\", value = %x\n", name, *payload);
 	} else if (header == TAG_SHORT) {
 		printIndent(f, indent);
 		int16_t *payload = (int16_t*) nbt -> payload;
-		fprintf(f, "Short\t%i\n", *payload);
+		fprintf(f, "Short: name = \"%s\", value = %i\n", name, *payload);
 	} else if (header == TAG_INT) {
 		printIndent(f, indent);
 		int32_t *payload = (int32_t*) nbt -> payload;
-		fprintf(f, "Int\t%i\n", *payload);
+		fprintf(f, "Int: name = \"%s\", value = %i\n", name, *payload);
 	} else if (header == TAG_LONG) {
 		printIndent(f, indent);
 		int64_t *payload = (int64_t*) nbt -> payload;
-		fprintf(f, "Long\t%li\n", *payload);
+		fprintf(f, "Long: name = \"%s\", value = %li\n", name, *payload);
 	} else if (header == TAG_FLOAT) {
 		printIndent(f, indent);
 		float *payload = (float*) nbt -> payload;
-		fprintf(f, "Float\t%f\n", *payload);
+		fprintf(f, "Float: name = \"%s\", value = %f\n", name, *payload);
 	} else if (header == TAG_DOUBLE) {
 		printIndent(f, indent);
 		double *payload = (double*) nbt -> payload;
-		fprintf(f, "Short\t%f\n", *payload);
+		fprintf(f, "Double: name = \"%s\", value = %f\n", name, *payload);
 	} else if (header == TAG_BYTES) {
 		char *payload = (char*) nbt -> payload;
 		printIndent(f, indent);
-		fprintf(f, "Bytes\t%x\n", *payload);
+		fprintf(f, "Bytes: name = \"%s\", size = %i\n", name, nbt -> size);
+		for (int i = 0; i < nbt -> size / 16; i++) {
+			printIndent(f, indent + 1);
+			for (int j = 0; j < 16; j++) {
+				if (j % 4 == 0) { fprintf(f, " "); }
+				fprintf(f, "%02x", *(payload + 16 * i +j));
+			}
+			fprintf(f, "\n");
+		}
+		printIndent(f, indent + 1);
+		for (int i = nbt -> size / 16 * 16; i < nbt -> size; i++) {
+			if (i % 4 == 0) { fprintf(f, " "); }
+			fprintf(f, "%02x", *(payload + i));
+		}
+		fprintf(f, "\n");
 	// Lots of other stuff
 	} else if (header == TAG_COMPOUND) {
 		tag **subtags = (tag**) nbt -> payload;
@@ -155,8 +193,15 @@ void printTag(tag *nbt, FILE *f, int indent) {
 		printIndent(f, indent);
 		fprintf(f, "Compound: name = \"%s\", size = %i\n", nbt -> name , size);
 		for (int i = 0; i < size; i++) {
-			printTag(*subtags + i, f, indent + 1);
+			printTag(*(subtags + i), f, indent + 1);
 		}
+	} else if (header == TAG_STRING) {
+		char *str = (char*) nbt -> payload;
+		int size = nbt -> size;
+		printIndent(f, indent);
+		fprintf(f, "String: name = \"%s\", size = %i\n", nbt -> name , size);
+		printIndent(f, indent + 1);
+		fprintf(f, "\"%s\"\n", str);
 	} else {
 		fprintf(stderr, "Unrecognized tag header %x\n", header);
 		abort();
