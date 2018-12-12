@@ -63,6 +63,16 @@ int binary_size(tag* nbt);
  */
 void freeTag(tag* nbt);
 
+/*
+ * Recursive print
+ *
+ * nbt:		The tag to print
+ * f:		The FILE to output
+ * indent:	Indentation of output
+ * columns:	The row width of array outputs, 0 to use default 32.
+ */
+void printTag(tag *nbt, FILE *f, int indent, int columns);
+
 #endif
 
 // vim: set tabstop=4 expandtab :

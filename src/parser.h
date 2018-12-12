@@ -24,14 +24,4 @@ tag* nextTag(const char *buffer, int *offset);
  */
 char* nextString(const char* buffer, int* offset);
 
-/*
- * Recursive print
- *
- * nbt:		The tag to print
- * f:		The FILE to output
- * indent:	Indentation of output
- * columns:	The row width of array outputs, 0 to use default 32.
- */
-void printTag(tag *nbt, FILE *f, int indent, int columns);
-
 #endif
