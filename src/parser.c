@@ -119,7 +119,7 @@ char* nextString(const char* buffer, int* offset) {
  */
 void printIndent(FILE *f, int indent) {
 	for (int i = 0; i < indent; i++) {
-		fprintf(f, "\t");
+		fprintf(f, "        ");
 	}
 }
 
@@ -129,10 +129,12 @@ void printIndent(FILE *f, int indent) {
  * nbt:		The tag to print
  * f:		The FILE to output
  * indent:	Indentation of output
+ * columns:	The row width of array outputs, 0 to use default 32.
  */
-void printTag(tag *nbt, FILE *f, int indent) {
+void printTag(tag *nbt, FILE *f, int indent, int columns) {
 	tag_header header = nbt -> header;
 	char *name = nbt -> name;
+	int width = (columns <= 0) ? 32 : ((columns >= 320) ? 320 : (columns + 1) / 8 * 8);
 	if (header == TAG_END) {
 		// This should not happen
 		fprintf(stderr, "Unexpected TAG_END while printing\n");
@@ -165,16 +167,17 @@ void printTag(tag *nbt, FILE *f, int indent) {
 		char *payload = (char*) nbt -> payload;
 		printIndent(f, indent);
 		fprintf(f, "Bytes: name = \"%s\", size = %i\n", name, nbt -> size);
-		for (int i = 0; i < nbt -> size / 32; i++) {
+		int bytesPerLine = (width - indent * 8 - 16) / 9 * 4;
+		for (int i = 0; i < nbt -> size / bytesPerLine; i++) {
 			printIndent(f, indent + 1);
-			for (int j = 0; j < 32; j++) {
+			for (int j = 0; j < bytesPerLine; j++) {
 				if (j % 4 == 0) { fprintf(f, " "); }
-				fprintf(f, "%02x", *((unsigned char*) payload + 32 * i +j));
+				fprintf(f, "%02x", *((unsigned char*) payload + bytesPerLine * i +j));
 			}
 			fprintf(f, "\n");
 		}
 		printIndent(f, indent + 1);
-		for (int i = nbt -> size / 32 * 32; i < nbt -> size; i++) {
+		for (int i = nbt -> size / bytesPerLine * bytesPerLine; i < nbt -> size; i++) {
 			if (i % 4 == 0) { fprintf(f, " "); }
 			fprintf(f, "%02x", *(payload + i));
 		}
@@ -186,7 +189,7 @@ void printTag(tag *nbt, FILE *f, int indent) {
 		printIndent(f, indent);
 		fprintf(f, "Compound: name = \"%s\", size = %i\n", nbt -> name , size);
 		for (int i = 0; i < size; i++) {
-			printTag(*(subtags + i), f, indent + 1);
+			printTag(*(subtags + i), f, indent + 1, width);
 		}
 	} else if (header == TAG_STRING) {
 		char *str = (char*) nbt -> payload;
