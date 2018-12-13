@@ -76,6 +76,7 @@ void printIndent(FILE *f, int indent) {
 void printTag(tag *nbt, FILE *f, int indent, int columns) {
     tag_header header = nbt -> header;
     char *name = nbt -> name;
+    if (name == NULL) { name = "LIST ITEM"; }
     int width = (columns <= 0) ? 32 : ((columns >= 320) ? 320 : (columns + 1) / 8 * 8);
     if (header == TAG_END) {
         // This should not happen
@@ -129,7 +130,15 @@ void printTag(tag *nbt, FILE *f, int indent, int columns) {
         tag **subtags = (tag**) nbt -> payload;
         int size = nbt -> size;
         printIndent(f, indent);
-        fprintf(f, "Compound: name = \"%s\", size = %i\n", nbt -> name , size);
+        fprintf(f, "Compound: name = \"%s\", size = %i\n", name , size);
+        for (int i = 0; i < size; i++) {
+            printTag(*(subtags + i), f, indent + 1, width);
+        }
+    } else if (header == TAG_LIST) {
+        tag **subtags = (tag**) nbt -> payload;
+        int size = nbt -> size;
+        printIndent(f, indent);
+        fprintf(f, "List: name = \"%s\", size = %i\n", name , size);
         for (int i = 0; i < size; i++) {
             printTag(*(subtags + i), f, indent + 1, width);
         }
@@ -137,22 +146,27 @@ void printTag(tag *nbt, FILE *f, int indent, int columns) {
         char *str = (char*) nbt -> payload;
         int size = nbt -> size;
         printIndent(f, indent);
-        fprintf(f, "String: name = \"%s\", size = %i\n", nbt -> name , size);
+        fprintf(f, "String: name = \"%s\", size = %i\n", name , size);
         printIndent(f, indent + 1);
         fprintf(f, "\"%s\"\n", str);
-    } else if (header == TAG_STRING) {
-        //TODO
-        fprintf(stderr, "List not yet implemented\n");
     } else if (header == TAG_INTS) {
         int32_t *payload = (int32_t*) nbt -> payload;
         int size = nbt -> size;
         printIndent(f, indent);
-        fprintf(f, "Ints: name = \"%s\", size = %i\n", nbt -> name, size);
+        fprintf(f, "Ints: name = \"%s\", size = %i\n", name, size);
         for (int i = 0; i < size; i++) {
             printIndent(f, indent + 1);
             fprintf(f, "%i\n", *(payload + i));
         }
     } else if (header == TAG_LONGS) {
+        int64_t *payload = (int64_t*) nbt -> payload;
+        int size = nbt -> size;
+        printIndent(f, indent);
+        fprintf(f, "Longs: name = \"%s\", size = %i\n", name, size);
+        for (int i = 0; i < size; i++) {
+            printIndent(f, indent + 1);
+            fprintf(f, "%li\n", *(payload + i));
+        }
     } else {
         fprintf(stderr, "Unrecognized tag header %x\n", header);
         abort();

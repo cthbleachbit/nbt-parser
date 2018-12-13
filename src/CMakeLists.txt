@@ -16,6 +16,10 @@ pkg_check_modules(ZLIB REQUIRED zlib)
 target_link_libraries(nbtp ${ZLIB_LIBRARIES})
 target_include_directories(nbtp PUBLIC ${ZLIB_INCLUDE_DIRS})
 target_compile_options(nbtp PUBLIC ${ZLIB_CFLAGS_OTHER})
+pkg_check_modules(YAML REQUIRED yaml-0.1)
+target_link_libraries(nbtp ${YAML_LIBRARIES})
+target_include_directories(nbtp PUBLIC ${YAML_INCLUDE_DIRS})
+target_compile_options(nbtp PUBLIC ${YAML_CFLAGS_OTHER})
 
 target_link_libraries(nbtp-cli nbtp)
 

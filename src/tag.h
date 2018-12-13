@@ -10,14 +10,17 @@ typedef char tag_header;
 // i.e. size = 2 means 2 integers, etc.
 typedef struct tag {
     tag_header header;
+    // If the tag is part of a list, the name will be NULL
     char *name;
     int size;
+    // Only used when this tag is a list
+    tag_header listType;
     /*
      * If the tag is
      * - compound
      *     payload points to an array of tag*
      * - list
-     *     payload points to an array of appropriate payloads.
+     *     payload points to content of the list formed into tags of same type
      * - int(s), long(s), byte(s)
      *     payload points to an array of ints, longs, or bytes.
      *     Note that this array can be of size 1.

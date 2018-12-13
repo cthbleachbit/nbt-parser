@@ -6,4 +6,9 @@
  */
 tag* compoundDecomp(const char *buffer, int *offset);
 
+/*
+ * Decompose list, returned as a complete new list tag
+ */
+tag* listDecomp(const char *buffer, int *offset);
+
 #endif

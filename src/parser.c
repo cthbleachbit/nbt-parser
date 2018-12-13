@@ -8,8 +8,6 @@
 #include <string.h>
 #include <assert.h>
 
-
-
 /*
  * A wrapper funtion for detailed parsing
  *
@@ -37,27 +35,27 @@ tag* parseFile(const char *buffer, const int length) {
 void nextFixedLenPayload(tag_header header, void *dest, const char *buffer, int *offset) {
 	void *payload = dest;
 	if (header == TAG_BYTE) {
-		fprintf(stderr, "Found Byte %x\n", *(buffer + *offset));
+//		fprintf(stderr, "Found Byte %x\n", *(buffer + *offset));
 		*((char*) payload) = *(buffer + *offset);
 	} else if (header == TAG_SHORT) {
 		uint16_t s = be16toh(*((uint16_t *) (buffer + *offset)));
-		fprintf(stderr, "Found Short %i\n", s);
+//		fprintf(stderr, "Found Short %i\n", s);
 		*((int16_t*) payload) = (int16_t) s;
 	} else if (header == TAG_INT) {
 		uint32_t s = be32toh(*((uint32_t *) (buffer + *offset)));
-		fprintf(stderr, "Found Int %i\n", s);
+//		fprintf(stderr, "Found Int %i\n", s);
 		*((int32_t*) payload) = (int32_t) s;
 	} else if (header == TAG_LONG) {
 		uint64_t s = be64toh(*((uint64_t *) (buffer + *offset)));
-		fprintf(stderr, "Found Long %li\n", s);
+//		fprintf(stderr, "Found Long %li\n", s);
 		*((int64_t*) payload) = (int64_t) s;
 	} else if (header == TAG_FLOAT) {
 		float s = (float) be32toh(*((uint32_t *) (buffer + *offset)));
-		fprintf(stderr, "Found Float %f\n", s);
+//		fprintf(stderr, "Found Float %f\n", s);
 		*((float*) payload) = s;
 	} else if (header == TAG_DOUBLE) {
 		double s = (double) be64toh(*((uint64_t *) (buffer + *offset)));
-		fprintf(stderr, "Found Double %f\n", s);
+//		fprintf(stderr, "Found Double %f\n", s);
 		*((double*) payload) = s;
 	}
 	*offset += type_length(header);
@@ -132,7 +130,7 @@ tag* nextTag(const char *buffer, int *offset) {
 	if (header == TAG_LIST) {
 		// Offloading this task to a function dedicated for lists
 		*offset -= 1;
-		// TODO
+		nbt = listDecomp(buffer, offset);
 		return nbt;
 	}
 
