@@ -68,7 +68,7 @@ void freeChain(linked_tag *head) {
  *
  * size will be updated to reflect number of tags in this compound
  */
-tag **compoundPayload(int *size, const char *buffer, int *offset) {
+tag **compoundPayload(int *size, parse_info *info) {
 	// Construct a proper linked list head w/o messing with heap
 	linked_tag head;
 	head.prev = NULL;
@@ -79,7 +79,7 @@ tag **compoundPayload(int *size, const char *buffer, int *offset) {
 	// Push the button
 	*size = 0;
 	do {
-		tag *nbt = nextTag(buffer, offset);
+		tag *nbt = nextTag(info);
 		if (nbt == NULL) { break; }
 		tail = chainTag(tail, nbt);
 		*size += 1;
@@ -99,18 +99,19 @@ tag **compoundPayload(int *size, const char *buffer, int *offset) {
 /*
  * Decompose compound, returned as a complete new tag with name and subtags
  */
-tag *compoundDecomp(const char *buffer, int *offset) {
-
+tag *compoundDecomp(parse_info *info) {
+	char *buffer = info -> buffer;
+	int *offset = &(info -> offset);
 	tag *compound;
 	// Bailing out if we are not dealing with a compound
 	tag_header header = *(buffer + *offset);
 	assert(header == TAG_COMPOUND);
 	*offset = *offset + 1;
 	// Grab its name
-	char *name = nextString(buffer, offset);
+	char *name = nextString(info);
 
 	int size = 0;
-	tag **tagArray = compoundPayload(&size, buffer, offset);
+	tag **tagArray = compoundPayload(&size, info);
 
 	// Construct the compound tag
 	compound = p_malloc(sizeof(tag));
@@ -127,7 +128,9 @@ tag *compoundDecomp(const char *buffer, int *offset) {
  * psize:	Will contain number of items
  * listType:	Will contain type of each payload
  */
-tag **listPayload(int *psize, tag_header *listType, const char *buffer, int *offset) {
+tag **listPayload(int *psize, tag_header *listType, parse_info *info) {
+	char *buffer = info -> buffer;
+	int *offset = &(info -> offset);
 	// Get payload type and size
 	tag_header header = *(buffer + *offset);
 	*offset += 1;
@@ -154,7 +157,7 @@ tag **listPayload(int *psize, tag_header *listType, const char *buffer, int *off
 		// Offloading the task to a function dedicated for compound.
 		for (int i = 0; i < size; i++){
 			int nSize = 0;
-			tag **nTagArray = compoundPayload(&nSize, buffer, offset);
+			tag **nTagArray = compoundPayload(&nSize, info);
 
 			// Construct the compound tag
 			tag *nbt = p_malloc(sizeof(tag));
@@ -171,7 +174,7 @@ tag **listPayload(int *psize, tag_header *listType, const char *buffer, int *off
 		for (int i = 0; i < size; i++){
 			int nSize;
 			tag_header nHeader;
-			void *payload = listPayload(&nSize, &nHeader, buffer, offset);
+			void *payload = listPayload(&nSize, &nHeader, info);
 			// New tag
 			tag *nbt = p_malloc(sizeof(tag));
 			nbt -> header = TAG_LIST;
@@ -193,7 +196,7 @@ tag **listPayload(int *psize, tag_header *listType, const char *buffer, int *off
 			nbt -> header = header;
 			nbt -> payload = p_malloc(type_length(header));
 			void *payload = nbt -> payload;
-			nextFixedLenPayload(header, payload, buffer, offset);
+			nextFixedLenPayload(header, payload, info);
 
 			// Fill in array
 			*(tagArray + i) = nbt;
@@ -203,7 +206,8 @@ tag **listPayload(int *psize, tag_header *listType, const char *buffer, int *off
 		for (int i = 0; i < size; i++){
 			void *payload;
 			int32_t payloadSize;
-			nextVarLenPayload(header, &payloadSize, &payload, buffer, offset);
+			nextVarLenPayload(header, &payloadSize, &payload,
+					info);
 
 			tag *nbt = p_calloc(1, sizeof(tag));
 			nbt -> size = payloadSize;
@@ -226,17 +230,19 @@ tag **listPayload(int *psize, tag_header *listType, const char *buffer, int *off
  * names. In an actual nbt file, only payload is present.
  *
  */
-tag *listDecomp(const char *buffer, int *offset) {
+tag *listDecomp(parse_info *info) {
+	char *buffer = info -> buffer;
+	int *offset = &(info -> offset);
 	// Bailing out if we are not dealing with a list
 	tag_header header = *(buffer + *offset);
 	assert(header == TAG_LIST);
 	*offset = *offset + 1;
 	// Grab its name
-	char *name = nextString(buffer, offset);
+	char *name = nextString(info);
 
 	int size;
 	tag_header listType;
-	tag **tagArray = listPayload(&size, &listType, buffer, offset);
+	tag **tagArray = listPayload(&size, &listType, info);
 
 	// Construct the list tag
 	tag *list;

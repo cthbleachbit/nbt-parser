@@ -4,22 +4,36 @@
 #include <stdint.h>
 
 /*
+ * A wrapper for a file to pass
+ *
+ * buffer:	Entire file mapped in memory
+ * offset:	The place to record parse progress
+ * expect:	Expected length of the whole tag
+ */
+typedef struct parse_info {
+	char *buffer;
+	int offset;
+	int expect;
+} parse_info;
+
+/*
  * A wrapper funtion for detailed parsing
  *
  * buffer:	Entire file mapped in memory
- * length:	Expected length of the whole tag
+ * expect:	Expected length of the whole tag
  */
-tag* parseFile(const char *buffer, const int length);
+tag* parseFile(char *buffer, const int expect);
 
 /*
  * Parse next tag
  *
  * buffer:	Entire tag mapped in memory
  * offset:	The offset where next tag starts
+ * expect:	Expected length of the whole file
  *
  * Shall return NULL if it sees an TAG_END.
  */
-tag* nextTag(const char *buffer, int *offset);
+tag* nextTag(parse_info *info);
 
 /*
  * Read in next payload w/ fixed length
@@ -28,8 +42,9 @@ tag* nextTag(const char *buffer, int *offset);
  * dest:	Pointer to preallocated region write the payload
  * buffer:	input buffer
  * offset:	input offset
+ * expect:	Expected length of the whole file
  */
-void nextFixedLenPayload(tag_header header, void *dest, const char *buffer, int *offset);
+void nextFixedLenPayload(tag_header header, void *dest, parse_info *info);
 
 /*
  * Read in next payload w/ variable length except for compound tags and list
@@ -41,13 +56,14 @@ void nextFixedLenPayload(tag_header header, void *dest, const char *buffer, int 
  * dest:	Pointer to preallocated region write the payload
  * buffer:	input buffer
  * offset:	input offset
+ * expect:	Expected length of the whole file
  */
 int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
-		const char *buffer, int *offset);
+		parse_info *info);
 
 /*
  * Parse next string length + string combo
  */
-char* nextString(const char* buffer, int* offset);
+char* nextString(parse_info *info);
 
 #endif

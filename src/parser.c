@@ -12,15 +12,20 @@
  * A wrapper funtion for detailed parsing
  *
  * buffer:	Entire file mapped in memory
- * length:	Expected length of the whole tag
+ * expect:	Expected length of the whole tag
  */
-tag* parseFile(const char *buffer, const int length) {
-	int offset = 0;
+tag* parseFile(char *buffer, const int expect) {
+	parse_info *info = p_malloc(sizeof(parse_info));
+	info -> buffer = buffer;
+	info -> offset = 0;
+	info -> expect = expect;
 	// Should only have one root tag
-	tag* result = nextTag(buffer, &offset);
-	if (offset != length) {
-		fprintf(stderr, "Wrong tag size? Expected %i, got %i.\n", length, offset);
+	tag* result = nextTag(info);
+	if (info -> offset != expect) {
+		fprintf(stderr, "Wrong tag size? Expected %i, got %i.\n",
+				expect, info -> offset);
 	}
+	free(info);
 	return result;
 }
 
@@ -31,8 +36,11 @@ tag* parseFile(const char *buffer, const int length) {
  * dest:	Pointer to preallocated region write the payload
  * buffer:	input buffer
  * offset:	input offset
+ * expect:	Expected length of the whole file
  */
-void nextFixedLenPayload(tag_header header, void *dest, const char *buffer, int *offset) {
+void nextFixedLenPayload(tag_header header, void *dest, parse_info *info) {
+	char *buffer = info -> buffer;
+	int *offset = &(info -> offset);
 	void *payload = dest;
 	if (header == TAG_BYTE) {
 //		fprintf(stderr, "Found Byte %x\n", *(buffer + *offset));
@@ -71,9 +79,12 @@ void nextFixedLenPayload(tag_header header, void *dest, const char *buffer, int 
  * dest:	Pointer to preallocated region write the payload
  * buffer:	input buffer
  * offset:	input offset
+ * expect:	Expected length of the whole file
  */
 int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
-		const char *buffer, int *offset) {
+		parse_info *info) {
+	char *buffer = info -> buffer;
+	int *offset = &(info -> offset);
 	void **payload = dest;
 	if (header == TAG_BYTES) {
 		// Read int size of payload in multiple of bytes
@@ -84,7 +95,7 @@ int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
 		*offset += length;
 		*size = length;
 	} else if (header == TAG_STRING) {
-		*payload = nextString(buffer, offset);
+		*payload = nextString(info);
 		*size = strlen((char *) *payload);
 	} else if (header == TAG_INTS || header == TAG_LONGS) {
 		// Read int size of payload in multiple of bytes
@@ -97,7 +108,7 @@ int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
 		for (int i = 0; i < length; i++) {
 			// Read i-th integer or long
 			nextFixedLenPayload(singleHdr, *payload + i * typeLen,
-					buffer, offset);
+					info);
 		}
 		*size = length;
 	} else {
@@ -112,10 +123,13 @@ int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
  *
  * buffer:	Entire tag mapped in memory
  * offset:	The offset where next tag starts
+ * expect:	Expected length of the whole file
  *
  * Shall return NULL if it sees an TAG_END.
  */
-tag* nextTag(const char *buffer, int *offset) {
+tag* nextTag(parse_info *info) {
+	char *buffer = info -> buffer;
+	int *offset = &(info -> offset);
 	// Read tag type
 	tag_header header = *(buffer + *offset);
 	*offset = *offset + 1;
@@ -124,18 +138,18 @@ tag* nextTag(const char *buffer, int *offset) {
 	if (header == TAG_COMPOUND) {
 		// Offloading the task to a function dedicated for compound.
 		*offset -= 1;
-		nbt = compoundDecomp(buffer, offset);
+		nbt = compoundDecomp(info);
 		return nbt;
 	}
 	if (header == TAG_LIST) {
 		// Offloading this task to a function dedicated for lists
 		*offset -= 1;
-		nbt = listDecomp(buffer, offset);
+		nbt = listDecomp(info);
 		return nbt;
 	}
 
 	// Grab name first
-	char *name = nextString(buffer, offset);
+	char *name = nextString(info);
 	nbt = p_malloc(sizeof(tag));
 	nbt -> header = header;
 	nbt -> name = name;
@@ -144,12 +158,12 @@ tag* nextTag(const char *buffer, int *offset) {
 		nbt -> size = 1;
 		nbt -> payload = p_malloc(type_length(header));
 		void *payload = nbt -> payload;
-		nextFixedLenPayload(header, payload, buffer, offset);
+		nextFixedLenPayload(header, payload, info);
 	} else if (header < 13) {
 		// Tags with variable payload sizes
 		void *payload;
 		int32_t size;
-		nextVarLenPayload(header, &size, &payload, buffer, offset);
+		nextVarLenPayload(header, &size, &payload, info);
 		nbt -> payload = payload;
 		nbt -> size = size;
 	} else {
@@ -162,13 +176,15 @@ tag* nextTag(const char *buffer, int *offset) {
 /*
  * Parse next string length + string combo
  */
-char* nextString(const char* buffer, int* offset) {
+char* nextString(parse_info *info) {
+	char *buffer = info -> buffer;
+	int *offset = &(info -> offset);
 	// Read in 2 bytes
-	int16_t length = (int16_t) be16toh(*((uint16_t*) (buffer + *offset)));
+	int16_t size = (int16_t) be16toh(*((uint16_t*) (buffer + *offset)));
 	*offset += 2;
 	// Read in next length bytes
-	char *str = p_calloc(1, length + 1);
-	strncpy(str, buffer + *offset, length);
-	*offset += length;
+	char *str = p_calloc(1, size + 1);
+	strncpy(str, buffer + *offset, size);
+	*offset += size;
 	return str;
 }

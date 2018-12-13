@@ -1,14 +1,16 @@
 #ifndef __libnbtp_compound
 #define __libnbtp_compound
 
+#include "parser.h"
+
 /*
  * Decompose compound, returned as a complete new tag
  */
-tag* compoundDecomp(const char *buffer, int *offset);
+tag* compoundDecomp(parse_info *info);
 
 /*
  * Decompose list, returned as a complete new list tag
  */
-tag* listDecomp(const char *buffer, int *offset);
+tag* listDecomp(parse_info *info);
 
 #endif
