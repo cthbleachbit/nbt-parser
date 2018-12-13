@@ -40,7 +40,7 @@ int tag_variable_length(tag_header header) {
  */
 void freeTag(tag* nbt) {
     tag_header header = nbt -> header;
-    if (header == TAG_COMPOUND) {
+    if (header == TAG_COMPOUND || header == TAG_LIST) {
         tag **subtags = (tag**) nbt -> payload;
         int size = nbt -> size;
         for (int i = 0; i < size; i++) {
