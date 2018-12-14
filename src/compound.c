@@ -80,11 +80,17 @@ tag **compoundPayload(int *size, parse_info *info) {
 	*size = 0;
 	do {
 		tag *nbt = nextTag(info);
-		if (nbt == NULL) { break; }
+		if (nbt == NULL || nbt == (tag *) PARSE_ERR_PTR) { break; }
 		tail = chainTag(tail, nbt);
 		*size += 1;
 	} while ( 1 );
 
+	if (info -> error) {
+		freeChain(&head);
+		*size = 0;
+		complain("Unfinished compound tag", info -> offset);
+		return (tag **) PARSE_ERR_PTR;
+	}
 	// Flatten down the linked tags
 	tag **tagArray;
 	if (*size > 0) {
@@ -92,7 +98,6 @@ tag **compoundPayload(int *size, parse_info *info) {
 	} else {
 		tagArray = NULL;
 	}
-	freeChain(&head);
 	return tagArray;
 }
 
@@ -112,6 +117,9 @@ tag *compoundDecomp(parse_info *info) {
 
 	int size = 0;
 	tag **tagArray = compoundPayload(&size, info);
+	if (tagArray == (tag**) PARSE_ERR_PTR) {
+		return (tag *) PARSE_ERR_PTR;
+	}
 
 	// Construct the compound tag
 	compound = p_malloc(sizeof(tag));

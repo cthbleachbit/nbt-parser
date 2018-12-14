@@ -30,18 +30,35 @@ tag* parseFile(char *buffer, const int expect) {
 }
 
 /*
+ * Predict segfaults by checking offset against expect
+ *
+ * If reading `next` many would cause seek past end of file,
+ *     set the error flag and return 1.
+ * Otherwise return 0.
+ */
+int predictErrors(parse_info *info, int next) {
+	int ret = (info -> offset + next) > (info -> expect);
+	info -> error = ret;
+	return ret;
+}
+
+/*
  * Read in next payload w/ fixed length
  *
  * header:	Type of the payload
- * dest:	Pointer to preallocated region write the payload
- * buffer:	input buffer
- * offset:	input offset
- * expect:	Expected length of the whole file
+ * dest:	Pointer to preallocated region to write the payload
+ * info:	Points to info for parsing this time
  */
 void nextFixedLenPayload(tag_header header, void *dest, parse_info *info) {
 	char *buffer = info -> buffer;
 	int *offset = &(info -> offset);
 	void *payload = dest;
+
+	if (predictErrors(info, type_length(header))) {
+		complain("Seeking past end of file while reading fixed length payload", *offset);
+		return;
+	}
+
 	if (header == TAG_BYTE) {
 //		fprintf(stderr, "Found Byte %x\n", *(buffer + *offset));
 		*((char*) payload) = *(buffer + *offset);
@@ -77,9 +94,7 @@ void nextFixedLenPayload(tag_header header, void *dest, parse_info *info) {
  * size:	Pointer where the number of payload unit will be written
  * 		i.e. String length, array sizes, list sizes
  * dest:	Pointer to preallocated region write the payload
- * buffer:	input buffer
- * offset:	input offset
- * expect:	Expected length of the whole file
+ * info:	Points to info for parsing this time
  */
 int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
 		parse_info *info) {
@@ -88,7 +103,15 @@ int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
 	void **payload = dest;
 	if (header == TAG_BYTES) {
 		// Read int size of payload in multiple of bytes
+		if (predictErrors(info, 4)) {
+			complain("Seeking past end of file when reading byte array length", *offset);
+			return PARSE_ERR_PTR;
+		}
 		int32_t length = be32toh(*((uint32_t*) (buffer + *offset)));
+		if (predictErrors(info, length)) {
+			complain("Seeking past end of file when reading byte array", *offset);
+			return PARSE_ERR_PTR;
+		}
 		*offset += 4;
 		*payload = p_malloc(length);
 		memcpy(*payload, buffer + *offset, length);
@@ -99,9 +122,17 @@ int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
 		*size = strlen((char *) *payload);
 	} else if (header == TAG_INTS || header == TAG_LONGS) {
 		// Read int size of payload in multiple of bytes
+		if (predictErrors(info, 4)) {
+			complain("Seeking past end of file when reading number array length", *offset);
+			return PARSE_ERR_PTR;
+		}
 		int32_t length = be32toh(*((uint32_t*) (buffer + *offset)));
 		*offset += 4;
 		int typeLen = type_length(header);
+		if (predictErrors(info, length * typeLen)) {
+			complain("Seeking past end of file when reading number array", *offset);
+			return PARSE_ERR_PTR;
+		}
 		*payload = p_malloc(length * typeLen);
 		tag_header singleHdr = header - 8;
 		// Handle integers and longs by offloading to fixed length
@@ -112,8 +143,9 @@ int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
 		}
 		*size = length;
 	} else {
-		// Strange tags?
-		return -1;
+		complain("Unrecognized tag header", *offset);
+		// Strange tags? Shouldn't happen.
+		abort();
 	}
 	return 0;
 }
@@ -121,18 +153,21 @@ int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
 /*
  * Parse next tag
  *
- * buffer:	Entire tag mapped in memory
- * offset:	The offset where next tag starts
- * expect:	Expected length of the whole file
+ * info:	Points to info for parsing this time
  *
  * Shall return NULL if it sees an TAG_END.
  */
 tag* nextTag(parse_info *info) {
 	char *buffer = info -> buffer;
 	int *offset = &(info -> offset);
-	// Read tag type
+
+	if (predictErrors(info, 1)) {
+		complain("Read past end of file.", *offset);
+		return (tag*) PARSE_ERR_PTR;
+	}
 	tag_header header = *(buffer + *offset);
 	*offset = *offset + 1;
+
 	tag *nbt;
 	if (header == TAG_END) { return (tag*) NULL; }
 	if (header == TAG_COMPOUND) {
@@ -150,6 +185,9 @@ tag* nextTag(parse_info *info) {
 
 	// Grab name first
 	char *name = nextString(info);
+	if (name == (char *) PARSE_ERR_PTR) {
+		return (tag*) PARSE_ERR_PTR;
+	}
 	nbt = p_malloc(sizeof(tag));
 	nbt -> header = header;
 	nbt -> name = name;
@@ -159,6 +197,9 @@ tag* nextTag(parse_info *info) {
 		nbt -> payload = p_malloc(type_length(header));
 		void *payload = nbt -> payload;
 		nextFixedLenPayload(header, payload, info);
+		if (info -> error) {
+			return (tag*) PARSE_ERR_PTR;
+		}
 	} else if (header < 13) {
 		// Tags with variable payload sizes
 		void *payload;
@@ -166,9 +207,13 @@ tag* nextTag(parse_info *info) {
 		nextVarLenPayload(header, &size, &payload, info);
 		nbt -> payload = payload;
 		nbt -> size = size;
+		if (info -> error) {
+			return (tag*) PARSE_ERR_PTR;
+		}
 	} else {
-		fprintf(stderr, "Unrecognized tag %02x at offset %i\n", header, *offset);
-		abort();
+		complain("Unrecognized tag header", *offset);
+		info -> error = 1;
+		return (tag*) PARSE_ERR_PTR;
 	}
 	return nbt;
 }
@@ -179,9 +224,17 @@ tag* nextTag(parse_info *info) {
 char* nextString(parse_info *info) {
 	char *buffer = info -> buffer;
 	int *offset = &(info -> offset);
+	if (predictErrors(info, 2)) {
+		complain("Seeking past end of file when reading string length", *offset);
+		return (char*) PARSE_ERR_PTR;
+	}
 	// Read in 2 bytes
 	int16_t size = (int16_t) be16toh(*((uint16_t*) (buffer + *offset)));
 	*offset += 2;
+	if (predictErrors(info, size)) {
+		complain("Seeking past end of file when reading string", *offset);
+		return (char*) PARSE_ERR_PTR;
+	}
 	// Read in next length bytes
 	char *str = p_calloc(1, size + 1);
 	strncpy(str, buffer + *offset, size);

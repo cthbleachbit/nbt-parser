@@ -7,4 +7,6 @@ void* p_malloc(size_t size);
 
 void* p_calloc(size_t nmemb, size_t bsize);
 
+void complain(char *message, int offset);
+
 #endif

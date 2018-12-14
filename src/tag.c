@@ -39,6 +39,10 @@ int tag_variable_length(tag_header header) {
  * Deallocate tags on heap
  */
 void freeTag(tag* nbt) {
+    // A broken tag is skipped
+    if (nbt == (tag *) PARSE_ERR_PTR) {
+        return;
+    }
     tag_header header = nbt -> header;
     if (header == TAG_COMPOUND || header == TAG_LIST) {
         tag **subtags = (tag**) nbt -> payload;

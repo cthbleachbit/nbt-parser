@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 
+// The address to set when an error is encountered
+#define PARSE_ERR_PTR -1
+
 typedef char tag_header;
 
 // Not that size is the number of payload of appripriate type
