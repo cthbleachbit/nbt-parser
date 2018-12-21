@@ -18,15 +18,43 @@ int type_length(tag_header header) {
     return tag_payload_size[(int) header];
 }
 
-
 /* Calculates the size of tags when written in nbt binary
  *
  * nbt:     Tag to be calculated
  */
-int binary_size(tag* nbt) {
-    int size = 5; // Counting header, name length encoding
-    size += strlen(nbt -> name); // Actual name of this tag
-    // TODO: Payload size
+int nbt_binary_size(tag* nbt) {
+    int size = 0;
+    if (nbt -> name != NULL) {
+        // This a fully formed tag if name is not null, otherwise this tag is
+        // part of a list and should not have its own name and header, etc.
+        size = 3; // Counting header, name length encoding
+        size += strlen(nbt -> name); // Actual name of this tag
+    }
+    if (nbt -> header == TAG_COMPOUND || nbt -> header == TAG_LIST) {
+        tag **payload = (tag **) nbt -> payload;
+        for (int i = 0; i < nbt -> size; i++) {
+            size += nbt_binary_size(payload[i]);
+        }
+        if (nbt -> header == TAG_COMPOUND) {
+            // Compound tags has extra 1 byte at the end
+            size++;
+        } else {
+            // List tags has 4 bytes of length + 1 byte of payload type
+            size += 5;
+        }
+    } else if (tag_variable_length(nbt -> header)) {
+        // Arrays of numbers or a single string
+        if (nbt -> header == TAG_STRING) {
+            size += 2 + strlen((char *)nbt -> payload);
+        } else {
+            // All others has 4 bytes to encode array size
+            size += nbt -> size * type_length(nbt -> header);
+            size += 4;
+        }
+    } else {
+        // Singleton tags
+        size += type_length(nbt -> header);
+    }
     return size;
 }
 
@@ -51,8 +79,6 @@ void freeTag(tag* nbt) {
             freeTag(*(subtags + i));
         }
         free(subtags);
-    } else if (header == TAG_LIST) {
-        // TODO
     } else {
         free(nbt -> payload);
     }

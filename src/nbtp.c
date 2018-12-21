@@ -39,6 +39,8 @@ int main(int argc, char** argv) {
 		exit(127);
 	}
 	tag *nbt = parseFile(bin, size);
+	int expect = nbt_binary_size(nbt);
+	printf("Incoming bytes: %i, Computed size: %i.\n", size, expect);
 	printTag(nbt, stdout, 0, termWidth());
 	munmap(bin, size);
 	close(fd);

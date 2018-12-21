@@ -62,7 +62,7 @@ int type_length(tag_header header);
  *
  * nbt:     Tag to be calculated
  */
-int binary_size(tag* nbt);
+int nbt_binary_size(tag* nbt);
 
 /*
  * Deallocate tags on heap
