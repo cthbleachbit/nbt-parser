@@ -16,6 +16,6 @@ void* p_calloc(size_t nmemb, size_t bsize) {
 }
 
 void complain(char *message, int offset) {
-	fprintf("Error at offset %i:\n", offset);
-	fprintf("    %s\n", message);
+	fprintf(stderr, "Error at offset %i:\n", offset);
+	fprintf(stderr, "    %s\n", message);
 }
