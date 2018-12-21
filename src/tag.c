@@ -91,7 +91,7 @@ void freeTag(tag* nbt) {
  */
 void printIndent(FILE *f, int indent) {
     for (int i = 0; i < indent; i++) {
-        fprintf(f, "        ");
+        fprintf(f, "    ");
     }
 }
 
