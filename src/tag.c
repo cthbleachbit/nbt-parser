@@ -68,7 +68,7 @@ int tag_variable_length(tag_header header) {
  */
 void freeTag(tag* nbt) {
     // A broken tag is skipped
-    if (nbt == (tag *) PARSE_ERR_PTR) {
+    if (nbt == (tag *) PARSE_ERR_PTR || nbt == NULL) {
         return;
     }
     tag_header header = nbt -> header;

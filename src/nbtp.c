@@ -39,6 +39,10 @@ int main(int argc, char** argv) {
 		exit(127);
 	}
 	tag *nbt = parseFile(bin, size);
+	if (nbt == (tag *) PARSE_ERR_PTR || nbt == NULL) {
+		FAIL("Possibly not a valid decompressed NBT?\n");
+		exit(1);
+	}
 	int expect = nbt_binary_size(nbt);
 	printf("Incoming bytes: %i, Computed size: %i.\n", size, expect);
 	printTag(nbt, stdout, 0, termWidth());

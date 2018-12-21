@@ -11,7 +11,6 @@
  * to worry about array sizes.
  */
 typedef struct linked_tag {
-	struct linked_tag *prev;
 	tag *nbt;
 	struct linked_tag *next; 
 } linked_tag;
@@ -26,12 +25,8 @@ linked_tag *chainTag(linked_tag *linkedNBT, tag *nbt) {
 	newLinkedNBT -> nbt = nbt;
 	// Linking new to next, works even when it's the last one
 	newLinkedNBT -> next = origNext;
-	if (origNext != NULL) {
-		origNext -> prev = newLinkedNBT;
-	}
 	// Linking new and this
 	linkedNBT -> next = newLinkedNBT;
-	newLinkedNBT -> prev = linkedNBT;
 	return newLinkedNBT;
 }
 
@@ -71,7 +66,6 @@ void freeChain(linked_tag *head) {
 tag **compoundPayload(int *size, parse_info *info) {
 	// Construct a proper linked list head w/o messing with heap
 	linked_tag head;
-	head.prev = NULL;
 	head.nbt = NULL;
 	head.next = NULL;
 	linked_tag *tail = &head;
@@ -98,6 +92,7 @@ tag **compoundPayload(int *size, parse_info *info) {
 	} else {
 		tagArray = NULL;
 	}
+	freeChain(&head);
 	return tagArray;
 }
 
