@@ -5,6 +5,18 @@ set(VERSION "0.0.1")
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ZLIB REQUIRED zlib)
 
+set(VERSION_STRING ${VERSION} CACHE STRING "VERSION_STRING")
+add_definitions(-DVERSION=\"${VERSION_STRING}\")
+
+execute_process(COMMAND git rev-parse HEAD
+		OUTPUT_VARIABLE GIT_SHA1
+		RESULT_VARIABLE GIT_RET_VAL)
+
+if(${GIT_RET_VAL} EQUAL 0)
+	string(SUBSTRING ${GIT_SHA1} 0 8 GIT_SHORT_REV)
+	add_definitions(-DGIT_SHA1=\"${GIT_SHORT_REV}\")
+endif(${GIT_RET_VAL} EQUAL 0)
+
 set(warnings "-g -Wall -Wextra")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${warnings}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${warnings}")

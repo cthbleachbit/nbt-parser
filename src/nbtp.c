@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define FAIL(msg) fprintf(stderr, "%s\n", msg)
+#define FAIL(msg) fprintf(stderr, "%s", msg)
 
 int termWidth() {
 	struct winsize w;
@@ -19,8 +19,9 @@ int termWidth() {
 
 int main(int argc, char** argv) {
 	if (argc != 2) {
-		FAIL("Usage: nbtp-cli <input-nbt>");
-		FAIL("        Simple example application. Displays information about nbt files");
+		FAIL("Usage: nbtp-cli <input-nbt>\n");
+		FAIL("        Example application. Displays information about uncompressed nbt files\n");
+		fprintf(stderr, "Library version: %s %s\n", VERSION, GIT_SHA1);
 		exit(1);
 	}
 	int fd = open(argv[1], 'r');
