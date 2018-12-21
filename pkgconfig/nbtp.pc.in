@@ -1,0 +1,10 @@
+Name: nbtp
+Description: Minecraft NBT parser in C
+URL: https://github.com/cthbleachbit/nbt-parser
+
+prefix=@CMAKE_INSTALL_PREFIX@
+libdir=@INSTALL_LIB_DIR@
+includedir=@INSTALL_INCLUDE_DIR@
+
+Cflags: -I${includedir}/nbtp
+Libs: -L${libdir} -lnbtp
