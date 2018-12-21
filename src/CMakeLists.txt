@@ -35,4 +35,4 @@ target_link_libraries(nbtp-cli nbtp)
 install (TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
 install (TARGETS nbtp-cli DESTINATION ${INSTALL_BIN_DIR})
 
-install (FILES ${NBTP_HEADER} DESTINATION ${INSTALL_INCLUDE_DIR})
+install (FILES ${NBTP_HEADER} DESTINATION ${INSTALL_INCLUDE_DIR}/nbtp)
