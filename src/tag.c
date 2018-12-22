@@ -243,6 +243,8 @@ void nbtp_write_tag(tag *nbt, FILE *f) {
     } else if (header == TAG_DOUBLE) {
         fwrite(nbt -> payload, 8, 1, f);
     } else if (header == TAG_BYTES) {
+        uint32_t size = htobe32((uint32_t) nbt -> size);
+        fwrite(&size, 4, 1, f);
         fwrite(nbt -> payload, 1, nbt -> size, f);
     // Lots of other stuff
     } else if (header == TAG_COMPOUND) {
