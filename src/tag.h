@@ -79,6 +79,14 @@ void nbtp_free_tag(tag* nbt);
  */
 void nbtp_print_tag(tag *nbt, FILE *f, int indent, int columns);
 
+/*
+ * Write out a tag in binary
+ *
+ * nbt:		The tag to print
+ * f:		The FILE to write to
+ */
+void nbtp_write_tag(tag *nbt, FILE *f);
+
 #endif
 
 // vim: set tabstop=4 expandtab :

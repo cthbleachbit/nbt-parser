@@ -75,11 +75,11 @@ void __next_fixed_len_payload(tag_header header, void *dest, parse_info *info) {
 //		fprintf(stderr, "Found Long %li\n", s);
 		*((int64_t*) payload) = (int64_t) s;
 	} else if (header == TAG_FLOAT) {
-		float s = (float) be32toh(*((uint32_t *) (buffer + *offset)));
+		float s = *((float *) (buffer + *offset));
 //		fprintf(stderr, "Found Float %f\n", s);
 		*((float*) payload) = s;
 	} else if (header == TAG_DOUBLE) {
-		double s = (double) be64toh(*((uint64_t *) (buffer + *offset)));
+		double s = *((double *) (buffer + *offset));
 //		fprintf(stderr, "Found Double %f\n", s);
 		*((double*) payload) = s;
 	}

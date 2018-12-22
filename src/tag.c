@@ -1,6 +1,8 @@
 #include "tag.h"
 
 #include <stdlib.h>
+#include <endian.h>
+#include <stdint.h>
 
 /*
  * Unit payload sizes for nbt in bytes
@@ -196,6 +198,94 @@ void nbtp_print_tag(tag *nbt, FILE *f, int indent, int columns) {
         for (int i = 0; i < size; i++) {
             printIndent(f, indent + 1);
             fprintf(f, "%li\n", *(payload + i));
+        }
+    } else {
+        fprintf(stderr, "Unrecognized tag header %x\n", header);
+        abort();
+    }
+}
+
+/*
+ * Write out a tag in binary
+ *
+ * nbt:		The tag to print
+ * f:		The FILE to write to
+ */
+void nbtp_write_tag(tag *nbt, FILE *f) {
+    tag_header header = nbt -> header;
+    char *name = nbt -> name;
+    if (name != NULL) {
+        // Output full tag with header and name fields
+        fwrite(&header, 1, 1, f);
+        uint16_t name_len = htobe16((uint16_t) strlen(name));
+        fwrite(&name_len, 2, 1, f);
+        if (name_len != 0) {
+            fwrite(name, strlen(name), 1, f);
+        }
+    }
+    if (header == TAG_END) {
+        // This should not happen
+        fprintf(stderr, "Unexpected TAG_END while writing binary tag\n");
+        abort();
+    } else if (header == TAG_BYTE) {
+        fwrite(nbt -> payload, 1, 1, f);
+    } else if (header == TAG_SHORT) {
+        uint16_t payload = htobe16(*(uint16_t *) (nbt -> payload));
+        fwrite(&payload, 2, 1, f);
+    } else if (header == TAG_INT) {
+        uint32_t payload = htobe32(*(uint32_t *) (nbt -> payload));
+        fwrite(&payload, 4, 1, f);
+    } else if (header == TAG_LONG) {
+        uint64_t payload = htobe64(*(uint64_t *) (nbt -> payload));
+        fwrite(&payload, 8, 1, f);
+    } else if (header == TAG_FLOAT) {
+        fwrite(nbt -> payload, 4, 1, f);
+    } else if (header == TAG_DOUBLE) {
+        fwrite(nbt -> payload, 8, 1, f);
+    } else if (header == TAG_BYTES) {
+        fwrite(nbt -> payload, 1, nbt -> size, f);
+    // Lots of other stuff
+    } else if (header == TAG_COMPOUND) {
+        // Generate full sub tags with 00 terminator
+        tag **subtags = (tag**) nbt -> payload;
+        for (int i = 0; i < nbt -> size; i++) {
+            nbtp_write_tag(*(subtags + i), f);
+        }
+        char endTag = TAG_END;
+        fwrite(&endTag, 1, 1, f);
+    } else if (header == TAG_LIST) {
+        // Writing out payload type for lists.
+        fwrite(&(nbt -> listType), 1, 1, f);
+        tag **subtags = (tag**) nbt -> payload;
+        uint32_t size = htobe32((uint32_t) nbt -> size);
+        // Writing sizs of the list
+        fwrite(&size, 4, 1, f);
+        for (int i = 0; i < nbt -> size; i++) {
+            nbtp_write_tag(*(subtags + i), f);
+        }
+    } else if (header == TAG_STRING) {
+        uint16_t size = htobe16((uint16_t) nbt -> size);
+        fwrite(&size, 2, 1, f);
+        if (nbt -> size != 0) {
+            fwrite(nbt -> payload, nbt -> size, 1, f);
+        }
+    } else if (header == TAG_INTS) {
+        int32_t *payload = (int32_t*) nbt -> payload;
+        uint32_t size = htobe32((uint32_t) nbt -> size);
+        // Writing sizs of the list
+        fwrite(&size, 4, 1, f);
+        for (int i = 0; i < nbt -> size; i++) {
+            uint32_t next = htobe32((uint32_t) *(payload + i));
+            fwrite(&next, 4, 1, f);
+        }
+    } else if (header == TAG_LONGS) {
+        int64_t *payload = (int64_t*) nbt -> payload;
+        uint32_t size = htobe32((uint32_t) nbt -> size);
+        // Writing sizs of the list
+        fwrite(&size, 4, 1, f);
+        for (int i = 0; i < nbt -> size; i++) {
+            uint64_t next = htobe64((uint64_t) *(payload + i));
+            fwrite(&next, 8, 1, f);
         }
     } else {
         fprintf(stderr, "Unrecognized tag header %x\n", header);
