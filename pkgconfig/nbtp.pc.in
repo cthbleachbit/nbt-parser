@@ -1,6 +1,7 @@
 Name: nbtp
 Description: Minecraft NBT parser in C
 URL: https://github.com/cthbleachbit/nbt-parser
+Version: @VERSION@
 
 prefix=@CMAKE_INSTALL_PREFIX@
 libdir=@INSTALL_LIB_DIR@
