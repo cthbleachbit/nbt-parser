@@ -38,17 +38,17 @@ int main(int argc, char** argv) {
 		FAIL("Cannot map file to memory region");
 		exit(127);
 	}
-	tag *nbt = parseFile(bin, size);
+	tag *nbt = nbtp_parse_file(bin, size);
 	if (nbt == (tag *) PARSE_ERR_PTR || nbt == NULL) {
 		FAIL("Possibly not a valid decompressed NBT?\n");
 		exit(1);
 	}
-	int expect = nbt_binary_size(nbt);
+	int expect = nbtp_bin_size(nbt);
 	printf("Incoming bytes: %i, Computed size: %i.\n", size, expect);
-	printTag(nbt, stdout, 0, termWidth());
+	nbtp_print_tag(nbt, stdout, 0, termWidth());
 	munmap(bin, size);
 	close(fd);
 
-	freeTag(nbt);
+	nbtp_free_tag(nbt);
 	return 0;
 }

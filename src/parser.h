@@ -17,12 +17,12 @@ typedef struct parse_info {
 } parse_info;
 
 /*
- * Predict segfaults by checking offset against expect
+ * Internal use only: Predict segfaults by checking offset against expect
  *
- * If reading `next` many would cause seek past end of file, return 1.
+ * If reading `next` many would seek past end of file, return 1.
  * Otherwise return 0.
  */
-int predictErrors(parse_info *info, int next);
+int __predict_errors(parse_info *info, int next);
 
 /*
  * A wrapper funtion for detailed parsing
@@ -30,7 +30,7 @@ int predictErrors(parse_info *info, int next);
  * buffer:	Entire file mapped in memory
  * expect:	Expected length of the whole tag
  */
-tag* parseFile(char *buffer, const int expect);
+tag* nbtp_parse_file(char *buffer, const int expect);
 
 /*
  * Parse next tag
@@ -39,7 +39,7 @@ tag* parseFile(char *buffer, const int expect);
  *
  * Shall return NULL if it sees an TAG_END.
  */
-tag* nextTag(parse_info *info);
+tag* nbtp_next_tag(parse_info *info);
 
 /*
  * Read in next payload w/ fixed length
@@ -48,7 +48,7 @@ tag* nextTag(parse_info *info);
  * dest:	Pointer to preallocated region write the payload
  * info:	Points to info for parsing this time
  */
-void nextFixedLenPayload(tag_header header, void *dest, parse_info *info);
+void __next_fixed_len_payload(tag_header header, void *dest, parse_info *info);
 
 /*
  * Read in next payload w/ variable length except for compound tags and list
@@ -60,12 +60,12 @@ void nextFixedLenPayload(tag_header header, void *dest, parse_info *info);
  * dest:	Pointer to preallocated region write the payload
  * info:	Points to info for parsing this time
  */
-int nextVarLenPayload(tag_header header, int32_t *size, void **dest,
+int __next_var_len_payload(tag_header header, int32_t *size, void **dest,
 		parse_info *info);
 
 /*
  * Parse next string length + string combo
  */
-char* nextString(parse_info *info);
+char* nbtp_next_string(parse_info *info);
 
 #endif

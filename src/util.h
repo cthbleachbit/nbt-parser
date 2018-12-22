@@ -3,10 +3,10 @@
 
 #include <stdlib.h>
 
-void* p_malloc(size_t size);
+void* __nbtp_malloc(size_t size);
 
-void* p_calloc(size_t nmemb, size_t bsize);
+void* __nbtp_calloc(size_t nmemb, size_t bsize);
 
-void complain(char *message, int offset);
+void __nbtp_complain(char *message, int offset);
 
 #endif

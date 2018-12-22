@@ -22,7 +22,7 @@ int type_length(tag_header header) {
  *
  * nbt:     Tag to be calculated
  */
-int nbt_binary_size(tag* nbt) {
+int nbtp_bin_size(tag* nbt) {
     int size = 0;
     if (nbt -> name != NULL) {
         // This a fully formed tag if name is not null, otherwise this tag is
@@ -33,7 +33,7 @@ int nbt_binary_size(tag* nbt) {
     if (nbt -> header == TAG_COMPOUND || nbt -> header == TAG_LIST) {
         tag **payload = (tag **) nbt -> payload;
         for (int i = 0; i < nbt -> size; i++) {
-            size += nbt_binary_size(payload[i]);
+            size += nbtp_bin_size(payload[i]);
         }
         if (nbt -> header == TAG_COMPOUND) {
             // Compound tags has extra 1 byte at the end
@@ -66,7 +66,7 @@ int tag_variable_length(tag_header header) {
 /*
  * Deallocate tags on heap
  */
-void freeTag(tag* nbt) {
+void nbtp_free_tag(tag* nbt) {
     // A broken tag is skipped
     if (nbt == (tag *) PARSE_ERR_PTR || nbt == NULL) {
         return;
@@ -76,7 +76,7 @@ void freeTag(tag* nbt) {
         tag **subtags = (tag**) nbt -> payload;
         int size = nbt -> size;
         for (int i = 0; i < size; i++) {
-            freeTag(*(subtags + i));
+            nbtp_free_tag(*(subtags + i));
         }
         free(subtags);
     } else {
@@ -103,7 +103,7 @@ void printIndent(FILE *f, int indent) {
  * indent:    Indentation of output
  * columns:    The row width of array outputs, 0 to use default 32.
  */
-void printTag(tag *nbt, FILE *f, int indent, int columns) {
+void nbtp_print_tag(tag *nbt, FILE *f, int indent, int columns) {
     tag_header header = nbt -> header;
     char *name = nbt -> name;
     if (name == NULL) { name = "LIST ITEM"; }
@@ -162,7 +162,7 @@ void printTag(tag *nbt, FILE *f, int indent, int columns) {
         printIndent(f, indent);
         fprintf(f, "Compound: name = \"%s\", size = %i\n", name , size);
         for (int i = 0; i < size; i++) {
-            printTag(*(subtags + i), f, indent + 1, width);
+            nbtp_print_tag(*(subtags + i), f, indent + 1, width);
         }
     } else if (header == TAG_LIST) {
         tag **subtags = (tag**) nbt -> payload;
@@ -170,7 +170,7 @@ void printTag(tag *nbt, FILE *f, int indent, int columns) {
         printIndent(f, indent);
         fprintf(f, "List: name = \"%s\", size = %i\n", name , size);
         for (int i = 0; i < size; i++) {
-            printTag(*(subtags + i), f, indent + 1, width);
+            nbtp_print_tag(*(subtags + i), f, indent + 1, width);
         }
     } else if (header == TAG_STRING) {
         char *str = (char*) nbt -> payload;

@@ -18,10 +18,10 @@ typedef struct linked_tag {
 /*
  * Add nbt after linkedNBT. Returns the newly linked tag.
  */
-linked_tag *chainTag(linked_tag *linkedNBT, tag *nbt) {
+linked_tag *nbtp_chain_tag(linked_tag *linkedNBT, tag *nbt) {
 	linked_tag *origNext = linkedNBT -> next;
 	// Calloc to wipe out any possible leaks on next
-	linked_tag *newLinkedNBT = p_calloc(1, sizeof(linked_tag));
+	linked_tag *newLinkedNBT = __nbtp_calloc(1, sizeof(linked_tag));
 	newLinkedNBT -> nbt = nbt;
 	// Linking new to next, works even when it's the last one
 	newLinkedNBT -> next = origNext;
@@ -35,9 +35,9 @@ linked_tag *chainTag(linked_tag *linkedNBT, tag *nbt) {
  *
  * This allows all compounds to be stored in a rigid tag struct
  */
-tag **chainToArray(linked_tag *head, int size) {
+tag **nbtp_chain_to_array(linked_tag *head, int size) {
 	linked_tag *next = head;
-	tag **tagArray = p_malloc(size * sizeof(tag*));
+	tag **tagArray = __nbtp_malloc(size * sizeof(tag*));
 	for (int i = 0; i < size; i++) {
 		next = next -> next;
 		*(tagArray + i) = next -> nbt;
@@ -48,7 +48,7 @@ tag **chainToArray(linked_tag *head, int size) {
 /*
  * Tearing down the linked list to freeup memory
  */
-void freeChain(linked_tag *head) {
+void __free_chain(linked_tag *head) {
 	linked_tag *this = head -> next;
 	linked_tag *next;
 	while (this != NULL) {
@@ -63,7 +63,7 @@ void freeChain(linked_tag *head) {
  *
  * size will be updated to reflect number of tags in this compound
  */
-tag **compoundPayload(int *size, parse_info *info) {
+tag **nbtp_compound_payload(int *size, parse_info *info) {
 	// Construct a proper linked list head w/o messing with heap
 	linked_tag head;
 	head.nbt = NULL;
@@ -73,33 +73,33 @@ tag **compoundPayload(int *size, parse_info *info) {
 	// Push the button
 	*size = 0;
 	do {
-		tag *nbt = nextTag(info);
+		tag *nbt = nbtp_next_tag(info);
 		if (nbt == NULL || nbt == (tag *) PARSE_ERR_PTR) { break; }
-		tail = chainTag(tail, nbt);
+		tail = nbtp_chain_tag(tail, nbt);
 		*size += 1;
 	} while ( 1 );
 
 	if (info -> error) {
-		freeChain(&head);
+		__free_chain(&head);
 		*size = 0;
-		complain("Unfinished compound tag", info -> offset);
+		__nbtp_complain("Unfinished compound tag", info -> offset);
 		return (tag **) PARSE_ERR_PTR;
 	}
 	// Flatten down the linked tags
 	tag **tagArray;
 	if (*size > 0) {
-		tagArray = chainToArray(&head, *size);
+		tagArray = nbtp_chain_to_array(&head, *size);
 	} else {
 		tagArray = NULL;
 	}
-	freeChain(&head);
+	__free_chain(&head);
 	return tagArray;
 }
 
 /*
  * Decompose compound, returned as a complete new tag with name and subtags
  */
-tag *compoundDecomp(parse_info *info) {
+tag *nbtp_compound_decomp(parse_info *info) {
 	char *buffer = info -> buffer;
 	int *offset = &(info -> offset);
 	tag *compound;
@@ -108,16 +108,16 @@ tag *compoundDecomp(parse_info *info) {
 	assert(header == TAG_COMPOUND);
 	*offset = *offset + 1;
 	// Grab its name
-	char *name = nextString(info);
+	char *name = nbtp_next_string(info);
 
 	int size = 0;
-	tag **tagArray = compoundPayload(&size, info);
+	tag **tagArray = nbtp_compound_payload(&size, info);
 	if (tagArray == (tag**) PARSE_ERR_PTR) {
 		return (tag *) PARSE_ERR_PTR;
 	}
 
 	// Construct the compound tag
-	compound = p_malloc(sizeof(tag));
+	compound = __nbtp_malloc(sizeof(tag));
 	compound -> header = header;
 	compound -> name = name;
 	compound -> size = size;
@@ -131,7 +131,7 @@ tag *compoundDecomp(parse_info *info) {
  * psize:	Will contain number of items
  * listType:	Will contain type of each payload
  */
-tag **listPayload(int *psize, tag_header *listType, parse_info *info) {
+tag **nbtp_list_payload(int *psize, tag_header *listType, parse_info *info) {
 	char *buffer = info -> buffer;
 	int *offset = &(info -> offset);
 	// Get payload type and size
@@ -151,7 +151,7 @@ tag **listPayload(int *psize, tag_header *listType, parse_info *info) {
 	}
 
 	// Some normal tags. Since we know the size ahead...
-	tag **tagArray = p_malloc(size * sizeof(tag*));
+	tag **tagArray = __nbtp_malloc(size * sizeof(tag*));
 	if (header == TAG_END) {
 		fprintf(stderr, "List has subtype TAG_END?!\n");
 		abort();
@@ -160,10 +160,10 @@ tag **listPayload(int *psize, tag_header *listType, parse_info *info) {
 		// Offloading the task to a function dedicated for compound.
 		for (int i = 0; i < size; i++){
 			int nSize = 0;
-			tag **nTagArray = compoundPayload(&nSize, info);
+			tag **nTagArray = nbtp_compound_payload(&nSize, info);
 
 			// Construct the compound tag
-			tag *nbt = p_malloc(sizeof(tag));
+			tag *nbt = __nbtp_malloc(sizeof(tag));
 			nbt -> header = TAG_COMPOUND;
 			nbt -> name = NULL;
 			nbt -> size = nSize;
@@ -177,9 +177,9 @@ tag **listPayload(int *psize, tag_header *listType, parse_info *info) {
 		for (int i = 0; i < size; i++){
 			int nSize;
 			tag_header nHeader;
-			void *payload = listPayload(&nSize, &nHeader, info);
+			void *payload = nbtp_list_payload(&nSize, &nHeader, info);
 			// New tag
-			tag *nbt = p_malloc(sizeof(tag));
+			tag *nbt = __nbtp_malloc(sizeof(tag));
 			nbt -> header = TAG_LIST;
 			nbt -> name = NULL;
 			nbt -> size = nSize;
@@ -194,12 +194,12 @@ tag **listPayload(int *psize, tag_header *listType, parse_info *info) {
 	if (!tag_variable_length(header)) {
 		// All payloads are singleton
 		for (int i = 0; i < size; i++){
-			tag *nbt = p_calloc(1, sizeof(tag));
+			tag *nbt = __nbtp_calloc(1, sizeof(tag));
 			nbt -> size = 1;
 			nbt -> header = header;
-			nbt -> payload = p_malloc(type_length(header));
+			nbt -> payload = __nbtp_malloc(type_length(header));
 			void *payload = nbt -> payload;
-			nextFixedLenPayload(header, payload, info);
+			__next_fixed_len_payload(header, payload, info);
 
 			// Fill in array
 			*(tagArray + i) = nbt;
@@ -209,10 +209,10 @@ tag **listPayload(int *psize, tag_header *listType, parse_info *info) {
 		for (int i = 0; i < size; i++){
 			void *payload;
 			int32_t payloadSize;
-			nextVarLenPayload(header, &payloadSize, &payload,
+			__next_var_len_payload(header, &payloadSize, &payload,
 					info);
 
-			tag *nbt = p_calloc(1, sizeof(tag));
+			tag *nbt = __nbtp_calloc(1, sizeof(tag));
 			nbt -> size = payloadSize;
 			nbt -> header = header;
 			nbt -> payload = payload;
@@ -233,7 +233,7 @@ tag **listPayload(int *psize, tag_header *listType, parse_info *info) {
  * names. In an actual nbt file, only payload is present.
  *
  */
-tag *listDecomp(parse_info *info) {
+tag *nbtp_list_decomp(parse_info *info) {
 	char *buffer = info -> buffer;
 	int *offset = &(info -> offset);
 	// Bailing out if we are not dealing with a list
@@ -241,15 +241,15 @@ tag *listDecomp(parse_info *info) {
 	assert(header == TAG_LIST);
 	*offset = *offset + 1;
 	// Grab its name
-	char *name = nextString(info);
+	char *name = nbtp_next_string(info);
 
 	int size;
 	tag_header listType;
-	tag **tagArray = listPayload(&size, &listType, info);
+	tag **tagArray = nbtp_list_payload(&size, &listType, info);
 
 	// Construct the list tag
 	tag *list;
-	list = p_malloc(sizeof(tag));
+	list = __nbtp_malloc(sizeof(tag));
 	list -> header = TAG_LIST;
 	list -> name = name;
 	list -> size = size;

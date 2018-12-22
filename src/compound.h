@@ -6,11 +6,11 @@
 /*
  * Decompose compound, returned as a complete new tag
  */
-tag* compoundDecomp(parse_info *info);
+tag* nbtp_compound_decomp(parse_info *info);
 
 /*
  * Decompose list, returned as a complete new list tag
  */
-tag* listDecomp(parse_info *info);
+tag* nbtp_list_decomp(parse_info *info);
 
 #endif

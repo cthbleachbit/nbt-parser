@@ -58,16 +58,16 @@ int tag_variable_length(tag_header header);
 int type_length(tag_header header);
 
 
-/* Calculates the size of tags when written in nbt binary
+/* Calculates the size of tags if written as nbt binary
  *
  * nbt:     Tag to be calculated
  */
-int nbt_binary_size(tag* nbt);
+int nbtp_bin_size(tag* nbt);
 
 /*
  * Deallocate tags on heap
  */
-void freeTag(tag* nbt);
+void nbtp_free_tag(tag* nbt);
 
 /*
  * Recursive print
@@ -77,7 +77,7 @@ void freeTag(tag* nbt);
  * indent:	Indentation of output
  * columns:	The row width of array outputs, 0 to use default 32.
  */
-void printTag(tag *nbt, FILE *f, int indent, int columns);
+void nbtp_print_tag(tag *nbt, FILE *f, int indent, int columns);
 
 #endif
 
