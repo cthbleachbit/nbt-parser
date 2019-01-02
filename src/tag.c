@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <endian.h>
 #include <stdint.h>
+#include <assert.h>
 
 /*
  * Unit payload sizes for nbt in bytes
@@ -245,8 +246,7 @@ void nbtp_write_tag(tag *nbt, FILE *f) {
     } else if (header == TAG_BYTES) {
         uint32_t size = htobe32((uint32_t) nbt -> size);
         fwrite(&size, 4, 1, f);
-        fwrite(nbt -> payload, 1, nbt -> size, f);
-    // Lots of other stuff
+        assert(nbt -> size == fwrite(nbt -> payload, 1, nbt -> size, f));
     } else if (header == TAG_COMPOUND) {
         // Generate full sub tags with 00 terminator
         tag **subtags = (tag**) nbt -> payload;

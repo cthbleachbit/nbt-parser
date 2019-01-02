@@ -49,6 +49,7 @@ int main(int argc, char** argv) {
 	munmap(bin, size);
 	close(fd);
 
+//	nbtp_write_tag(nbt, fopen("/tmp/nbt", "wb"));
 	nbtp_free_tag(nbt);
 	return 0;
 }
