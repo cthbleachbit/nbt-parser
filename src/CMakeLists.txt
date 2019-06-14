@@ -1,21 +1,14 @@
 
 set(LIBNBTP_SRC
-	parser.c
-	compound.c
-	tag.c
-	util.c
+	tag.cpp
 	)
 
 set(NBTP_SRC
-	nbtp.c
+	nbtp.cpp
 	)
 
 set(NBTP_HEADER
-	compound.h
-	nbtp.h
-	parser.h
 	tag.h
-	util.h
 	)
 
 
