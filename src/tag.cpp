@@ -1,7 +1,9 @@
 #include "tag.h"
 
-namespace NBTP {
+BEGIN_NBTP_NS
 
-	
+void Tag::output(IOFormat) {
 
 }
+
+END_NBTP_NS

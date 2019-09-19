@@ -1,9 +1,11 @@
-/* I/O helpers
- *
+#ifndef NBTP_IO_H
+#define NBTP_IO_H
+
+BEGIN_NBTP_NS
+
+/**
+ * Indicates the format of related input or output buffer
  */
-
-namespace NBTP {
-
 enum IOFormat {
 	TEXT = 0,
 	GZ = 1,
@@ -11,4 +13,6 @@ enum IOFormat {
 	YAML = 3
 };
 
-}
+END_NBTP_NS
+
+#endif
