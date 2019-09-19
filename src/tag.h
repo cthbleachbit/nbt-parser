@@ -37,7 +37,7 @@ enum TagType {
 class Tag {
 public:
 	virtual void output(IOFormat);
-	int8_t typeCode() { return TagType::INVALID ; };
+	virtual int8_t typeCode() { return TagType::INVALID ; };
 	void output()
 	{
 		output(IOFormat::TEXT);
@@ -97,11 +97,12 @@ public:
  * "special" case where __names__ of subtags are not important and simply ignored.
  */
 class CompoundTag : public Tag {
-protected:
+public:
 	bool isRoot = false;
+protected:
 	std::map<std::string, Tag> container;
 public:
-	CompoundTag(bool _isRoot) : isRoot(_isRoot) {};
+	CompoundTag(bool isRoot) : isRoot(isRoot) {};
 	int8_t typeCode() { return TagType::COMPOUND; };
 	size_t size() {
 		return container.size();
