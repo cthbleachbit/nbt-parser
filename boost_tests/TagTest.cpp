@@ -4,8 +4,6 @@
 #include "libnbtp.h"
 #include <iostream>
 
-#include "../include/Tag.h"
-
 BOOST_AUTO_TEST_SUITE(TagTester)
 
 	BOOST_AUTO_TEST_CASE(AssignName) {
