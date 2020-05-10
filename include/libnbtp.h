@@ -1,10 +1,12 @@
 #ifndef NBTP_LIBNBTP_H
 #define NBTP_LIBNBTP_H
 
-#include "io.h"
 #include "constants.h"
 
 #include "Tag.h"
+#include "ByteTag.h"
+#include "IntTag.h"
+#include "CompoundTag.h"
 
 
 #endif
