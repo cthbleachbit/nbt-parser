@@ -3,11 +3,15 @@
 //
 
 #include "IntTag.h"
+#include "conv.h"
 #include "constants.h"
 #include <boost/format.hpp>
 #include <istream>
 
 namespace NBTP {
+	IntTag::EndianConv IntTag::toH = Conversion::conv_32_beh;
+	IntTag::EndianConv IntTag::toJ = Conversion::conv_32_hbe;
+
 	TagType IntTag::typeCode() noexcept {
 		return TagType::INT;
 	}
@@ -19,7 +23,7 @@ namespace NBTP {
 				break;
 			case BIN:
 				// Perform host to java big endian conversion
-				V big = htobe32(this->payload);
+				V big = toJ(this->payload);
 				ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		}
 		return ostream;
@@ -38,7 +42,7 @@ namespace NBTP {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		// Perform java big-endian to host conversion
-		buffer = be32toh(buffer);
+		buffer = toH(buffer);
 		if (input.fail()) {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}

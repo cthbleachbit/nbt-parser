@@ -11,6 +11,9 @@ namespace NBTP {
 	class ShortTag : public Tag {
 	public:
 		typedef int16_t V;
+		typedef V (*EndianConv)(V);
+		static EndianConv toH;
+		static EndianConv toJ;
 	private:
 		V payload;
 	public:

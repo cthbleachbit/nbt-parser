@@ -3,10 +3,14 @@
 //
 
 #include "LongTag.h"
+#include "conv.h"
 #include <boost/format.hpp>
 #include <istream>
 
 namespace NBTP {
+	LongTag::EndianConv LongTag::toH = Conversion::conv_64_beh;
+	LongTag::EndianConv LongTag::toJ = Conversion::conv_64_hbe;
+
 	TagType LongTag::typeCode() noexcept {
 		return TagType::LONG;
 	}
@@ -18,7 +22,7 @@ namespace NBTP {
 				break;
 			case BIN:
 				// Perform host to java big endian conversion
-				V big = htobe64(this->payload);
+				V big = toJ(this->payload);
 				ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		}
 		return ostream;
@@ -37,7 +41,7 @@ namespace NBTP {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		// Perform java big-endian to host conversion
-		buffer = be64toh(buffer);
+		buffer = toH(buffer);
 		if (input.fail()) {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}

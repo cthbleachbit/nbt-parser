@@ -11,6 +11,9 @@ namespace NBTP {
 	class LongTag : public Tag {
 	public:
 		typedef int64_t V;
+		typedef V (*EndianConv)(V);
+		static EndianConv toH;
+		static EndianConv toJ;
 	private:
 		V payload;
 	public:

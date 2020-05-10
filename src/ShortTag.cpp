@@ -4,10 +4,14 @@
 
 #include "ShortTag.h"
 #include "constants.h"
+#include "conv.h"
 #include <boost/format.hpp>
 #include <istream>
 
 namespace NBTP {
+	ShortTag::EndianConv ShortTag::toH = Conversion::conv_16_beh;
+	ShortTag::EndianConv ShortTag::toJ = Conversion::conv_16_hbe;
+
 	TagType ShortTag::typeCode() noexcept {
 		return TagType::SHORT;
 	}
@@ -18,7 +22,9 @@ namespace NBTP {
 				textOutput(ostream, 0);
 				break;
 			case BIN:
-				ostream.write(reinterpret_cast<const char *>(&this->payload), sizeof(V));
+				// Perform host to java big endian conversion
+				V big = toJ(this->payload);
+				ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		}
 		return ostream;
 	}
@@ -35,6 +41,8 @@ namespace NBTP {
 	ShortTag::ShortTag(std::istream &input) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
+		// Perform java big-endian to host conversion
+		buffer = toH(buffer);
 		if (input.fail()) {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}

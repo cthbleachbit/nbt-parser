@@ -11,6 +11,9 @@ namespace NBTP {
 	class IntTag : public Tag {
 	public:
 		typedef int32_t V;
+		typedef V (*EndianConv)(V);
+		static EndianConv toH;
+		static EndianConv toJ;
 	private:
 		V payload;
 	public:
