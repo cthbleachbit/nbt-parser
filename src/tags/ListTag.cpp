@@ -81,4 +81,8 @@ namespace NBTP {
 		}
 		return this->payload == rhs_ref.payload;
 	}
+
+	const ListTag::List &ListTag::getPayload() {
+		return this->payload;
+	}
 }
