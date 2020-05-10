@@ -90,6 +90,12 @@ namespace NBTP {
 		 */
 		explicit ListTag(TagType type);
 
+		/**
+		 * Deserializing constructor
+		 * @param input
+		 */
+		explicit ListTag(std::istream &input);
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;

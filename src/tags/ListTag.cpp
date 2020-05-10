@@ -85,4 +85,8 @@ namespace NBTP {
 	const ListTag::List &ListTag::getPayload() const {
 		return this->payload;
 	}
+
+	ListTag::ListTag(std::istream &input) {
+		// TODO
+	}
 }

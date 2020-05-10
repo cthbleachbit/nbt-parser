@@ -41,6 +41,12 @@ namespace NBTP {
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
+
+		/**
+		 * Deserialize constructor
+		 * @param input
+		 */
+		explicit BytesTag(std::istream& input);
 	};
 }
 

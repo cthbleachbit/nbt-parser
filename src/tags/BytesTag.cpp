@@ -5,6 +5,7 @@
 #include <tags/ByteTag.h>
 #include <boost/format.hpp>
 #include "tags/BytesTag.h"
+#include "tags/IntTag.h"
 
 namespace NBTP {
 	TagType BytesTag::typeCode() noexcept {
@@ -45,6 +46,16 @@ namespace NBTP {
 
 	void BytesTag::insert(const std::shared_ptr<Tag> &v) {
 		ListTag::insert(v);
+	}
+
+	BytesTag::BytesTag(std::istream &input) {
+		int32_t size = IntTag::parseInt(input);
+		if (size < 0) {
+			throw std::runtime_error(CONTENT_LEN_NEG);
+		}
+		for (int i = 0; i < size; i++) {
+			this->payload.push_back(static_cast<const std::shared_ptr<Tag>>(new ByteTag(input)));
+		}
 	}
 }
 

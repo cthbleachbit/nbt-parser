@@ -59,6 +59,9 @@ namespace NBTP {
 
 	std::string StringTag::parseString(std::istream &input) {
 		int16_t length = ShortTag::parseShort(input);
+		if (length < 0) {
+			throw std::runtime_error(CONTENT_LEN_NEG);
+		}
 		char *copy_buf = new char[length + 1];
 		input.read(copy_buf, length);
 		copy_buf[length] = 0x00;

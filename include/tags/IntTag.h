@@ -35,6 +35,8 @@ namespace NBTP {
 		 */
 		explicit IntTag(std::istream &input);
 
+		static V parseInt(std::istream &input);
+
 		bool equal(Tag &rhs) override;
 	};
 }

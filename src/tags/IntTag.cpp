@@ -39,14 +39,7 @@ namespace NBTP {
 	}
 
 	IntTag::IntTag(std::istream &input) {
-		V buffer;
-		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-		// Perform java big-endian to host conversion
-		buffer = toH(buffer);
-		if (input.fail()) {
-			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
-		}
-		this->payload = buffer;
+		this->payload = parseInt(input);
 	}
 
 	bool IntTag::equal(Tag &rhs) {
@@ -58,5 +51,16 @@ namespace NBTP {
 
 	IntTag::V IntTag::getPayload() const {
 		return this->payload;
+	}
+
+	IntTag::V IntTag::parseInt(std::istream &input) {
+		V buffer;
+		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
+		// Perform java big-endian to host conversion
+		buffer = toH(buffer);
+		if (input.fail()) {
+			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+		}
+		return buffer;
 	}
 }
