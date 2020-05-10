@@ -10,10 +10,12 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		NBTP::CompoundTag testTag;
 		NBTP::ByteTag* _tag = new NBTP::ByteTag(3);
 		NBTP::IntTag* _tag2 = new NBTP::IntTag(4);
-		testTag.insert("sometag", std::shared_ptr<NBTP::ByteTag>(_tag));
-		testTag.insert("sometag2", std::shared_ptr<NBTP::IntTag>(_tag2));
+		NBTP::LongTag* _tag3 = new NBTP::LongTag(21242343434L);
+		testTag.insert("sometag", std::shared_ptr<NBTP::Tag>(_tag));
+		testTag.insert("sometag2", std::shared_ptr<NBTP::Tag>(_tag2));
+		testTag.insert("sometag3", std::shared_ptr<NBTP::Tag>(_tag3));
 		testTag.textOutput(std::cout, 0);
-		BOOST_ASSERT(testTag.size() == (ssize_t) 2);
+		BOOST_ASSERT(testTag.size() == (ssize_t) 3);
 	}
 
 	BOOST_AUTO_TEST_CASE(AssignReplace) {

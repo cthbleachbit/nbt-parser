@@ -4,6 +4,7 @@ set(LIBNBTP_SRC
 		ByteTag.cpp
 		ShortTag.cpp
 		IntTag.cpp
+		LongTag.cpp
 		ListTag.cpp
 		)
 

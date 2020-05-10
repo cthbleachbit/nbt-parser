@@ -7,6 +7,7 @@
 #include "ByteTag.h"
 #include "ShortTag.h"
 #include "IntTag.h"
+#include "LongTag.h"
 #include "CompoundTag.h"
 #include "ListTag.h"
 
