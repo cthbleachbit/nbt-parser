@@ -20,4 +20,10 @@ BOOST_AUTO_TEST_SUITE(RealParseTester)
 		std::cout << *tag ;
 	}
 
+	BOOST_AUTO_TEST_CASE(Map) {
+		std::ifstream input("test_data/map_101.nbt", std::ios::in | std::ios::binary);
+		auto tag = NBTP::TagIO::parseRoot(input);
+		std::cout << *tag ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
