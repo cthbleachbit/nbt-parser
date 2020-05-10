@@ -49,8 +49,8 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 	}
 
 	BOOST_AUTO_TEST_CASE(TagCompare) {
-		auto L1 = NBTP::ByteTag(3);
-		auto R1 = NBTP::IntTag(5);
+		auto L1 = NBTP::LongTag(3);
+		auto R1 = NBTP::ShortTag(5);
 		BOOST_ASSERT(L1 != R1);
 		auto L2 = NBTP::FloatTag(0.5f);
 		auto R2 = NBTP::FloatTag(0.4f);
