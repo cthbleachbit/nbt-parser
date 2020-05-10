@@ -50,6 +50,12 @@ namespace NBTP {
 		 */
 		std::shared_ptr<Tag> lookup(const std::string &) noexcept;
 
+		/**
+		 * Deserialization Constructor
+		 * @param input
+		 */
+		explicit CompoundTag(std::istream &input);
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;

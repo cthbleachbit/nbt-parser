@@ -13,6 +13,7 @@ set(LIBNBTP_SRC
 		tags/CompoundTag.cpp
 		tags/StringTag.cpp
 		conv.cpp
+		TagIO.cpp
 		)
 
 set(NBTP_SRC

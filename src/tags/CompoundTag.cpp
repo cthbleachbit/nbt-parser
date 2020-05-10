@@ -2,8 +2,9 @@
 // Created by cth451 on 2020/05/09.
 //
 
-#include "tags/CompoundTag.h"
+#include "libnbtp.h"
 #include <boost/format.hpp>
+#include <memory>
 
 namespace NBTP {
 
@@ -64,5 +65,17 @@ namespace NBTP {
 
 	const CompoundTag::Compound &CompoundTag::getPayload() const {
 		return this->payload;
+	}
+
+	CompoundTag::CompoundTag(std::istream &input) {
+		// Read in type
+		TagType typeCode;
+		while ((typeCode = readType(input)) != END) {
+			// Read in name, this can be an empty string
+			std::string name = StringTag::parseString(input);
+			// Construct and add tag
+			this->payload[name] = Tag::parseTag(input, typeCode);
+		}
+		// Parse tag payload
 	}
 }

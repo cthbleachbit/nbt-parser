@@ -3,6 +3,7 @@
 
 #include "constants.h"
 #include "conv.h"
+#include "TagIO.h"
 
 #include "tags/Tag.h"
 #include "tags/ByteTag.h"

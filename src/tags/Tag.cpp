@@ -1,4 +1,4 @@
-#include "tags/Tag.h"
+#include "libnbtp.h"
 #include <istream>
 
 namespace NBTP {
@@ -41,7 +41,10 @@ namespace NBTP {
 	TagType readType(std::istream &input) {
 		int8_t buf;
 		input.read(reinterpret_cast<char *>(&buf), 1);
-		return (TagType) buf;
+		if (input.fail()) {
+			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+		}
+		return static_cast<TagType>(buf);
 	}
 
 	bool Tag::equal(std::shared_ptr<Tag> &rhs) {
@@ -54,5 +57,50 @@ namespace NBTP {
 
 	bool Tag::operator!=(Tag &rhs) {
 		return !(this->operator==(rhs));
+	}
+
+	std::shared_ptr<Tag> Tag::parseTag(std::istream &input, TagType typeCode) {
+		std::shared_ptr<Tag> ptr;
+		switch (typeCode) {
+			case BYTE:
+				ptr = std::make_shared<ByteTag>(input);
+				break;
+			case SHORT:
+				ptr = std::make_shared<ShortTag>(input);
+				break;
+			case INT:
+				ptr = std::make_shared<IntTag>(input);
+				break;
+			case LONG:
+				ptr = std::make_shared<LongTag>(input);
+				break;
+			case FLOAT:
+				ptr = std::make_shared<FloatTag>(input);
+				break;
+			case DOUBLE:
+				ptr = std::make_shared<DoubleTag>(input);
+				break;
+			case BYTES:
+				ptr = std::make_shared<BytesTag>(input);
+				break;
+			case STRING:
+				ptr = std::make_shared<StringTag>(input);
+				break;
+			case LIST:
+				ptr = std::make_shared<ListTag>(input);
+				break;
+			case COMPOUND:
+				ptr = std::make_shared<CompoundTag>(input);
+				break;
+			case INTS:
+				ptr = std::make_shared<IntsTag>(input);
+				break;
+			case LONGS:
+				ptr = std::make_shared<LongsTag>(input);
+				break;
+			default:
+				throw std::runtime_error(INVALID_TYPE);
+		}
+		return ptr;
 	}
 }

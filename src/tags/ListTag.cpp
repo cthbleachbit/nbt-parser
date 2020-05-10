@@ -4,7 +4,7 @@
 
 #include <boost/format.hpp>
 #include <iostream>
-#include "tags/ListTag.h"
+#include "libnbtp.h"
 
 namespace NBTP {
 	TagType ListTag::typeCode() noexcept {
@@ -87,6 +87,30 @@ namespace NBTP {
 	}
 
 	ListTag::ListTag(std::istream &input) {
-		// TODO
+		// Check content type
+		TagType typeCode = readType(input);
+		if (static_cast<int8_t>(typeCode) > LONGS || static_cast<int8_t>(typeCode) < END) {
+			throw std::runtime_error(INVALID_TYPE);
+		}
+		// Read in payload length
+		int32_t size = IntTag::parseInt(input);
+		if (size < 0) {
+			throw std::runtime_error(CONTENT_LEN_NEG);
+		}
+
+		// Check if type and length agree with each other
+		if (typeCode == END && size == 0) {
+			// This thing is empty
+			this->contentType = END;
+			return;
+		} else if (typeCode == END && size != 0) {
+			throw std::runtime_error(LIST_END_NZ_LEN);
+		}
+
+		// Otherwise this list has sensible contents:
+		this->contentType = typeCode;
+		for (int32_t i = 0; i < size; i++) {
+			this->payload.push_back(Tag::parseTag(input, typeCode));
+		}
 	}
 }

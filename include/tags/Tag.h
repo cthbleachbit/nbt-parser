@@ -44,6 +44,12 @@ namespace NBTP {
 	public:
 		virtual TagType typeCode() noexcept;
 
+		/**
+		 * A helper function to print 4n spaces
+		 * @param ostream   printing output
+		 * @param n         number of spaces / 4
+		 * @return ostream itself
+		 */
 		static std::ostream &indent(std::ostream &ostream, unsigned int n);
 
 		virtual std::ostream &output(std::ostream &ostream, IOFormat format) = 0;
@@ -59,6 +65,14 @@ namespace NBTP {
 		bool operator==(Tag &rhs);
 
 		bool operator!=(Tag &rhs);
+
+		/**
+		 * A wrapper to parse tags based on type
+		 * @param input        input binary stream
+		 * @param typeCode     type code of the upcoming tag
+		 * @return a pointer to the tag
+		 */
+		static std::shared_ptr<Tag> parseTag(std::istream &input, TagType typeCode);
 	};
 
 	/**
