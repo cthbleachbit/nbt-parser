@@ -27,11 +27,19 @@ if (SYSTEM_BIG)
 	add_definitions(-DSYSTEM_IS_BIG_ENDIAN)
 endif()
 
-# Build options
+# Built setup
+option(NBTP_DEBUG "Build binary with debug symbols" OFF)
+if(NBTP_DEBUG)
+	add_compile_options("-g")
+endif()
+option(NBTP_O2 "Build binary with optimization" ON)
+if(NBTP_O2)
+	add_compile_options("-O2")
+endif()
+
+# Compilation options
 set (CMAKE_CXX_STANDARD 14)
-set(warnings "-g -Wall -Wno-unused-variable")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${warnings}")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${warnings}")
+add_compile_options(-Wall -Wno-unused-variable)
 set(INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "Installation directory for executables")
 set(INSTALL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib CACHE PATH "Installation directory for libraries")
 set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "Installation directory for headers")
