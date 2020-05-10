@@ -48,7 +48,7 @@ namespace NBTP {
 	}
 
 	void CompoundTag::insert(const std::string &k, const std::shared_ptr<Tag>& v) noexcept {\
-		this->payload.emplace(CompoundElem(k, v));
+		this->payload[k] = v;
 	}
 
 	void CompoundTag::remove(const std::string &k) noexcept {

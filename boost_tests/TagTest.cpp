@@ -16,4 +16,13 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		testTag.textOutput(std::cout, 0);
 	}
 
+	BOOST_AUTO_TEST_CASE(AssignReplace) {
+		NBTP::CompoundTag testTag;
+		NBTP::ByteTag* _tag = new NBTP::ByteTag(3);
+		NBTP::ByteTag* _tag2 = new NBTP::ByteTag(5);
+		testTag.insert("sometag", std::shared_ptr<NBTP::Tag>(_tag));
+		testTag.insert("sometag", std::shared_ptr<NBTP::Tag>(_tag2));
+		testTag.textOutput(std::cout, 0);
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
