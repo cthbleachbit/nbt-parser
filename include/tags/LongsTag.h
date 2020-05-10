@@ -42,7 +42,7 @@ namespace NBTP {
 		 * Deserializing constructor
 		 * @param input
 		 */
-		explicit LongsTag::LongsTag(std::istream &input);
+		explicit LongsTag(std::istream &input);
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 

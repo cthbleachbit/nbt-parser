@@ -21,4 +21,21 @@ BOOST_AUTO_TEST_SUITE(BasicParseTester)
 		BOOST_ASSERT(parsed.size() == 9);
 	}
 
+	BOOST_AUTO_TEST_CASE(BytesParse) {
+		uint8_t bytes[] = {0x00, 0x00, 0x00, 0x03, 0x01, 0x02, 0x03};
+		memstream input(bytes, sizeof(bytes));
+		auto parsed = NBTP::BytesTag(input);
+		BOOST_ASSERT(parsed.size() == 3);
+	}
+
+	BOOST_AUTO_TEST_CASE(IntsParse) {
+		uint8_t bytes[] = {0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x00, 0x02, 0xff, 0xff, 0xff, 0xff};
+		memstream input(bytes, sizeof(bytes));
+		auto parsed = NBTP::IntsTag(input);
+		BOOST_ASSERT(parsed.size() == 3);
+		BOOST_ASSERT(((NBTP::IntTag *) parsed.getPayload()[0].get())->getPayload() == 255);
+		BOOST_ASSERT(((NBTP::IntTag *) parsed.getPayload()[1].get())->getPayload() == 2);
+		BOOST_ASSERT(((NBTP::IntTag *) parsed.getPayload()[2].get())->getPayload() == -1);
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
