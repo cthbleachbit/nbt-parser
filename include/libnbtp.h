@@ -17,6 +17,6 @@
 #include "tags/LongsTag.h"
 #include "tags/CompoundTag.h"
 #include "tags/ListTag.h"
-
+#include "tags/StringTag.h"
 
 #endif

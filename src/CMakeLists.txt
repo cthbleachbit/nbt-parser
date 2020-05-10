@@ -11,8 +11,9 @@ set(LIBNBTP_SRC
         tags/LongsTag.cpp
         tags/ListTag.cpp
         tags/CompoundTag.cpp
-        conv.cpp
-        )
+		tags/StringTag.cpp
+		conv.cpp
+		)
 
 set(NBTP_SRC
         nbtp.cpp

@@ -32,4 +32,13 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
         BOOST_ASSERT(longs->size() == 2);
     }
 
+	BOOST_AUTO_TEST_CASE(Str) {
+		auto str = std::make_shared<NBTP::StringTag>();
+		std::cout << *str << std::endl;
+		BOOST_ASSERT(str->size() == 0);
+		str->setPayload("test");
+		std::cout << *str << std::endl;
+		BOOST_ASSERT(str->size() == 4);
+	}
+
 BOOST_AUTO_TEST_SUITE_END()

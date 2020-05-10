@@ -13,6 +13,7 @@ set(NBTP_PUBLIC_HEADERS
         tags/LongsTag.h
         tags/CompoundTag.h
         tags/ListTag.h
+        tags/StringTag.h
 
         constants.h
         conv.h
