@@ -29,6 +29,12 @@ namespace NBTP {
 		TagType typeCode() noexcept override;
 
 		/**
+		 * Get a reference to internals. Note that will return a immutable reference
+		 * @return a reference to the vector
+		 */
+		const Compound &getPayload() const;
+
+		/**
 		 * Insert a tag into the compound, will replace existing tag if the key already exists
 		 */
 		void insert(const std::string &, const std::shared_ptr<Tag> &) noexcept;

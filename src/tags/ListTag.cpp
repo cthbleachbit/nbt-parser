@@ -82,7 +82,7 @@ namespace NBTP {
 		return this->payload == rhs_ref.payload;
 	}
 
-	const ListTag::List &ListTag::getPayload() {
+	const ListTag::List &ListTag::getPayload() const {
 		return this->payload;
 	}
 }
