@@ -30,7 +30,7 @@ namespace NBTP {
 	std::ostream &CompoundTag::textOutput(std::ostream &ostream, unsigned int indent) {
 		Tag::indent(ostream, indent);
 		ostream << boost::format("Compound with %i elements:") % this->size() << std::endl;
-		for (const auto& elemItr : this->payload) {
+		for (const auto &elemItr : this->payload) {
 			Tag::indent(ostream, indent + 1);
 			ostream << elemItr.first << ": ";
 			elemItr.second->textOutput(ostream, indent + 1) << std::endl;
@@ -47,8 +47,9 @@ namespace NBTP {
 		}
 	}
 
-	void CompoundTag::insert(const std::string &k, const std::shared_ptr<Tag>& v) noexcept {\
-		this->payload[k] = v;
+	void CompoundTag::insert(const std::string &k, const std::shared_ptr<Tag> &v) noexcept {
+		\
+        this->payload[k] = v;
 	}
 
 	void CompoundTag::remove(const std::string &k) noexcept {

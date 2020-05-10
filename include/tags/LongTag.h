@@ -11,7 +11,9 @@ namespace NBTP {
 	class LongTag : public Tag {
 	public:
 		typedef int64_t V;
+
 		typedef V (*EndianConv)(V);
+
 		static EndianConv toH;
 		static EndianConv toJ;
 	private:
@@ -21,14 +23,18 @@ namespace NBTP {
 		 * @return NBT type code compound 1
 		 */
 		TagType typeCode() noexcept override;
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
+
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
-		LongTag(V value);
+
+		explicit LongTag(V value);
+
 		/**
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		LongTag(std::istream& input);
+		explicit LongTag(std::istream &input);
 
 		bool equal(Tag &rhs) override;
 	};

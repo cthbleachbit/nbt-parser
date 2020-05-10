@@ -45,7 +45,7 @@ namespace NBTP {
 		 *
 		 * @param v the tag to add
 		 */
-		virtual void insert(const std::shared_ptr<Tag>& v);
+		virtual void insert(const std::shared_ptr<Tag> &v);
 
 		/**
 		 * Get a reference to internals. Note that will return a immutable reference
@@ -88,15 +88,15 @@ namespace NBTP {
 		 * Construct a list with specific type of contents
 		 * @param type
 		 */
-		ListTag(TagType type);
+		explicit ListTag(TagType type);
 
-		std::ostream &output(std::ostream &ostream, IOFormat format);
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent);
+		std::ostream &output(std::ostream &ostream, IOFormat format) override;
+
+		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
 		bool equal(Tag &rhs) override;
 	};
 }
-
 
 
 #endif //NBTP_LISTTAG_H

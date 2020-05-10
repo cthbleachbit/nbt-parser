@@ -45,14 +45,14 @@ namespace NBTP {
 		Tag::indent(ostream, indent);
 		std::string typeString = TypeNames[this->getContentType()];
 		ostream << boost::format("List of type %s with %i elements:") % typeString % this->size() << std::endl;
-		for (const auto& elemItr : this->payload) {
+		for (const auto &elemItr : this->payload) {
 			Tag::indent(ostream, indent + 1);
 			elemItr->textOutput(ostream, indent + 1) << std::endl;
 		}
 		return ostream;
 	}
 
-	void ListTag::insert(const std::shared_ptr<Tag>& v) {
+	void ListTag::insert(const std::shared_ptr<Tag> &v) {
 		if (this->size() == 0) {
 			this->contentType = v->typeCode();
 		} else {

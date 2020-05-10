@@ -36,7 +36,7 @@ namespace NBTP {
 	std::ostream &BytesTag::textOutput(std::ostream &ostream, unsigned int indent) {
 		Tag::indent(ostream, indent);
 		ostream << boost::format("Byte array with %i elements:") % this->size() << std::endl;
-		for (const auto& elemItr : this->payload) {
+		for (const auto &elemItr : this->payload) {
 			Tag::indent(ostream, indent + 1);
 			elemItr->textOutput(ostream, indent + 1) << std::endl;
 		}

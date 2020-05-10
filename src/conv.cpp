@@ -32,6 +32,7 @@ namespace NBTP {
 		}
 
 #ifndef SYSTEM_IS_BIG_ENDIAN
+
 		inline float swap_f(float v) {
 			float ret;
 			auto dest = (uint8_t *) &ret;
@@ -51,6 +52,7 @@ namespace NBTP {
 			}
 			return ret;
 		}
+
 #endif
 
 		float conv_f_beh(float v) {

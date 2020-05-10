@@ -11,21 +11,27 @@ namespace NBTP {
 	class ShortTag : public Tag {
 	public:
 		typedef int16_t V;
+
 		typedef V (*EndianConv)(V);
+
 		static EndianConv toH;
 		static EndianConv toJ;
 	private:
 		V payload;
 	public:
 		TagType typeCode() noexcept override;
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
+
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
-		ShortTag(V value);
+
+		explicit ShortTag(V value);
+
 		/**
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		ShortTag(std::istream& input);
+		explicit ShortTag(std::istream &input);
 
 		bool equal(Tag &rhs) override;
 	};

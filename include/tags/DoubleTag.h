@@ -11,21 +11,27 @@ namespace NBTP {
 	class DoubleTag : public Tag {
 	public:
 		typedef double V;
+
 		typedef V (*EndianConv)(V);
+
 		static EndianConv toH;
 		static EndianConv toJ;
 	private:
 		V payload;
 	public:
 		TagType typeCode() noexcept override;
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
+
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
+
 		DoubleTag(V value);
+
 		/**
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		DoubleTag(std::istream& input);
+		DoubleTag(std::istream &input);
 
 		bool equal(Tag &rhs) override;
 	};

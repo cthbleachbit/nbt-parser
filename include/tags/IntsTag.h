@@ -32,10 +32,15 @@ namespace NBTP {
 		 */
 		void insert(int32_t v);
 
+		/**
+		 * Insert a pre-formed tag
+		 * @param v
+		 */
 		void insert(const std::shared_ptr<Tag> &v) override;
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent);
+
+		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 	};
 }
 

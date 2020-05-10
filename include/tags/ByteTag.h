@@ -18,14 +18,18 @@ namespace NBTP {
 		 * @return NBT type code compound 1
 		 */
 		TagType typeCode() noexcept override;
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
+
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
+
 		ByteTag(V value);
+
 		/**
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		ByteTag(std::istream& input);
+		ByteTag(std::istream &input);
 
 		bool equal(Tag &rhs) override;
 	};
