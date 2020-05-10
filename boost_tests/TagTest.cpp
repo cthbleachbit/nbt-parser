@@ -14,7 +14,7 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		testTag.insert("sometag", std::shared_ptr<NBTP::Tag>(_tag));
 		testTag.insert("sometag2", std::shared_ptr<NBTP::Tag>(_tag2));
 		testTag.insert("sometag3", std::shared_ptr<NBTP::Tag>(_tag3));
-		testTag.textOutput(std::cout, 0);
+		std::cout << testTag;
 		BOOST_ASSERT(testTag.size() == (ssize_t) 3);
 	}
 

@@ -33,4 +33,7 @@ namespace NBTP {
 		return ostream;
 	}
 
+	std::ostream &operator<< (std::ostream &ostream, Tag &tag) {
+		return tag.textOutput(ostream, 0);
+	}
 }

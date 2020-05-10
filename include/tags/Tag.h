@@ -45,6 +45,7 @@ namespace NBTP {
 
 		virtual std::ostream &output(std::ostream &ostream, IOFormat format) = 0;
 		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent);
+		friend std::ostream &operator<< (std::ostream &ostream, Tag &tag);
 	};
 
 	/**
