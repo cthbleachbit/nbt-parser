@@ -29,7 +29,7 @@ namespace NBTP {
 		LONGS = 12
 	};
 
-	static TagType readType(std::istream &input);
+	TagType readType(std::istream &input);
 
 	extern std::string TypeNames[];
 
