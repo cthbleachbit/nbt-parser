@@ -13,6 +13,7 @@
 #include "tags/DoubleTag.h"
 
 #include "tags/BytesTag.h"
+#include "tags/IntsTag.h"
 #include "tags/CompoundTag.h"
 #include "tags/ListTag.h"
 
