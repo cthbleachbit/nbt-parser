@@ -1,4 +1,5 @@
 #include "tags/Tag.h"
+#include <istream>
 
 namespace NBTP {
 
@@ -35,6 +36,12 @@ namespace NBTP {
 
 	std::ostream &operator<<(std::ostream &ostream, Tag &tag) {
 		return tag.textOutput(ostream, 0);
+	}
+
+	TagType readType(std::istream &input) {
+		int8_t buf;
+		input.read(reinterpret_cast<char *>(&buf), 1);
+		return (TagType) buf;
 	}
 
 	bool Tag::equal(std::shared_ptr<Tag> &rhs) {

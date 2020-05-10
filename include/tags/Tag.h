@@ -29,6 +29,8 @@ namespace NBTP {
 		LONGS = 12
 	};
 
+	static TagType readType(std::istream &input);
+
 	extern std::string TypeNames[];
 
 	/**
@@ -69,6 +71,8 @@ namespace NBTP {
 		 */
 		virtual ssize_t size() = 0;
 	};
+
+
 }
 
 #endif
