@@ -47,6 +47,22 @@ namespace NBTP {
 		 */
 		StringTag();
 
+		/**
+		 * Deserializer constructor
+		 * @param input
+		 */
+		explicit StringTag(std::istream &input);
+
+		/**
+		 * Static helper function for getting a string from NBT
+		 * This will consume two bytes, to read in length of the string X, then the following X bytes
+		 * for the string itself.
+		 *
+		 * @param input
+		 * @return
+		 */
+		static std::string parseString(std::istream &input);
+
 		bool equal(Tag &rhs) override;
 	};
 }

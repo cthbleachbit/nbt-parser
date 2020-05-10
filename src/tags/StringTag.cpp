@@ -3,8 +3,9 @@
 //
 
 #include <boost/format.hpp>
-#include <utility>
+#include <istream>
 #include "tags/StringTag.h"
+#include "tags/ShortTag.h"
 
 namespace NBTP {
 	ssize_t StringTag::size() {
@@ -51,6 +52,25 @@ namespace NBTP {
 	StringTag::StringTag(std::string s) {
 		this->payload = s;
 	}
+
+	StringTag::StringTag(std::istream &input) {
+		this->payload = parseString(input);
+	}
+
+	std::string StringTag::parseString(std::istream &input) {
+		int16_t length = ShortTag::parseShort(input);
+		char *copy_buf = new char[length + 1];
+		input.read(copy_buf, length);
+		copy_buf[length] = 0x00;
+		if (input.fail()) {
+			delete[] copy_buf;
+			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+		}
+		std::string ret = std::string(copy_buf);
+		delete[] copy_buf;
+		return ret;
+	}
+
 
 	StringTag::StringTag() = default;
 }

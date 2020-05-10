@@ -13,3 +13,7 @@ target_link_libraries(boost_ptr_test nbtp)
 add_executable(boost_multi_tag_test MultiTagTest.cpp)
 target_link_libraries(boost_multi_tag_test ${Boost_LIBRARIES})
 target_link_libraries(boost_multi_tag_test nbtp)
+
+add_executable(boost_basic_parse_test BasicParseTest.cpp memstream.h)
+target_link_libraries(boost_basic_parse_test ${Boost_LIBRARIES})
+target_link_libraries(boost_basic_parse_test nbtp)

@@ -35,6 +35,13 @@ namespace NBTP {
 		 */
 		explicit ShortTag(std::istream &input);
 
+		/**
+		 * Helper function to read in a single short from input binary stream
+		 * @param input
+		 * @return short
+		 */
+		static V parseShort(std::istream &input);
+
 		bool equal(Tag &rhs) override;
 	};
 }
