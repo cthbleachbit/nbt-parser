@@ -12,7 +12,7 @@ namespace NBTP {
 		return TagType::INTS;
 	}
 
-	void IntsTag::insert(int8_t v) {
+	void IntsTag::insert(int32_t v) {
 		ListTag::insert(std::make_shared<IntTag>(v));
 	}
 

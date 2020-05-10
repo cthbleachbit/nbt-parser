@@ -11,7 +11,7 @@ namespace NBTP {
 	class IntsTag : public ListTag {
 	public:
 		/**
-		 * @return NBT type byte array 7
+		 * @return NBT type int array 11
 		 */
 		TagType typeCode() noexcept override;
 
@@ -22,15 +22,15 @@ namespace NBTP {
 		void setContentType(TagType type) noexcept override;
 
 		/**
-		 * @return NBT type byte 1
+		 * @return NBT type int 3
 		 */
 		TagType getContentType() const noexcept override;
 
 		/**
-		 * Insert a literal byte into the byte array
-		 * @param v the byte to insert
+		 * Insert a literal integer into the byte array
+		 * @param v the integer to insert
 		 */
-		void insert(int8_t v);
+		void insert(int32_t v);
 
 		void insert(const std::shared_ptr<Tag> &v) override;
 
