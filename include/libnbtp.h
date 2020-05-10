@@ -9,6 +9,8 @@
 #include "tags/ShortTag.h"
 #include "tags/IntTag.h"
 #include "tags/LongTag.h"
+#include "tags/FloatTag.h"
+#include "tags/DoubleTag.h"
 #include "tags/CompoundTag.h"
 #include "tags/ListTag.h"
 

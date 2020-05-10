@@ -5,6 +5,9 @@ set(NBTP_PUBLIC_HEADERS
 		tags/ByteTag.h
 		tags/ShortTag.h
 		tags/IntTag.h
+		tags/LongTag.h
+		tags/FloatTag.h
+		tags/DoubleTag.h
 		tags/CompoundTag.h
 		tags/ListTag.h
 

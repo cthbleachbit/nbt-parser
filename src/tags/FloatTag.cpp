@@ -29,7 +29,7 @@ namespace NBTP {
 	}
 
 	std::ostream &FloatTag::textOutput(std::ostream &ostream, unsigned int indent) {
-		ostream << boost::format("(%s) %d") % TypeNames[this->typeCode()] % (int64_t) this->payload;
+		ostream << boost::format("(%s) %f") % TypeNames[this->typeCode()] % (float) this->payload;
 		return ostream;
 	}
 

@@ -2,16 +2,15 @@ cmake_minimum_required (VERSION 3.0)
 project (NBTP)
 set(VERSION "0.0.1")
 
+# Dependencies
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ZLIB REQUIRED zlib)
 find_package(Boost REQUIRED)
 pkg_check_modules(YAML REQUIRED yaml-0.1)
 
+# Version numbers
 set(VERSION_STRING ${VERSION} CACHE STRING "VERSION_STRING")
 add_definitions(-DVERSION=\"${VERSION_STRING}\")
-
-set (CMAKE_CXX_STANDARD 14)
-
 execute_process(COMMAND git rev-parse HEAD
 		OUTPUT_VARIABLE GIT_SHA1
 		RESULT_VARIABLE GIT_RET_VAL)
@@ -21,6 +20,15 @@ if(${GIT_RET_VAL} EQUAL 0)
 	add_definitions(-DGIT_SHA1=\"${GIT_SHORT_REV}\")
 endif(${GIT_RET_VAL} EQUAL 0)
 
+# Environment checks
+include(TestBigEndian)
+TEST_BIG_ENDIAN(SYSTEM_BIG)
+if (SYSTEM_BIG)
+	add_definitions(-DSYSTEM_IS_BIG_ENDIAN)
+endif()
+
+# Build options
+set (CMAKE_CXX_STANDARD 14)
 set(warnings "-g -Wall -Wno-unused-variable")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${warnings}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${warnings}")
