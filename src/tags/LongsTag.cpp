@@ -28,7 +28,7 @@ namespace NBTP {
 				this->textOutput(ostream, 0);
 				break;
 			case BIN:
-				// TODO
+				ListTag::output(ostream, BIN);
 				break;
 		}
 		return ostream;

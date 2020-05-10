@@ -11,7 +11,7 @@
 class membuf : public std::basic_streambuf<char> {
 public:
 	membuf(const uint8_t *p, size_t l) {
-		setg((char*)p, (char*)p, (char*)p + l);
+		setg((char *) p, (char *) p, (char *) p + l);
 	}
 };
 

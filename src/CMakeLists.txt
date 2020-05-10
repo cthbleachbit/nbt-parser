@@ -1,23 +1,23 @@
 set(LIBNBTP_SRC
-        tags/Tag.cpp
-        tags/ByteTag.cpp
-        tags/ShortTag.cpp
-        tags/IntTag.cpp
-        tags/LongTag.cpp
-        tags/FloatTag.cpp
-        tags/DoubleTag.cpp
-        tags/BytesTag.cpp
-        tags/IntsTag.cpp
-        tags/LongsTag.cpp
-        tags/ListTag.cpp
-        tags/CompoundTag.cpp
+		tags/Tag.cpp
+		tags/ByteTag.cpp
+		tags/ShortTag.cpp
+		tags/IntTag.cpp
+		tags/LongTag.cpp
+		tags/FloatTag.cpp
+		tags/DoubleTag.cpp
+		tags/BytesTag.cpp
+		tags/IntsTag.cpp
+		tags/LongsTag.cpp
+		tags/ListTag.cpp
+		tags/CompoundTag.cpp
 		tags/StringTag.cpp
 		conv.cpp
 		)
 
 set(NBTP_SRC
-        nbtp.cpp
-        )
+		nbtp.cpp
+		)
 
 add_library(nbtp SHARED ${LIBNBTP_SRC})
 

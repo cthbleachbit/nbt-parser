@@ -6,6 +6,7 @@
 #include <istream>
 #include "tags/StringTag.h"
 #include "tags/ShortTag.h"
+#include "conv.h"
 
 namespace NBTP {
 	ssize_t StringTag::size() {
@@ -29,7 +30,11 @@ namespace NBTP {
 				this->textOutput(ostream, 0);
 				break;
 			case BIN:
-				// TODO
+				// Write length
+				uint16_t be = Conversion::conv_16_hbe(this->size());
+				ostream.write(reinterpret_cast<const char *>(&be), sizeof(uint16_t));
+				// Write string itself w/o null terminator
+
 				break;
 		}
 		return ostream;
