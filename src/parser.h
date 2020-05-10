@@ -3,9 +3,16 @@
 
 #include <iostream>
 
-#include "tag.h"
+#include "Tag.h"
 
 BEGIN_NBTP_NS
+
+enum ParserState {
+	OK,
+	INVALID_ROOT,
+	INVALID_TAG_TYPE,
+	READ_PAST_END
+};
 
 /**
  * \brief This class is a state machine to parse uncompressed binary NBT to a Tag structure.
@@ -24,7 +31,12 @@ private:
 	/**
 	 * Status code for the parser, non-zero values indicates error
  	*/
-	int status = 0;
+	ParserState state = ParserState::OK;
+	/**
+	 * This function handles reading the payload
+	 * @return 0 on success, 1 on error
+	 */
+	int recursive_parse(bool isRoot);
 public:
 	/**
 	 * Indicates whether this parser is ready to run the parse() function.

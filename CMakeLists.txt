@@ -4,6 +4,8 @@ set(VERSION "0.0.1")
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ZLIB REQUIRED zlib)
+find_package(Boost REQUIRED)
+pkg_check_modules(YAML REQUIRED yaml-0.1)
 
 set(VERSION_STRING ${VERSION} CACHE STRING "VERSION_STRING")
 add_definitions(-DVERSION=\"${VERSION_STRING}\")

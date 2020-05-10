@@ -3,8 +3,8 @@
 
 #include "parser.h"
 #include "io.h"
-#include "tag.h"
-#include "exception.h"
+#include "Tag.h"
+#include "errmsg.h"
 
 BEGIN_NBTP_NS
 

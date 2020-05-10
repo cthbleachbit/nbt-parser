@@ -8,9 +8,9 @@ BEGIN_NBTP_NS
  */
 enum IOFormat {
 	TEXT = 0,
-	GZ = 1,
+//	GZ = 1,
 	BIN = 2,
-	YAML = 3
+//	YAML = 3
 };
 
 END_NBTP_NS
