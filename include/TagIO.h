@@ -8,6 +8,7 @@
 #include "tags/Tag.h"
 
 namespace NBTP {
+
 	class TagIO {
 	public:
 		/**

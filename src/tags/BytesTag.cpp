@@ -24,7 +24,7 @@ namespace NBTP {
 
 	std::ostream &BytesTag::output(std::ostream &ostream, IOFormat format) {
 		switch (format) {
-			case TEXT:
+			case PRETTY_PRINT:
 				this->textOutput(ostream, 0);
 				break;
 			case BIN:

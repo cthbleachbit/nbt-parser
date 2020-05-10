@@ -12,14 +12,15 @@
 // Warning messages
 #define ROOT_NOT_COMPOUND   "Root tag is not a compound"
 #define ROOT_HAS_NAME       "Root tag has non-empty name string"
+
 BEGIN_NBTP_NS
 
-/**
- * Indicates the format of related input or output buffer
- */
+	/**
+	 * Indicates the format of related input or output buffer
+	 */
 	enum IOFormat {
-		TEXT = 0,
-//		GZ = 1,
+		PRETTY_PRINT = 0,
+//		SNBT = 1,
 		BIN = 2,
 //		YAML = 3
 	};

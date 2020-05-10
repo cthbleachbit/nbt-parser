@@ -14,4 +14,10 @@ BOOST_AUTO_TEST_SUITE(RealParseTester)
 		std::cout << *tag ;
 	}
 
+	BOOST_AUTO_TEST_CASE(Player) {
+		std::ifstream input("test_data/playerdata.nbt", std::ios::in | std::ios::binary);
+		auto tag = NBTP::TagIO::parseRoot(input);
+		std::cout << *tag ;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
