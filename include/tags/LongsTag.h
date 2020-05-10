@@ -38,6 +38,12 @@ namespace NBTP {
 		 */
 		void insert(const std::shared_ptr<Tag> &v) override;
 
+		/**
+		 * Deserializing constructor
+		 * @param input
+		 */
+		explicit LongsTag::LongsTag(std::istream &input);
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;

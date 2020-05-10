@@ -3,6 +3,7 @@
 //
 
 #include <boost/format.hpp>
+#include "tags/IntTag.h"
 #include "tags/LongTag.h"
 #include "tags/LongsTag.h"
 
@@ -45,5 +46,15 @@ namespace NBTP {
 
 	void LongsTag::insert(const std::shared_ptr<Tag> &v) {
 		ListTag::insert(v);
+	}
+
+	LongsTag::LongsTag(std::istream &input) {
+		int32_t size = IntTag::parseInt(input);
+		if (size < 0) {
+			throw std::runtime_error(CONTENT_LEN_NEG);
+		}
+		for (int i = 0; i < size; i++) {
+			this->payload.push_back(std::shared_ptr<Tag>(new LongTag(input)));
+		}
 	}
 }

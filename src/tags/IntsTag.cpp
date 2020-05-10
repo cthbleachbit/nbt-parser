@@ -47,4 +47,14 @@ namespace NBTP {
 	void IntsTag::insert(const std::shared_ptr<Tag> &v) {
 		ListTag::insert(v);
 	}
+
+	IntsTag::IntsTag(std::istream &input) {
+		int32_t size = IntTag::parseInt(input);
+		if (size < 0) {
+			throw std::runtime_error(CONTENT_LEN_NEG);
+		}
+		for (int i = 0; i < size; i++) {
+			this->payload.push_back(std::shared_ptr<Tag>(new IntTag(input)));
+		}
+	}
 }

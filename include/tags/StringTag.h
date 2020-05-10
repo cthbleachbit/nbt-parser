@@ -28,7 +28,7 @@ namespace NBTP {
 		/**
 		 * @return an immutable reference to the string
 		 */
-		const std::string& getPayload() const;
+		const std::string &getPayload() const;
 
 		/**
 		 * Set the string content of this tag

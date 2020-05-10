@@ -54,7 +54,7 @@ namespace NBTP {
 			throw std::runtime_error(CONTENT_LEN_NEG);
 		}
 		for (int i = 0; i < size; i++) {
-			this->payload.push_back(static_cast<const std::shared_ptr<Tag>>(new ByteTag(input)));
+			this->payload.push_back(std::shared_ptr<Tag>(new ByteTag(input)));
 		}
 	}
 }
