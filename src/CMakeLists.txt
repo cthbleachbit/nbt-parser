@@ -2,6 +2,7 @@ set(LIBNBTP_SRC
 		Tag.cpp
 		CompoundTag.cpp
 		ByteTag.cpp
+		ShortTag.cpp
 		IntTag.cpp
 		)
 

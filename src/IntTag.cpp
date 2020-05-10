@@ -18,7 +18,9 @@ namespace NBTP {
 				textOutput(ostream, 0);
 				break;
 			case BIN:
-				ostream.write(reinterpret_cast<const char *>(&this->payload), 1);
+				// Perform host to java big endian conversion
+				V big = htobe32(this->payload);
+				ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		}
 		return ostream;
 	}
@@ -28,13 +30,13 @@ namespace NBTP {
 		return ostream;
 	}
 
-	IntTag::IntTag(int32_t value) {
+	IntTag::IntTag(V value) {
 		this->payload = value;
 	}
 
 	IntTag::IntTag(std::istream &input) {
-		int32_t buffer;
-		input.read(reinterpret_cast<char *>(&buffer), 4);
+		V buffer;
+		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		// Perform java big-endian to host conversion
 		buffer = be32toh(buffer);
 		if (input.fail()) {

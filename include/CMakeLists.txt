@@ -3,6 +3,8 @@ set(NBTP_PUBLIC_HEADERS
 
 		Tag.h
 		ByteTag.h
+		ShortTag.h
+		IntTag.h
 		CompoundTag.h
 
 		constants.h

@@ -21,7 +21,7 @@ if(${GIT_RET_VAL} EQUAL 0)
 	add_definitions(-DGIT_SHA1=\"${GIT_SHORT_REV}\")
 endif(${GIT_RET_VAL} EQUAL 0)
 
-set(warnings "-g -Wall -Wextra")
+set(warnings "-g -Wall -Wno-unused-variable")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${warnings}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${warnings}")
 set(INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "Installation directory for executables")

@@ -9,8 +9,10 @@
 
 namespace NBTP {
 	class ByteTag : public Tag {
+	public:
+		typedef int8_t V;
 	private:
-		int8_t payload;
+		V payload;
 	public:
 		/**
 		 * @return NBT type code compound 1
@@ -18,7 +20,7 @@ namespace NBTP {
 		static int8_t typeCode() noexcept;
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
-		ByteTag(int8_t value);
+		ByteTag(V value);
 		/**
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
