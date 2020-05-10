@@ -30,12 +30,22 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 
 	BOOST_AUTO_TEST_CASE(ListAdd) {
 		NBTP::ListTag testTag;
+		testTag.setContentType(NBTP::TagType::INT);
+		testTag.setContentType(NBTP::TagType::COMPOUND);
 		NBTP::ByteTag* _tag = new NBTP::ByteTag(3);
 		NBTP::ByteTag* _tag2 = new NBTP::ByteTag(5);
 		testTag.insert(std::shared_ptr<NBTP::ByteTag>(_tag));
 		testTag.insert(std::shared_ptr<NBTP::ByteTag>(_tag2));
 		testTag.textOutput(std::cout, 0);
 		BOOST_ASSERT(testTag.getContentType() == NBTP::TagType::BYTE);
+	}
+
+	BOOST_AUTO_TEST_CASE(ListBadType) {
+		NBTP::ListTag testTag;
+		auto _tag = new NBTP::ByteTag(3);
+		auto _tag2 = new NBTP::IntTag(5);
+		testTag.insert(std::shared_ptr<NBTP::Tag>(_tag));
+		BOOST_REQUIRE_THROW(testTag.insert(std::shared_ptr<NBTP::Tag>(_tag2)), std::runtime_error);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
