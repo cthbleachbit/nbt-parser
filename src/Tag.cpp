@@ -2,11 +2,27 @@
 
 namespace NBTP {
 
+	std::string TypeNames[] = {
+			"End of Tag",
+			"Byte",
+			"Short",
+			"Int",
+			"Long",
+			"Float",
+			"Double",
+			"Bytes",
+			"String",
+			"List",
+			"Compound",
+			"Ints",
+			"Longs"
+	};
+
 	std::ostream &Tag::textOutput(std::ostream &ostream, unsigned int indent) {
 		return ostream;
 	}
 
-	int8_t Tag::typeCode() noexcept {
+	TagType Tag::typeCode() noexcept {
 		return TagType::INVALID;
 	}
 

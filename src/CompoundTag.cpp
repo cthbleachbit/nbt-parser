@@ -7,7 +7,7 @@
 
 namespace NBTP {
 
-	int8_t CompoundTag::typeCode() noexcept {
+	TagType CompoundTag::typeCode() noexcept {
 		return TagType::COMPOUND;
 	}
 

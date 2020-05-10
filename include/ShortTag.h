@@ -17,7 +17,7 @@ namespace NBTP {
 		/**
 		 * @return NBT type code compound 1
 		 */
-		static int8_t typeCode() noexcept;
+		TagType typeCode() noexcept override;
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 		ShortTag(V value);

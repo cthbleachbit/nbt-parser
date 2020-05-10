@@ -25,7 +25,7 @@ namespace NBTP {
 		/**
 		 * @return NBT type code compound 10
 		 */
-		static int8_t typeCode() noexcept;
+		TagType typeCode() noexcept override;
 		/**
 		 * Insert a tag into the compound, will replace existing tag if the key already exists
 		 */

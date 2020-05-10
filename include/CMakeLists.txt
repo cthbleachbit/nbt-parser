@@ -6,6 +6,7 @@ set(NBTP_PUBLIC_HEADERS
 		ShortTag.h
 		IntTag.h
 		CompoundTag.h
+		ListTag.h
 
 		constants.h
 		)

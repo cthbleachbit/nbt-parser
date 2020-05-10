@@ -8,7 +8,7 @@
 #include <istream>
 
 namespace NBTP {
-	int8_t IntTag::typeCode() noexcept {
+	TagType IntTag::typeCode() noexcept {
 		return TagType::INT;
 	}
 
@@ -26,7 +26,7 @@ namespace NBTP {
 	}
 
 	std::ostream &IntTag::textOutput(std::ostream &ostream, unsigned int indent) {
-		ostream << boost::format("(Int) %d") % (int64_t) this->payload;
+		ostream << boost::format("(%s) %d") % TypeNames[this->typeCode()] % (int64_t) this->payload;
 		return ostream;
 	}
 

@@ -29,6 +29,8 @@ namespace NBTP {
 		LONGS = 12
 	};
 
+	extern std::string TypeNames[];
+
 	/**
 	 * A Tag is defined as either a single value or a container of key-tag pairs
 	 *
@@ -38,7 +40,7 @@ namespace NBTP {
 	 */
 	class Tag {
 	public:
-		static int8_t typeCode() noexcept;
+		virtual TagType typeCode() noexcept;
 		static std::ostream &indent(std::ostream &ostream, unsigned int n);
 
 		virtual std::ostream &output(std::ostream &ostream, IOFormat format) = 0;
