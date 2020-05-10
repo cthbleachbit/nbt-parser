@@ -26,6 +26,8 @@ namespace NBTP {
 		 * @param input stream to read a single byte
 		 */
 		ByteTag(std::istream& input);
+
+		bool equal(Tag &rhs) override;
 	};
 }
 

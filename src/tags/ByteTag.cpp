@@ -40,4 +40,11 @@ namespace NBTP {
 		}
 		this->payload = buffer;
 	}
+
+	bool ByteTag::equal(Tag &rhs) {
+		if (rhs.typeCode() != TagType::BYTE) {
+			return false;
+		}
+		return this->payload == ((ByteTag &) rhs).payload;
+	}
 }

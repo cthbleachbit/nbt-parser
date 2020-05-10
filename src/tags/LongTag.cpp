@@ -47,4 +47,11 @@ namespace NBTP {
 		}
 		this->payload = buffer;
 	}
+
+	bool LongTag::equal(Tag &rhs) {
+		if (rhs.typeCode() != TagType::LONG) {
+			return false;
+		}
+		return this->payload == ((LongTag &) rhs).payload;
+	}
 }

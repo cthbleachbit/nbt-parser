@@ -25,8 +25,9 @@ namespace NBTP {
 		 * @return size of this compound map
 		 */
 		ssize_t size() override;
+
 		/**
-		 * @return NBT type code compound 10
+		 * @return NBT type code list 9
 		 */
 		TagType typeCode() noexcept override;
 
@@ -74,6 +75,8 @@ namespace NBTP {
 
 		std::ostream &output(std::ostream &ostream, IOFormat format);
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent);
+
+		bool equal(Tag &rhs) override;
 	};
 }
 

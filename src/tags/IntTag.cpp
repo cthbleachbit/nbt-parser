@@ -48,4 +48,11 @@ namespace NBTP {
 		}
 		this->payload = buffer;
 	}
+
+	bool IntTag::equal(Tag &rhs) {
+		if (rhs.typeCode() != TagType::INT) {
+			return false;
+		}
+		return this->payload == ((IntTag &) rhs).payload;
+	}
 }

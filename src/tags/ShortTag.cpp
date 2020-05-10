@@ -48,4 +48,11 @@ namespace NBTP {
 		}
 		this->payload = buffer;
 	}
+
+	bool ShortTag::equal(Tag &rhs) {
+		if (rhs.typeCode() != TagType::SHORT) {
+			return false;
+		}
+		return this->payload == ((ShortTag &) rhs).payload;
+	}
 }

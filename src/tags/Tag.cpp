@@ -36,4 +36,16 @@ namespace NBTP {
 	std::ostream &operator<< (std::ostream &ostream, Tag &tag) {
 		return tag.textOutput(ostream, 0);
 	}
+
+	bool Tag::equal(std::shared_ptr<Tag> &rhs) {
+		return this->equal(*rhs);
+	}
+
+	bool Tag::operator==(Tag &rhs) {
+		return this->equal(rhs);
+	}
+
+	bool Tag::operator!=(Tag &rhs) {
+		return !(this->operator==(rhs));
+	}
 }

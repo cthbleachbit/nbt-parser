@@ -17,9 +17,6 @@ namespace NBTP {
 	private:
 		V payload;
 	public:
-		/**
-		 * @return NBT type code compound 1
-		 */
 		TagType typeCode() noexcept override;
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
@@ -29,6 +26,9 @@ namespace NBTP {
 		 * @param input stream to read a single byte
 		 */
 		FloatTag(std::istream& input);
+
+	public:
+		bool equal(Tag &rhs) override;
 	};
 }
 

@@ -70,4 +70,15 @@ namespace NBTP {
 	ListTag::ListTag() {
 		this->contentType = TagType::END;
 	}
+
+	bool ListTag::equal(Tag &rhs) {
+		if (rhs.typeCode() != TagType::LIST) {
+			return false;
+		}
+		auto &rhs_ref = (ListTag &) rhs;
+		if (rhs_ref.getContentType() != this->getContentType()) {
+			return false;
+		}
+		return this->payload == rhs_ref.payload;
+	}
 }

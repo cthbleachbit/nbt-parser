@@ -54,4 +54,11 @@ namespace NBTP {
 	void CompoundTag::remove(const std::string &k) noexcept {
 		this->payload.erase(k);
 	}
+
+	bool CompoundTag::equal(Tag &rhs) {
+		if (rhs.typeCode() != TagType::COMPOUND) {
+			return false;
+		}
+		return this->payload == ((CompoundTag &) rhs).payload;
+	}
 }

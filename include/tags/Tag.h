@@ -45,7 +45,12 @@ namespace NBTP {
 
 		virtual std::ostream &output(std::ostream &ostream, IOFormat format) = 0;
 		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent);
+		virtual bool equal(Tag &rhs) = 0;
+		bool equal(std::shared_ptr<Tag> &rhs);
+
 		friend std::ostream &operator<< (std::ostream &ostream, Tag &tag);
+		bool operator== (Tag &rhs);
+		bool operator!= (Tag &rhs);
 	};
 
 	/**

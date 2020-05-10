@@ -41,6 +41,8 @@ namespace NBTP {
 		std::shared_ptr<Tag> lookup(const std::string&) noexcept;
 		std::ostream &output(std::ostream &ostream, IOFormat format);
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent);
+
+		bool equal(Tag &rhs) override;
 	};
 }
 

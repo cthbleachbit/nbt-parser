@@ -29,6 +29,8 @@ namespace NBTP {
 		 * @param input stream to read a single byte
 		 */
 		LongTag(std::istream& input);
+
+		bool equal(Tag &rhs) override;
 	};
 }
 

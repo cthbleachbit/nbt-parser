@@ -47,4 +47,11 @@ namespace NBTP {
 		}
 		this->payload = buffer;
 	}
+
+	bool DoubleTag::equal(Tag &rhs) {
+		if (rhs.typeCode() != TagType::DOUBLE) {
+			return false;
+		}
+		return this->payload == ((DoubleTag &) rhs).payload;
+	}
 }

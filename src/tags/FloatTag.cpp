@@ -47,4 +47,11 @@ namespace NBTP {
 		}
 		this->payload = buffer;
 	}
+
+	bool FloatTag::equal(Tag &rhs) {
+		if (rhs.typeCode() != TagType::FLOAT) {
+			return false;
+		}
+		return this->payload == ((FloatTag &) rhs).payload;
+	}
 }
