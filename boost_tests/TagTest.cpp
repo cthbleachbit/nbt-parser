@@ -15,15 +15,17 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		testTag.insert("sometag", std::shared_ptr<NBTP::ByteTag>(_tag));
 		testTag.insert("sometag2", std::shared_ptr<NBTP::IntTag>(_tag2));
 		testTag.textOutput(std::cout, 0);
+		BOOST_ASSERT(testTag.size() == (ssize_t) 2);
 	}
 
 	BOOST_AUTO_TEST_CASE(AssignReplace) {
 		NBTP::CompoundTag testTag;
 		NBTP::ByteTag* _tag = new NBTP::ByteTag(3);
-		NBTP::ByteTag* _tag2 = new NBTP::ByteTag(5);
+		NBTP::IntTag* _tag2 = new NBTP::IntTag(5);
 		testTag.insert("sometag", std::shared_ptr<NBTP::Tag>(_tag));
 		testTag.insert("sometag", std::shared_ptr<NBTP::Tag>(_tag2));
 		testTag.textOutput(std::cout, 0);
+		BOOST_ASSERT(testTag.size() == (ssize_t) 1);
 	}
 
 	BOOST_AUTO_TEST_CASE(ListAdd) {
@@ -33,6 +35,7 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		testTag.insert(std::shared_ptr<NBTP::ByteTag>(_tag));
 		testTag.insert(std::shared_ptr<NBTP::ByteTag>(_tag2));
 		testTag.textOutput(std::cout, 0);
+		BOOST_ASSERT(testTag.getContentType() == NBTP::TagType::BYTE);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()
