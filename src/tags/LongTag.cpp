@@ -54,4 +54,8 @@ namespace NBTP {
 		}
 		return this->payload == ((LongTag &) rhs).payload;
 	}
+
+	LongTag::V LongTag::getPayload() const {
+		return this->payload;
+	}
 }

@@ -55,4 +55,8 @@ namespace NBTP {
 		}
 		return this->payload == ((ShortTag &) rhs).payload;
 	}
+
+	ShortTag::V ShortTag::getPayload() const {
+		return this->payload;
+	}
 }

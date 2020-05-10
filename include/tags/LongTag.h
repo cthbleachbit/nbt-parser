@@ -28,6 +28,8 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
+		V getPayload() const;
+
 		explicit LongTag(V value);
 
 		/**

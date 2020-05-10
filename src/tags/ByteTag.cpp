@@ -47,4 +47,8 @@ namespace NBTP {
 		}
 		return this->payload == ((ByteTag &) rhs).payload;
 	}
+
+	ByteTag::V ByteTag::getPayload() const {
+		return this->payload;
+	}
 }

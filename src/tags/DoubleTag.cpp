@@ -54,4 +54,8 @@ namespace NBTP {
 		}
 		return this->payload == ((DoubleTag &) rhs).payload;
 	}
+
+	DoubleTag::V DoubleTag::getPayload() const {
+		return this->payload;
+	}
 }

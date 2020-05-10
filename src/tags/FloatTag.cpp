@@ -54,4 +54,8 @@ namespace NBTP {
 		}
 		return this->payload == ((FloatTag &) rhs).payload;
 	}
+
+	FloatTag::V FloatTag::getPayload() const {
+		return this->payload;
+	}
 }

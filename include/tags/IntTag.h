@@ -25,13 +25,15 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
-		IntTag(V value);
+		V getPayload() const;
+
+		explicit IntTag(V value);
 
 		/**
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		IntTag(std::istream &input);
+		explicit IntTag(std::istream &input);
 
 		bool equal(Tag &rhs) override;
 	};
