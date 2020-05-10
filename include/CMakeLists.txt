@@ -10,6 +10,7 @@ set(NBTP_PUBLIC_HEADERS
 		tags/DoubleTag.h
 		tags/BytesTag.h
 		tags/IntsTag.h
+		tags/LongsTag.h
 		tags/CompoundTag.h
 		tags/ListTag.h
 

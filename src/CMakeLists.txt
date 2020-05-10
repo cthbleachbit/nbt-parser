@@ -8,6 +8,7 @@ set(LIBNBTP_SRC
 		tags/DoubleTag.cpp
 		tags/BytesTag.cpp
 		tags/IntsTag.cpp
+		tags/LongsTag.cpp
 		tags/ListTag.cpp
 		tags/CompoundTag.cpp
 		conv.cpp

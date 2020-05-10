@@ -16,4 +16,20 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
 		BOOST_REQUIRE_THROW(bytes->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), std::runtime_error);
 	}
 
+    BOOST_AUTO_TEST_CASE(Longs) {
+        auto longs = std::make_shared<NBTP::LongsTag>();
+        longs->insert(3874747474747474774L);
+        BOOST_ASSERT(longs->size() == 1);
+        BOOST_REQUIRE_THROW(longs->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), std::runtime_error);
+    }
+
+    BOOST_AUTO_TEST_CASE(LongsItr) {
+        auto longs = std::make_shared<NBTP::LongsTag>();
+        longs->insert(3874747474747474774L);
+        longs->insert(0L);
+        auto itr = longs->getPayload().begin();
+        BOOST_ASSERT(itr->get()->typeCode() == NBTP::TagType::LONG);
+        BOOST_ASSERT(longs->size() == 2);
+    }
+
 BOOST_AUTO_TEST_SUITE_END()
