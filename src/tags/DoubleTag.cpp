@@ -1,21 +1,21 @@
 //
-// Created by cth451 on 2020/05/09.
+// Created by cth451 on 2020/05/10.
 //
 
-#include "LongTag.h"
-#include "conv.h"
+#include <tags/FloatTag.h>
+#include <conv.h>
 #include <boost/format.hpp>
 #include <istream>
 
 namespace NBTP {
-	LongTag::EndianConv LongTag::toH = Conversion::conv_64_beh;
-	LongTag::EndianConv LongTag::toJ = Conversion::conv_64_hbe;
+	FloatTag::EndianConv FloatTag::toH = Conversion::conv_f_beh;
+	FloatTag::EndianConv FloatTag::toJ = Conversion::conv_f_hbe;
 
-	TagType LongTag::typeCode() noexcept {
-		return TagType::LONG;
+	TagType FloatTag::typeCode() noexcept {
+		return TagType::FLOAT;
 	}
 
-	std::ostream &LongTag::output(std::ostream &ostream, IOFormat format) {
+	std::ostream &FloatTag::output(std::ostream &ostream, IOFormat format) {
 		switch (format) {
 			case TEXT:
 				textOutput(ostream, 0);
@@ -28,16 +28,16 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::ostream &LongTag::textOutput(std::ostream &ostream, unsigned int indent) {
+	std::ostream &FloatTag::textOutput(std::ostream &ostream, unsigned int indent) {
 		ostream << boost::format("(%s) %d") % TypeNames[this->typeCode()] % (int64_t) this->payload;
 		return ostream;
 	}
 
-	LongTag::LongTag(V value) {
+	FloatTag::FloatTag(V value) {
 		this->payload = value;
 	}
 
-	LongTag::LongTag(std::istream &input) {
+	FloatTag::FloatTag(std::istream &input) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		// Perform java big-endian to host conversion

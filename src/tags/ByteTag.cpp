@@ -2,7 +2,7 @@
 // Created by cth451 on 2020/05/09.
 //
 
-#include "ByteTag.h"
+#include "tags/ByteTag.h"
 #include "constants.h"
 #include <boost/format.hpp>
 #include <istream>

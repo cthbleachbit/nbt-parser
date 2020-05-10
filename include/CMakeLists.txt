@@ -1,12 +1,12 @@
 set(NBTP_PUBLIC_HEADERS
 		libnbtp.h
 
-		Tag.h
-		ByteTag.h
-		ShortTag.h
-		IntTag.h
-		CompoundTag.h
-		ListTag.h
+		tags/Tag.h
+		tags/ByteTag.h
+		tags/ShortTag.h
+		tags/IntTag.h
+		tags/CompoundTag.h
+		tags/ListTag.h
 
 		constants.h
 		conv.h

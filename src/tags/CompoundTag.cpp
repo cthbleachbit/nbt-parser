@@ -2,7 +2,7 @@
 // Created by cth451 on 2020/05/09.
 //
 
-#include "CompoundTag.h"
+#include "tags/CompoundTag.h"
 #include <boost/format.hpp>
 
 namespace NBTP {

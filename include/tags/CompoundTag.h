@@ -5,7 +5,7 @@
 #ifndef NBTP_COMPOUNDTAG_H
 #define NBTP_COMPOUNDTAG_H
 
-#include "Tag.h"
+#include "tags/Tag.h"
 
 namespace NBTP {
 	/**

@@ -4,7 +4,7 @@
 #include "libnbtp.h"
 #include <iostream>
 
-#include "../include/Tag.h"
+#include "tags/Tag.h"
 
 BOOST_AUTO_TEST_SUITE(PtrTester)
 

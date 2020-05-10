@@ -4,13 +4,13 @@
 #include "constants.h"
 #include "conv.h"
 
-#include "Tag.h"
-#include "ByteTag.h"
-#include "ShortTag.h"
-#include "IntTag.h"
-#include "LongTag.h"
-#include "CompoundTag.h"
-#include "ListTag.h"
+#include "tags/Tag.h"
+#include "tags/ByteTag.h"
+#include "tags/ShortTag.h"
+#include "tags/IntTag.h"
+#include "tags/LongTag.h"
+#include "tags/CompoundTag.h"
+#include "tags/ListTag.h"
 
 
 #endif

@@ -1,12 +1,11 @@
 set(LIBNBTP_SRC
-		Tag.cpp
-		CompoundTag.cpp
-		ByteTag.cpp
-		ShortTag.cpp
-		IntTag.cpp
-		LongTag.cpp
-		ListTag.cpp
-
+		tags/Tag.cpp
+		tags/CompoundTag.cpp
+		tags/ByteTag.cpp
+		tags/ShortTag.cpp
+		tags/IntTag.cpp
+		tags/LongTag.cpp
+		tags/ListTag.cpp
 		conv.cpp
 		)
 

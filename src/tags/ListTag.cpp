@@ -4,7 +4,7 @@
 
 #include <boost/format.hpp>
 #include <iostream>
-#include "ListTag.h"
+#include "tags/ListTag.h"
 
 namespace NBTP {
 	TagType ListTag::typeCode() noexcept {

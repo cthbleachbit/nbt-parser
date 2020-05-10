@@ -2,7 +2,7 @@
 // Created by cth451 on 2020/05/09.
 //
 
-#include "IntTag.h"
+#include "tags/IntTag.h"
 #include "conv.h"
 #include "constants.h"
 #include <boost/format.hpp>
