@@ -8,6 +8,7 @@ set(NBTP_PUBLIC_HEADERS
 		tags/LongTag.h
 		tags/FloatTag.h
 		tags/DoubleTag.h
+		tags/BytesTag.h
 		tags/CompoundTag.h
 		tags/ListTag.h
 

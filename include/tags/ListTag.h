@@ -14,12 +14,14 @@ namespace NBTP {
 	class ListTag : public ContainerTag {
 	public:
 		typedef std::vector<std::shared_ptr<Tag>> List;
+		typedef std::vector<std::shared_ptr<Tag>>::iterator ListIterator;
 	private:
-		List payload;
 		/**
 		 * The type of tags in this list. Defaults to END for an empty list.
 		 */
-		int8_t contentType;
+		TagType contentType;
+	protected:
+		List payload;
 	public:
 		/**
 		 * @return size of this compound map
@@ -43,7 +45,13 @@ namespace NBTP {
 		 *
 		 * @param v the tag to add
 		 */
-		void insert(const std::shared_ptr<Tag>& v);
+		virtual void insert(const std::shared_ptr<Tag>& v);
+
+		/**
+		 * Get a reference to internals. Note that will return a immutable reference
+		 * @return a reference to the vector
+		 */
+		const List &getPayload();
 
 		/**
 		 * Set content type of this list.
@@ -52,15 +60,24 @@ namespace NBTP {
 		 * If the list already has sub-tags
 		 *     setting a different type than existing one will cause an exception.
 		 *
+		 * This function will be overridden in one of its subclasses, where it does nothing:
+		 *    - Bytes
+		 *    - Ints
+		 *    - Longs
 		 * @param type   the type code to be set
 		 */
-		void setContentType(int8_t type);
+		virtual void setContentType(TagType type);
 
 		/**
 		 * Get content type for this list
+		 *
+		 * This function will be overridden in one of its subclasses, where it returns a predefined type
+		 *    - Bytes
+		 *    - Ints
+		 *    - Longs
 		 * @return the type code
 		 */
-		int8_t getContentType() const noexcept;
+		virtual TagType getContentType() const noexcept;
 
 		/**
 		 * Default constructor

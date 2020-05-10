@@ -11,6 +11,8 @@
 #include "tags/LongTag.h"
 #include "tags/FloatTag.h"
 #include "tags/DoubleTag.h"
+
+#include "tags/BytesTag.h"
 #include "tags/CompoundTag.h"
 #include "tags/ListTag.h"
 

@@ -15,7 +15,7 @@ namespace NBTP {
 		return this->payload.size();
 	}
 
-	void ListTag::setContentType(int8_t type) {
+	void ListTag::setContentType(TagType type) {
 		if (this->size() == 0) {
 			this->contentType = type;
 		} else {
@@ -25,7 +25,7 @@ namespace NBTP {
 		}
 	}
 
-	int8_t ListTag::getContentType() const noexcept {
+	TagType ListTag::getContentType() const noexcept {
 		return this->contentType;
 	}
 
