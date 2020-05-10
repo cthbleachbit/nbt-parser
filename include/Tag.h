@@ -1,7 +1,7 @@
 #ifndef NBTP_TAG_H
 #define NBTP_TAG_H
 
-#include "io.h"
+#include "constants.h"
 
 #include <cstdint>
 #include <vector>

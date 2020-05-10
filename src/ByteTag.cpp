@@ -3,7 +3,7 @@
 //
 
 #include "ByteTag.h"
-#include "errmsg.h"
+#include "constants.h"
 #include <boost/format.hpp>
 #include <istream>
 

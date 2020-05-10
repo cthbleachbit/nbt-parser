@@ -10,7 +10,7 @@ pkg_check_modules(YAML REQUIRED yaml-0.1)
 set(VERSION_STRING ${VERSION} CACHE STRING "VERSION_STRING")
 add_definitions(-DVERSION=\"${VERSION_STRING}\")
 
-set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD 14)
 
 execute_process(COMMAND git rev-parse HEAD
 		OUTPUT_VARIABLE GIT_SHA1
@@ -33,7 +33,8 @@ add_definitions(-DBEGIN_NBTP_NS=namespace\ NBTP\ {)
 add_definitions(-DEND_NBTP_NS=})
 
 # Source files
-include_directories(src)
+include_directories(include)
+add_subdirectory(include)
 add_subdirectory(src)
 add_subdirectory(pkgconfig)
 add_subdirectory(boost_tests)

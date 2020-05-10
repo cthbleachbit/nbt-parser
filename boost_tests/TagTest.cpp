@@ -1,11 +1,11 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MAIN
 #include <boost/test/unit_test.hpp>
-#include <CompoundTag.h>
-#include <ByteTag.h>
+#include "CompoundTag.h"
+#include "ByteTag.h"
 #include <iostream>
 
-#include "Tag.h"
+#include "../include/Tag.h"
 
 BOOST_AUTO_TEST_SUITE(TagTester)
 
