@@ -47,7 +47,7 @@ namespace NBTP {
 		ostream << boost::format("List of type %s with %i elements:") % typeString % this->size() << std::endl;
 		for (const auto &elemItr : this->payload) {
 			Tag::indent(ostream, indent + 1);
-			elemItr->textOutput(ostream, indent + 1) << std::endl;
+			elemItr->textOutput(ostream, indent + 1);
 		}
 		return ostream;
 	}

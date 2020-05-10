@@ -43,7 +43,7 @@ namespace NBTP {
 	std::ostream &StringTag::textOutput(std::ostream &ostream, unsigned int indent) {
 		std::string print = this->payload.length() ? this->payload : "(empty string)";
 		ostream << boost::format("(%s) %s") % TypeNames[this->typeCode()] % print;
-		return ostream;
+		return ostream << std::endl;
 	}
 
 	const std::string &StringTag::getPayload() const {

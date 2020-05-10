@@ -30,7 +30,7 @@ namespace NBTP {
 
 	std::ostream &DoubleTag::textOutput(std::ostream &ostream, unsigned int indent) {
 		ostream << boost::format("(%s) %f") % TypeNames[this->typeCode()] % (double) this->payload;
-		return ostream;
+		return ostream << std::endl;
 	}
 
 	DoubleTag::DoubleTag(V value) {

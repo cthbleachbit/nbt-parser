@@ -31,7 +31,7 @@ namespace NBTP {
 
 	std::ostream &ShortTag::textOutput(std::ostream &ostream, unsigned int indent) {
 		ostream << boost::format("(%s) %d") % TypeNames[this->typeCode()] % (int64_t) this->payload;
-		return ostream;
+		return ostream << std::endl;
 	}
 
 	ShortTag::ShortTag(V value) {

@@ -29,12 +29,11 @@ namespace NBTP {
 	}
 
 	std::ostream &CompoundTag::textOutput(std::ostream &ostream, unsigned int indent) {
-		Tag::indent(ostream, indent);
 		ostream << boost::format("Compound with %i elements:") % this->size() << std::endl;
 		for (const auto &elemItr : this->payload) {
 			Tag::indent(ostream, indent + 1);
 			ostream << elemItr.first << ": ";
-			elemItr.second->textOutput(ostream, indent + 1) << std::endl;
+			elemItr.second->textOutput(ostream, indent + 1);
 		}
 		return ostream;
 	}
