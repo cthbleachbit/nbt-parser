@@ -2,6 +2,7 @@
 #define NBTP_LIBNBTP_H
 
 #include "constants.h"
+#include "conv.h"
 
 #include "Tag.h"
 #include "ByteTag.h"

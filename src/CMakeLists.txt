@@ -6,6 +6,8 @@ set(LIBNBTP_SRC
 		IntTag.cpp
 		LongTag.cpp
 		ListTag.cpp
+
+		conv.cpp
 		)
 
 set(NBTP_SRC
