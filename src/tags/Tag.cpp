@@ -11,7 +11,7 @@ namespace NBTP {
 			"Long",
 			"Float",
 			"Double",
-			"Byte array ",
+			"Byte array",
 			"String",
 			"List",
 			"Compound",

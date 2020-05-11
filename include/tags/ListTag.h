@@ -112,6 +112,21 @@ namespace NBTP {
 		 */
 		std::ostream &outputPayloadOnly(std::ostream &ostream, IOFormat, unsigned int indent);
 	};
+
+	/**
+	 * A prototype class for fixed type lists, namely Int, Byte, and Float array
+	 */
+	class TypedListTag : public ListTag {
+		/**
+		 * For a fixed size list, this function does nothing as the type cannot be changed
+		 * @param type
+		 */
+		void setContentType(TagType type) noexcept override;
+
+		std::ostream &output(std::ostream &ostream, IOFormat format) override;
+
+		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
+	};
 }
 
 

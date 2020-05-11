@@ -16,12 +16,6 @@ namespace NBTP {
 		TagType typeCode() noexcept override;
 
 		/**
-		 * This function does nothing
-		 * @param type
-		 */
-		void setContentType(TagType type) noexcept override;
-
-		/**
 		 * @return NBT type long 4
 		 */
 		TagType getContentType() const noexcept override;
@@ -43,10 +37,6 @@ namespace NBTP {
 		 * @param input
 		 */
 		explicit LongsTag(std::istream &input);
-
-		std::ostream &output(std::ostream &ostream, IOFormat format) override;
-
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 	};
 }
 

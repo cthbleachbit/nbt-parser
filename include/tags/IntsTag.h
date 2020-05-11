@@ -8,18 +8,12 @@
 #include "ListTag.h"
 
 namespace NBTP {
-	class IntsTag : public ListTag {
+	class IntsTag : public TypedListTag {
 	public:
 		/**
 		 * @return NBT type int array 11
 		 */
 		TagType typeCode() noexcept override;
-
-		/**
-		 * This function does nothing
-		 * @param type
-		 */
-		void setContentType(TagType type) noexcept override;
 
 		/**
 		 * @return NBT type int 3
@@ -43,10 +37,6 @@ namespace NBTP {
 		 * @param input
 		 */
 		explicit IntsTag(std::istream &input);
-
-		std::ostream &output(std::ostream &ostream, IOFormat format) override;
-
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 	};
 }
 

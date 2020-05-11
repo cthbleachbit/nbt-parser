@@ -16,33 +16,8 @@ namespace NBTP {
 		ListTag::insert(std::make_shared<LongTag>(v));
 	}
 
-	void LongsTag::setContentType(TagType type) noexcept {}
-
 	TagType LongsTag::getContentType() const noexcept {
 		return TagType::LONG;
-	}
-
-	std::ostream &LongsTag::output(std::ostream &ostream, IOFormat format) {
-		switch (format) {
-			case PRETTY_PRINT:
-				this->textOutput(ostream, 0);
-				break;
-			case BIN:
-				// Do size sanity checking
-				if (this->size() > INT32_MAX) {
-					throw std::runtime_error(LIST_TOO_LONG);
-				}
-				IntTag::nbtOutput(ostream, this->size());
-				outputPayloadOnly(ostream, BIN, 0);
-				break;
-		}
-		return ostream;
-	}
-
-	std::ostream &LongsTag::textOutput(std::ostream &ostream, unsigned int indent) {
-		ostream << boost::format("%s with %i elements:") % TypeNames[this->typeCode()] % this->size() << std::endl;
-		outputPayloadOnly(ostream, PRETTY_PRINT, indent);
-		return ostream;
 	}
 
 	void LongsTag::insert(const std::shared_ptr<Tag> &v) {

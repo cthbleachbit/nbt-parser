@@ -8,18 +8,12 @@
 #include "ListTag.h"
 
 namespace NBTP {
-	class BytesTag : public ListTag {
+	class BytesTag : public TypedListTag {
 	public:
 		/**
 		 * @return NBT type byte array 7
 		 */
 		TagType typeCode() noexcept override;
-
-		/**
-		 * This function does nothing
-		 * @param type
-		 */
-		void setContentType(TagType type) noexcept override;
 
 		/**
 		 * @return NBT type byte 1
@@ -37,10 +31,6 @@ namespace NBTP {
 		 * @param v
 		 */
 		void insert(const std::shared_ptr<Tag> &v) override;
-
-		std::ostream &output(std::ostream &ostream, IOFormat format) override;
-
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
 		/**
 		 * Deserialize constructor
