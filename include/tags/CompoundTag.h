@@ -56,6 +56,11 @@ namespace NBTP {
 		 */
 		explicit CompoundTag(std::istream &input, ssize_t &counter);
 
+		/**
+		 * Default constructor
+		 */
+		CompoundTag() = default;
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;

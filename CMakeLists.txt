@@ -5,8 +5,8 @@ set(VERSION "0.0.1")
 # Dependencies
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(ZLIB REQUIRED zlib)
-find_package(Boost REQUIRED)
 pkg_check_modules(YAML REQUIRED yaml-0.1)
+find_package(Boost REQUIRED)
 
 # Version numbers
 set(VERSION_STRING ${VERSION} CACHE STRING "VERSION_STRING")
@@ -29,13 +29,14 @@ endif()
 
 # Built setup
 option(NBTP_DEBUG "Build binary with debug symbols" OFF)
-if(NBTP_DEBUG)
+if(NBTP_DEBUG OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 	add_compile_options("-g")
 endif()
 option(NBTP_O2 "Build binary with optimization" ON)
 if(NBTP_O2)
 	add_compile_options("-O2")
 endif()
+option(NBTP_BUILD_TEST "Build unit tests" OFF)
 
 # Compilation options
 set (CMAKE_CXX_STANDARD 14)
@@ -53,7 +54,9 @@ include_directories(include)
 add_subdirectory(include)
 add_subdirectory(src)
 add_subdirectory(pkgconfig)
-add_subdirectory(boost_tests)
+if(NBTP_BUILD_TEST OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
+	add_subdirectory(boost_tests)
+endif()
 
 # Resources
 

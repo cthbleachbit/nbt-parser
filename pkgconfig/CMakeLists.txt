@@ -1,3 +1,3 @@
 set(NBTP_PC ${CMAKE_CURRENT_BINARY_DIR}/nbtp.pc)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nbtp.pc.in ${NBTP_PC})
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nbtp.pc.in ${NBTP_PC} @ONLY)
 install(FILES ${NBTP_PC} DESTINATION ${INSTALL_PKGCONFIG_DIR})

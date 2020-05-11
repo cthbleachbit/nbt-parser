@@ -8,7 +8,7 @@
 BOOST_AUTO_TEST_SUITE(TagTester)
 
 	BOOST_AUTO_TEST_CASE(AssignName) {
-		NBTP::CompoundTag testTag(<#initializer#>, <#initializer#>);
+		NBTP::CompoundTag testTag;
 		auto _tag = new NBTP::ByteTag(3);
 		auto _tag2 = new NBTP::IntTag(4);
 		auto _tag3 = new NBTP::LongTag(21242343434L);
@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 	}
 
 	BOOST_AUTO_TEST_CASE(AssignReplace) {
-		NBTP::CompoundTag testTag(<#initializer#>, <#initializer#>);
+		NBTP::CompoundTag testTag;
 		auto _tag = new NBTP::ByteTag(3);
 		auto _tag2 = new NBTP::IntTag(5);
 		testTag.insert("sometag", std::shared_ptr<NBTP::Tag>(_tag));
