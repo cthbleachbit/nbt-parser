@@ -9,7 +9,7 @@ pkg_check_modules(YAML REQUIRED yaml-0.1)
 find_package(Boost REQUIRED)
 
 # Version numbers
-set(VERSION_STRING ${VERSION} CACHE STRING "VERSION_STRING")
+set(VERSION_STRING ${VERSION})
 add_definitions(-DNBTP_VERSION=\"${VERSION_STRING}\")
 execute_process(COMMAND git rev-parse HEAD
 		OUTPUT_VARIABLE GIT_SHA1
