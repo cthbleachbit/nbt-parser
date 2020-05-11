@@ -36,7 +36,7 @@ namespace NBTP {
 		 * Deserialize constructor
 		 * @param input
 		 */
-		explicit BytesTag(std::istream &input);
+		BytesTag(std::istream &input, ssize_t &counter);
 	};
 }
 

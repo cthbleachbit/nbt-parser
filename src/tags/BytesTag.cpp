@@ -24,13 +24,13 @@ namespace NBTP {
 		ListTag::insert(v);
 	}
 
-	BytesTag::BytesTag(std::istream &input) {
-		int32_t size = IntTag::parseInt(input);
+	BytesTag::BytesTag(std::istream &input, ssize_t &counter) {
+		int32_t size = IntTag::parseInt(input, counter);
 		if (size < 0) {
 			throw std::runtime_error(CONTENT_LEN_NEG);
 		}
 		for (int i = 0; i < size; i++) {
-			this->payload.push_back(std::shared_ptr<Tag>(new ByteTag(input)));
+			this->payload.push_back(std::shared_ptr<Tag>(new ByteTag(input, counter)));
 		}
 	}
 }

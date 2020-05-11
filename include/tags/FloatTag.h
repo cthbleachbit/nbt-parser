@@ -33,7 +33,7 @@ namespace NBTP {
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		explicit FloatTag(std::istream &input);
+		explicit FloatTag(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Helper function to write a float NBT-encoded to ostream

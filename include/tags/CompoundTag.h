@@ -54,7 +54,7 @@ namespace NBTP {
 		 * Deserialization Constructor
 		 * @param input
 		 */
-		explicit CompoundTag(std::istream &input);
+		explicit CompoundTag(std::istream &input, ssize_t &counter);
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 

@@ -37,13 +37,13 @@ namespace NBTP {
 		 * @param input
 		 * @return short
 		 */
-		static V parseLong(std::istream &input);
+		static V parseLong(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		explicit LongTag(std::istream &input);
+		explicit LongTag(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Write a literal long to ostream in NBT format

@@ -36,7 +36,7 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	DoubleTag::DoubleTag(std::istream &input) {
+	DoubleTag::DoubleTag(std::istream &input, ssize_t &counter) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		// Perform java big-endian to host conversion
@@ -45,6 +45,7 @@ namespace NBTP {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}
 		this->payload = buffer;
+		counter += sizeof(V);
 	}
 
 	bool DoubleTag::equal(Tag &rhs) {

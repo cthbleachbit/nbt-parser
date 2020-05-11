@@ -36,8 +36,8 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	LongTag::LongTag(std::istream &input) {
-		this->payload = parseLong(input);
+	LongTag::LongTag(std::istream &input, ssize_t &counter) {
+		this->payload = parseLong(input, counter);
 	}
 
 	bool LongTag::equal(Tag &rhs) {
@@ -51,7 +51,7 @@ namespace NBTP {
 		return this->payload;
 	}
 
-	LongTag::V LongTag::parseLong(std::istream &input) {
+	LongTag::V LongTag::parseLong(std::istream &input, ssize_t &counter) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		// Perform java big-endian to host conversion
@@ -59,6 +59,7 @@ namespace NBTP {
 		if (input.fail()) {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}
+		counter += sizeof(V);
 		return buffer;
 	}
 

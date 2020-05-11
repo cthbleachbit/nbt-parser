@@ -78,14 +78,14 @@ namespace NBTP {
 		return this->payload;
 	}
 
-	CompoundTag::CompoundTag(std::istream &input) {
+	CompoundTag::CompoundTag(std::istream &input, ssize_t &counter) {
 		// Read in type
 		TagType typeCode;
-		while ((typeCode = readType(input)) != END) {
+		while ((typeCode = readType(input, counter)) != END) {
 			// Read in name, this can be an empty string
-			std::string name = StringTag::parseString(input);
+			std::string name = StringTag::parseString(input, counter);
 			// Construct and add tag
-			this->payload[name] = Tag::parseTag(input, typeCode, <#initializer#>);
+			this->payload[name] = Tag::parseTag(input, typeCode, counter);
 		}
 		// Parse tag payload
 	}

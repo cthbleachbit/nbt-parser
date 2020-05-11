@@ -54,12 +54,12 @@ namespace NBTP {
 		this->payload = s;
 	}
 
-	StringTag::StringTag(std::istream &input) {
-		this->payload = parseString(input);
+	StringTag::StringTag(std::istream &input, ssize_t &counter) {
+		this->payload = parseString(input, counter);
 	}
 
-	std::string StringTag::parseString(std::istream &input) {
-		int16_t length = ShortTag::parseShort(input);
+	std::string StringTag::parseString(std::istream &input, ssize_t &counter) {
+		int16_t length = ShortTag::parseShort(input, counter);
 		if (length < 0) {
 			throw std::runtime_error(CONTENT_LEN_NEG);
 		}
@@ -72,6 +72,7 @@ namespace NBTP {
 		}
 		std::string ret = std::string(copy_buf);
 		delete[] copy_buf;
+		counter += length;
 		return ret;
 	}
 

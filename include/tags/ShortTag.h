@@ -33,14 +33,14 @@ namespace NBTP {
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		explicit ShortTag(std::istream &input);
+		explicit ShortTag(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Helper function to read in a single short from input binary stream
 		 * @param input
 		 * @return short
 		 */
-		static V parseShort(std::istream &input);
+		static V parseShort(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Write a literal short to ostream in NBT format

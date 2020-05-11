@@ -33,14 +33,14 @@ namespace NBTP {
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		explicit IntTag(std::istream &input);
+		explicit IntTag(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Read an NBT encoded 32 bit integer from istream
 		 * @param input
 		 * @return
 		 */
-		static V parseInt(std::istream &input);
+		static V parseInt(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Helper function to write a 32-bit integer NBT encoded to ostream

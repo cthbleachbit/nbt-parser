@@ -93,8 +93,9 @@ namespace NBTP {
 		/**
 		 * Deserializing constructor
 		 * @param input
+		 * @param counter   progress tracking
 		 */
-		explicit ListTag(std::istream &input);
+		explicit ListTag(std::istream &input, ssize_t &counter);
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 
@@ -118,9 +119,9 @@ namespace NBTP {
 	 */
 	class TypedListTag : public ListTag {
 		/**
-		 * For a fixed size list, this function does nothing as the type cannot be changed
-		 * @param type
-		 */
+				 * For a fixed size list, this function does nothing as the type cannot be changed
+				 * @param type
+				 */
 		void setContentType(TagType type) noexcept override;
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;

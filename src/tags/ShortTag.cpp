@@ -37,8 +37,8 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	ShortTag::ShortTag(std::istream &input) {
-		this->payload = parseShort(input);
+	ShortTag::ShortTag(std::istream &input, ssize_t &counter) {
+		this->payload = parseShort(input, counter);
 	}
 
 	bool ShortTag::equal(Tag &rhs) {
@@ -52,7 +52,7 @@ namespace NBTP {
 		return this->payload;
 	}
 
-	ShortTag::V ShortTag::parseShort(std::istream &input) {
+	ShortTag::V ShortTag::parseShort(std::istream &input, ssize_t &counter) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		// Perform java big-endian to host conversion
@@ -60,6 +60,7 @@ namespace NBTP {
 		if (input.fail()) {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}
+		counter += sizeof(V);
 		return buffer;
 	}
 

@@ -51,7 +51,7 @@ namespace NBTP {
 		 * Deserializer constructor
 		 * @param input
 		 */
-		explicit StringTag(std::istream &input);
+		explicit StringTag(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Static helper function for getting a string from NBT
@@ -61,7 +61,7 @@ namespace NBTP {
 		 * @param input
 		 * @return
 		 */
-		static std::string parseString(std::istream &input);
+		static std::string parseString(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Writes a string in NBT encoded format, i.e. length + non-termininated string

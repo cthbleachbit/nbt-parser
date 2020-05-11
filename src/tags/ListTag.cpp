@@ -93,14 +93,15 @@ namespace NBTP {
 		return this->payload;
 	}
 
-	ListTag::ListTag(std::istream &input) {
+	ListTag::ListTag(std::istream &input, ssize_t &counter) {
 		// Check content type
-		TagType typeCode = readType(input);
+		TagType typeCode = readType(input, counter);
 		if (static_cast<int8_t>(typeCode) > LONGS || static_cast<int8_t>(typeCode) < END) {
 			throw std::runtime_error(INVALID_TYPE);
 		}
+
 		// Read in payload length
-		int32_t size = IntTag::parseInt(input);
+		int32_t size = IntTag::parseInt(input, counter);
 		if (size < 0) {
 			throw std::runtime_error(CONTENT_LEN_NEG);
 		}
@@ -117,7 +118,7 @@ namespace NBTP {
 		// Otherwise this list has sensible contents:
 		this->contentType = typeCode;
 		for (int32_t i = 0; i < size; i++) {
-			this->payload.push_back(Tag::parseTag(input, typeCode, <#initializer#>));
+			this->payload.push_back(Tag::parseTag(input, typeCode, counter));
 		}
 	}
 

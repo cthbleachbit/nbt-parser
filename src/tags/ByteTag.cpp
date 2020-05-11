@@ -33,13 +33,14 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	ByteTag::ByteTag(std::istream &input) {
+	ByteTag::ByteTag(std::istream &input, ssize_t &counter) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		if (input.fail()) {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}
 		this->payload = buffer;
+		counter += sizeof(V);
 	}
 
 	bool ByteTag::equal(Tag &rhs) {

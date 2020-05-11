@@ -10,17 +10,16 @@
 
 namespace NBTP {
 	std::shared_ptr<Tag> TagIO::parseRoot(std::istream &input, ssize_t &counter) {
-		TagType typeCode = readType(input);
+		counter = 0;
+		TagType typeCode = readType(input, counter);
 		if (typeCode != COMPOUND) {
 			warn(ROOT_NOT_COMPOUND, counter);
 		}
-		counter++;
-		std::string name = StringTag::parseString(input);
+		std::string name = StringTag::parseString(input, counter);
 		if (name.length() != 0) {
 			warn(ROOT_HAS_NAME, counter);
 		}
-		counter += 2 + name.length();
-		return Tag::parseTag(input, typeCode, <#initializer#>);
+		return Tag::parseTag(input, typeCode, counter);
 	}
 
 	void TagIO::warn(const std::string &msg, ssize_t counter) {

@@ -44,12 +44,13 @@ namespace NBTP {
 		return tag.textOutput(ostream, 0);
 	}
 
-	TagType readType(std::istream &input) {
+	TagType readType(std::istream &input, ssize_t &counter) {
 		int8_t buf;
 		input.read(reinterpret_cast<char *>(&buf), 1);
 		if (input.fail()) {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}
+		counter++;
 		return static_cast<TagType>(buf);
 	}
 
@@ -69,40 +70,40 @@ namespace NBTP {
 		std::shared_ptr<Tag> ptr;
 		switch (typeCode) {
 			case BYTE:
-				ptr = std::make_shared<ByteTag>(input);
+				ptr = std::make_shared<ByteTag>(input, counter);
 				break;
 			case SHORT:
-				ptr = std::make_shared<ShortTag>(input);
+				ptr = std::make_shared<ShortTag>(input, counter);
 				break;
 			case INT:
-				ptr = std::make_shared<IntTag>(input);
+				ptr = std::make_shared<IntTag>(input, counter);
 				break;
 			case LONG:
-				ptr = std::make_shared<LongTag>(input);
+				ptr = std::make_shared<LongTag>(input, counter);
 				break;
 			case FLOAT:
-				ptr = std::make_shared<FloatTag>(input);
+				ptr = std::make_shared<FloatTag>(input, counter);
 				break;
 			case DOUBLE:
-				ptr = std::make_shared<DoubleTag>(input);
+				ptr = std::make_shared<DoubleTag>(input, counter);
 				break;
 			case BYTES:
-				ptr = std::make_shared<BytesTag>(input);
+				ptr = std::make_shared<BytesTag>(input, counter);
 				break;
 			case STRING:
-				ptr = std::make_shared<StringTag>(input);
+				ptr = std::make_shared<StringTag>(input, counter);
 				break;
 			case LIST:
-				ptr = std::make_shared<ListTag>(input);
+				ptr = std::make_shared<ListTag>(input, counter);
 				break;
 			case COMPOUND:
-				ptr = std::make_shared<CompoundTag>(input);
+				ptr = std::make_shared<CompoundTag>(input, counter);
 				break;
 			case INTS:
-				ptr = std::make_shared<IntsTag>(input);
+				ptr = std::make_shared<IntsTag>(input, counter);
 				break;
 			case LONGS:
-				ptr = std::make_shared<LongsTag>(input);
+				ptr = std::make_shared<LongsTag>(input, counter);
 				break;
 			default:
 				TagIO::error(INVALID_TYPE, counter);

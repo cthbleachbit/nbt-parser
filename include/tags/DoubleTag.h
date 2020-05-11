@@ -33,7 +33,7 @@ namespace NBTP {
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
-		explicit DoubleTag(std::istream &input);
+		explicit DoubleTag(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Helper function to write a double NBT encoded to ostream

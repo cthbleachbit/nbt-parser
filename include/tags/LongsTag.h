@@ -36,7 +36,7 @@ namespace NBTP {
 		 * Deserializing constructor
 		 * @param input
 		 */
-		explicit LongsTag(std::istream &input);
+		explicit LongsTag(std::istream &input, ssize_t &counter);
 	};
 }
 
