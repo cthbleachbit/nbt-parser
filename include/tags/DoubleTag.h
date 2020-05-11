@@ -41,7 +41,8 @@ namespace NBTP {
 		 * @param value
 		 * @return
 		 */
-		static std::ostream& nbtOutput(std::ostream&ostream, V value);
+		static std::ostream &nbtOutput(std::ostream &ostream, V value);
+
 		bool equal(Tag &rhs) override;
 	};
 }

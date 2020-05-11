@@ -101,6 +101,16 @@ namespace NBTP {
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
 		bool equal(Tag &rhs) override;
+	protected:
+		/**
+		 * This output function only handles the payload vector itself w/o writing the type and length.
+		 *
+		 * All the fixed-type lists, i.e. ints, bytes and longs will use this function when serializing.
+		 * @param ostream
+		 * @param indent
+		 * @return
+		 */
+		std::ostream &outputPayloadOnly(std::ostream &ostream, IOFormat, unsigned int indent);
 	};
 }
 

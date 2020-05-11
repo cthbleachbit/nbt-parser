@@ -4,6 +4,8 @@
 
 #include <boost/format.hpp>
 #include <iostream>
+#include <tags/ListTag.h>
+
 #include "libnbtp.h"
 
 namespace NBTP {
@@ -35,7 +37,16 @@ namespace NBTP {
 				this->textOutput(ostream, 0);
 				break;
 			case BIN:
-				// TODO
+				// Grab type
+				char typeByte = static_cast<char>(this->getContentType());
+				// Check element numbers
+				if (this->size() > INT32_MAX) {
+					throw std::runtime_error(LIST_TOO_LONG);
+				}
+				// Otherwise we can start writing, type byte, then length, then actual contents
+				ostream.write(&typeByte, 1);
+				IntTag::nbtOutput(ostream, this->size());
+				outputPayloadOnly(ostream, BIN, 0);
 				break;
 		}
 		return ostream;
@@ -45,10 +56,7 @@ namespace NBTP {
 		Tag::indent(ostream, indent);
 		std::string typeString = TypeNames[this->getContentType()];
 		ostream << boost::format("List of type %s with %i elements:") % typeString % this->size() << std::endl;
-		for (const auto &elemItr : this->payload) {
-			Tag::indent(ostream, indent + 1);
-			elemItr->textOutput(ostream, indent + 1);
-		}
+		this->outputPayloadOnly(ostream, PRETTY_PRINT, indent);
 		return ostream;
 	}
 
@@ -112,5 +120,22 @@ namespace NBTP {
 		for (int32_t i = 0; i < size; i++) {
 			this->payload.push_back(Tag::parseTag(input, typeCode));
 		}
+	}
+
+	std::ostream &ListTag::outputPayloadOnly(std::ostream &ostream, IOFormat format, unsigned int indent) {
+		switch (format) {
+			case PRETTY_PRINT:
+				for (const auto &elemItr : this->payload) {
+					Tag::indent(ostream, indent + 1);
+					elemItr->textOutput(ostream, indent + 1);
+				}
+				break;
+			case BIN:
+				for (const auto &elemItr : this->payload) {
+					elemItr->output(ostream, BIN);
+				}
+				break;
+		}
+		return ostream;
 	}
 }
