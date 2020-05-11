@@ -35,7 +35,14 @@ namespace NBTP {
 		 */
 		explicit FloatTag(std::istream &input);
 
-	public:
+		/**
+		 * Helper function to write a float NBT-encoded to ostream
+		 * @param ostream
+		 * @param value
+		 * @return
+		 */
+		static std::ostream &nbtOutput(std::ostream& ostream, V value);
+
 		bool equal(Tag &rhs) override;
 	};
 }

@@ -22,9 +22,8 @@ namespace NBTP {
 				textOutput(ostream, 0);
 				break;
 			case BIN:
-				// Perform host to java big endian conversion
-				V big = toJ(this->payload);
-				ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
+				nbtOutput(ostream, this->payload);
+				break;
 		}
 		return ostream;
 	}
@@ -62,5 +61,12 @@ namespace NBTP {
 			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
 		}
 		return buffer;
+	}
+
+	std::ostream &ShortTag::nbtOutput(std::ostream &ostream, ShortTag::V value) {
+		// Perform host to java big endian conversion
+		V big = toJ(value);
+		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
+		return ostream;
 	}
 }

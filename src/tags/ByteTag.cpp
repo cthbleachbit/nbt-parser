@@ -18,7 +18,8 @@ namespace NBTP {
 				textOutput(ostream, 0);
 				break;
 			case BIN:
-				ostream.write(reinterpret_cast<const char *>(&this->payload), sizeof(V));
+				nbtOutput(ostream, this->payload);
+				break;
 		}
 		return ostream;
 	}
@@ -50,5 +51,10 @@ namespace NBTP {
 
 	ByteTag::V ByteTag::getPayload() const {
 		return this->payload;
+	}
+
+	std::ostream &ByteTag::nbtOutput(std::ostream &ostream, ByteTag::V value) {
+		ostream.write(reinterpret_cast<const char *>(&value), sizeof(V));
+		return ostream;
 	}
 }

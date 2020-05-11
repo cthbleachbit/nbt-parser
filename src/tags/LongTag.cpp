@@ -21,9 +21,8 @@ namespace NBTP {
 				textOutput(ostream, 0);
 				break;
 			case BIN:
-				// Perform host to java big endian conversion
-				V big = toJ(this->payload);
-				ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
+				nbtOutput(ostream, this->payload);
+				break;
 		}
 		return ostream;
 	}
@@ -38,14 +37,7 @@ namespace NBTP {
 	}
 
 	LongTag::LongTag(std::istream &input) {
-		V buffer;
-		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-		// Perform java big-endian to host conversion
-		buffer = toH(buffer);
-		if (input.fail()) {
-			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
-		}
-		this->payload = buffer;
+		this->payload = parseLong(input);
 	}
 
 	bool LongTag::equal(Tag &rhs) {
@@ -57,5 +49,23 @@ namespace NBTP {
 
 	LongTag::V LongTag::getPayload() const {
 		return this->payload;
+	}
+
+	LongTag::V LongTag::parseLong(std::istream &input) {
+		V buffer;
+		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
+		// Perform java big-endian to host conversion
+		buffer = toH(buffer);
+		if (input.fail()) {
+			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+		}
+		return buffer;
+	}
+
+	std::ostream &LongTag::nbtOutput(std::ostream &ostream, LongTag::V value) {
+		// Perform host to java big endian conversion
+		V big = toJ(value);
+		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
+		return ostream;
 	}
 }

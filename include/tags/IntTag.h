@@ -35,7 +35,20 @@ namespace NBTP {
 		 */
 		explicit IntTag(std::istream &input);
 
+		/**
+		 * Read an NBT encoded 32 bit integer from istream
+		 * @param input
+		 * @return
+		 */
 		static V parseInt(std::istream &input);
+
+		/**
+		 * Helper function to write a 32-bit integer NBT encoded to ostream
+		 * @param ostream
+		 * @param value
+		 * @return
+		 */
+		static std::ostream &nbtOutput(std::ostream&ostream, V value);
 
 		bool equal(Tag &rhs) override;
 	};

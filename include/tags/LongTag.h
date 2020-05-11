@@ -33,10 +33,24 @@ namespace NBTP {
 		explicit LongTag(V value);
 
 		/**
+		 * Helper function to read in a single long from input binary stream
+		 * @param input
+		 * @return short
+		 */
+		static V parseLong(std::istream &input);
+
+		/**
 		 * Deserializer constructor
 		 * @param input stream to read a single byte
 		 */
 		explicit LongTag(std::istream &input);
+
+		/**
+		 * Write a literal long to ostream in NBT format
+		 * @param ostream
+		 * @return ostream
+		 */
+		static std::ostream &nbtOutput(std::ostream &ostream, V value);
 
 		bool equal(Tag &rhs) override;
 	};

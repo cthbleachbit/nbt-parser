@@ -42,6 +42,13 @@ namespace NBTP {
 		 */
 		static V parseShort(std::istream &input);
 
+		/**
+		 * Write a literal short to ostream in NBT format
+		 * @param ostream
+		 * @return ostream
+		 */
+		static std::ostream &nbtOutput(std::ostream &ostream, V value);
+
 		bool equal(Tag &rhs) override;
 	};
 }

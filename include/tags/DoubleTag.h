@@ -35,6 +35,13 @@ namespace NBTP {
 		 */
 		explicit DoubleTag(std::istream &input);
 
+		/**
+		 * Helper function to write a double NBT encoded to ostream
+		 * @param ostream
+		 * @param value
+		 * @return
+		 */
+		static std::ostream& nbtOutput(std::ostream&ostream, V value);
 		bool equal(Tag &rhs) override;
 	};
 }
