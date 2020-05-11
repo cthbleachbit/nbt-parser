@@ -72,7 +72,7 @@ namespace NBTP {
 		 * @param typeCode     type code of the upcoming tag
 		 * @return a pointer to the tag
 		 */
-		static std::shared_ptr<Tag> parseTag(std::istream &input, TagType typeCode);
+		static std::shared_ptr<Tag> parseTag(std::istream &input, TagType typeCode, ssize_t &counter);
 	};
 
 	/**

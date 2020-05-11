@@ -85,7 +85,7 @@ namespace NBTP {
 			// Read in name, this can be an empty string
 			std::string name = StringTag::parseString(input);
 			// Construct and add tag
-			this->payload[name] = Tag::parseTag(input, typeCode);
+			this->payload[name] = Tag::parseTag(input, typeCode, <#initializer#>);
 		}
 		// Parse tag payload
 	}

@@ -20,7 +20,7 @@ namespace NBTP {
 			warn(ROOT_HAS_NAME, counter);
 		}
 		counter += 2 + name.length();
-		return Tag::parseTag(input, typeCode);
+		return Tag::parseTag(input, typeCode, <#initializer#>);
 	}
 
 	void TagIO::warn(const std::string &msg, ssize_t counter) {

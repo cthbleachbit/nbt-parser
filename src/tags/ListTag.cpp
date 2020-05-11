@@ -117,7 +117,7 @@ namespace NBTP {
 		// Otherwise this list has sensible contents:
 		this->contentType = typeCode;
 		for (int32_t i = 0; i < size; i++) {
-			this->payload.push_back(Tag::parseTag(input, typeCode));
+			this->payload.push_back(Tag::parseTag(input, typeCode, <#initializer#>));
 		}
 	}
 

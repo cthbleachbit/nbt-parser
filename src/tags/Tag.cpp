@@ -65,7 +65,7 @@ namespace NBTP {
 		return !(this->operator==(rhs));
 	}
 
-	std::shared_ptr<Tag> Tag::parseTag(std::istream &input, TagType typeCode) {
+	std::shared_ptr<Tag> Tag::parseTag(std::istream &input, TagType typeCode, ssize_t &counter) {
 		std::shared_ptr<Tag> ptr;
 		switch (typeCode) {
 			case BYTE:
@@ -105,7 +105,7 @@ namespace NBTP {
 				ptr = std::make_shared<LongsTag>(input);
 				break;
 			default:
-				throw std::runtime_error(INVALID_TYPE);
+				TagIO::error(INVALID_TYPE, counter);
 		}
 		return ptr;
 	}
