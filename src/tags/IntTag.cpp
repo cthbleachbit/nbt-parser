@@ -5,6 +5,7 @@
 #include "tags/IntTag.h"
 #include "conv.h"
 #include "constants.h"
+#include "TagIO.h"
 #include <boost/format.hpp>
 #include <istream>
 
@@ -58,7 +59,7 @@ namespace NBTP {
 		// Perform java big-endian to host conversion
 		buffer = toH(buffer);
 		if (input.fail()) {
-			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+			TagIO::error(IO_UNEXPECTED_EOF, counter);
 		}
 		counter += sizeof(V);
 		return buffer;

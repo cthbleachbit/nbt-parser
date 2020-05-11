@@ -13,17 +13,18 @@ BOOST_AUTO_TEST_SUITE(UnparseTester)
 	BOOST_AUTO_TEST_CASE(World) {
 		std::ifstream input("test_data/world.dat.nbt", std::ios::in | std::ios::binary);
 		ssize_t size;
-		auto tag = NBTP::TagIO::parseRoot(input, size);
+		auto tag1 = NBTP::TagIO::parseRoot(input, size);
 		input.close();
 
 		std::ofstream output("test_data/world.dat.nbt.out", std::ios::out | std::ios::binary);
-		NBTP::TagIO::dumpRoot(output, *tag);
+		NBTP::TagIO::dumpRoot(output, *tag1);
 		output.close();
 
 		std::ifstream input_recursion("test_data/world.dat.nbt.out", std::ios::in | std::ios::binary);
 		size = 0;
-		tag = NBTP::TagIO::parseRoot(input, size);
-		std::cout << *tag << std::endl;
+		auto tag2 = NBTP::TagIO::parseRoot(input_recursion, size);
+
+		BOOST_ASSERT(*tag1 == *tag2);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

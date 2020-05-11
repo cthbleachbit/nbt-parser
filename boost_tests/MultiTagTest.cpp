@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "tags/Tag.h"
+#include "memstream.h"
 
 BOOST_AUTO_TEST_SUITE(MultiTagTester)
 
@@ -40,6 +41,19 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
 		str->setPayload("test");
 		std::cout << *str << std::endl;
 		BOOST_ASSERT(str->size() == 4);
+	}
+
+	BOOST_AUTO_TEST_CASE(ComplexEqual) {
+		uint8_t bytes1[] = {0x01, 0x00, 0x01, 0x45, 0xff, 0x01, 0x00, 0x01, 0x46, 0x55, 0x00};
+		memstream input1(bytes1, sizeof(bytes1));
+		ssize_t run_len = 0;
+		auto parsed1 = NBTP::CompoundTag(input1, run_len);
+
+		uint8_t bytes2[] = {0x01, 0x00, 0x01, 0x46, 0x55, 0x01, 0x00, 0x01, 0x45, 0xff, 0x00};
+		memstream input2(bytes2, sizeof(bytes2));
+		run_len = 0;
+		auto parsed2 = NBTP::CompoundTag(input2, run_len);
+		BOOST_ASSERT(parsed1 == parsed2);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -7,6 +7,7 @@
 #include "tags/StringTag.h"
 #include "tags/ShortTag.h"
 #include "conv.h"
+#include "TagIO.h"
 
 namespace NBTP {
 	ssize_t StringTag::size() {
@@ -61,14 +62,14 @@ namespace NBTP {
 	std::string StringTag::parseString(std::istream &input, ssize_t &counter) {
 		int16_t length = ShortTag::parseShort(input, counter);
 		if (length < 0) {
-			throw std::runtime_error(CONTENT_LEN_NEG);
+			TagIO::error(CONTENT_LEN_NEG, counter);
 		}
 		char *copy_buf = new char[length + 1];
 		input.read(copy_buf, length);
 		copy_buf[length] = 0x00;
 		if (input.fail()) {
 			delete[] copy_buf;
-			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+			TagIO::error(IO_UNEXPECTED_EOF, counter);
 		}
 		std::string ret = std::string(copy_buf);
 		delete[] copy_buf;

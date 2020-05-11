@@ -37,6 +37,11 @@ namespace NBTP {
 		 * @param input
 		 */
 		explicit LongsTag(std::istream &input, ssize_t &counter);
+
+		/**
+		 * Default constructor
+		 */
+		LongsTag() = default;
 	};
 }
 

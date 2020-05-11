@@ -6,6 +6,7 @@
 #include <ostream>
 #include "tags/IntTag.h"
 #include "tags/IntsTag.h"
+#include "TagIO.h"
 
 namespace NBTP {
 	TagType IntsTag::typeCode() noexcept {
@@ -27,7 +28,7 @@ namespace NBTP {
 	IntsTag::IntsTag(std::istream &input, ssize_t &counter) {
 		int32_t size = IntTag::parseInt(input, counter);
 		if (size < 0) {
-			throw std::runtime_error(CONTENT_LEN_NEG);
+			TagIO::error(CONTENT_LEN_NEG, counter);
 		}
 		for (int i = 0; i < size; i++) {
 			this->payload.push_back(std::shared_ptr<Tag>(new IntTag(input, counter)));

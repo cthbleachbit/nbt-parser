@@ -48,7 +48,7 @@ namespace NBTP {
 		int8_t buf;
 		input.read(reinterpret_cast<char *>(&buf), 1);
 		if (input.fail()) {
-			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+			TagIO::error(IO_UNEXPECTED_EOF, counter);
 		}
 		counter++;
 		return static_cast<TagType>(buf);

@@ -97,13 +97,13 @@ namespace NBTP {
 		// Check content type
 		TagType typeCode = readType(input, counter);
 		if (static_cast<int8_t>(typeCode) > LONGS || static_cast<int8_t>(typeCode) < END) {
-			throw std::runtime_error(INVALID_TYPE);
+			TagIO::error(INVALID_TYPE, counter);
 		}
 
 		// Read in payload length
 		int32_t size = IntTag::parseInt(input, counter);
 		if (size < 0) {
-			throw std::runtime_error(CONTENT_LEN_NEG);
+			TagIO::error(CONTENT_LEN_NEG, counter);
 		}
 
 		// Check if type and length agree with each other
@@ -112,7 +112,7 @@ namespace NBTP {
 			this->contentType = END;
 			return;
 		} else if (typeCode == END && size != 0) {
-			throw std::runtime_error(LIST_END_NZ_LEN);
+			TagIO::error(LIST_END_NZ_LEN, counter);
 		}
 
 		// Otherwise this list has sensible contents:

@@ -37,6 +37,11 @@ namespace NBTP {
 		 * @param input
 		 */
 		BytesTag(std::istream &input, ssize_t &counter);
+
+		/**
+		 * Trivial constructor
+		 */
+		BytesTag() = default;
 	};
 }
 

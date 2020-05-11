@@ -13,6 +13,7 @@ BOOST_AUTO_TEST_SUITE(RealParseTester)
 		ssize_t size;
 		auto tag = NBTP::TagIO::parseRoot(input, size);
 		std::cout << *tag ;
+		BOOST_ASSERT(size == 1212);
 	}
 
 	BOOST_AUTO_TEST_CASE(Player) {

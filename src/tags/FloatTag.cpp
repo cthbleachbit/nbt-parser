@@ -2,7 +2,8 @@
 // Created by cth451 on 2020/05/10.
 //
 
-#include <tags/FloatTag.h>
+#include "tags/FloatTag.h"
+#include "TagIO.h"
 #include <conv.h>
 #include <boost/format.hpp>
 #include <istream>
@@ -42,7 +43,7 @@ namespace NBTP {
 		// Perform java big-endian to host conversion
 		buffer = toH(buffer);
 		if (input.fail()) {
-			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+			TagIO::error(IO_UNEXPECTED_EOF, counter);
 		}
 		this->payload = buffer;
 		counter += sizeof(V);

@@ -6,6 +6,7 @@
 #include "constants.h"
 #include <boost/format.hpp>
 #include <istream>
+#include "TagIO.h"
 
 namespace NBTP {
 	TagType ByteTag::typeCode() noexcept {
@@ -37,7 +38,7 @@ namespace NBTP {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 		if (input.fail()) {
-			throw std::ios_base::failure(IO_UNEXPECTED_EOF);
+			TagIO::error(IO_UNEXPECTED_EOF, counter);
 		}
 		this->payload = buffer;
 		counter += sizeof(V);
