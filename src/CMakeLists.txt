@@ -36,6 +36,8 @@ target_include_directories(nbtp PUBLIC ${Boost_INCLUDE_DIRS})
 
 add_executable(nbtp-cli ${NBTP_SRC})
 target_link_libraries(nbtp-cli nbtp)
+target_link_libraries(nbtp-cli ${Boost_LIBRARIES})
+target_include_directories(nbtp-cli PUBLIC ${Boost_INCLUDE_DIRS})
 
 install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
 install(TARGETS nbtp-cli DESTINATION ${INSTALL_BIN_DIR})

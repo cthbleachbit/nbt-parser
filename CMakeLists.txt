@@ -10,14 +10,14 @@ find_package(Boost REQUIRED)
 
 # Version numbers
 set(VERSION_STRING ${VERSION} CACHE STRING "VERSION_STRING")
-add_definitions(-DVERSION=\"${VERSION_STRING}\")
+add_definitions(-DNBTP_VERSION=\"${VERSION_STRING}\")
 execute_process(COMMAND git rev-parse HEAD
 		OUTPUT_VARIABLE GIT_SHA1
 		RESULT_VARIABLE GIT_RET_VAL)
 
 if(${GIT_RET_VAL} EQUAL 0)
 	string(SUBSTRING ${GIT_SHA1} 0 8 GIT_SHORT_REV)
-	add_definitions(-DGIT_SHA1=\"${GIT_SHORT_REV}\")
+	add_definitions(-DNBTP_GIT_SHA1=\"${GIT_SHORT_REV}\")
 endif(${GIT_RET_VAL} EQUAL 0)
 
 # Environment checks
