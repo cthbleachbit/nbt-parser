@@ -53,7 +53,6 @@ namespace NBTP {
 	}
 
 	std::ostream &ListTag::textOutput(std::ostream &ostream, unsigned int indent) {
-		Tag::indent(ostream, indent);
 		std::string typeString = TypeNames[this->getContentType()];
 		ostream << boost::format("List of type %s with %i elements:") % typeString % this->size() << std::endl;
 		this->outputPayloadOnly(ostream, PRETTY_PRINT, indent);

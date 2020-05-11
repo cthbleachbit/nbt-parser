@@ -11,12 +11,12 @@ namespace NBTP {
 			"Long",
 			"Float",
 			"Double",
-			"Bytes",
+			"Byte array ",
 			"String",
 			"List",
 			"Compound",
-			"Ints",
-			"Longs"
+			"Integet array",
+			"Long array"
 	};
 
 	std::ostream &Tag::textOutput(std::ostream &ostream, unsigned int indent) {

@@ -28,18 +28,20 @@ namespace NBTP {
 				this->textOutput(ostream, 0);
 				break;
 			case BIN:
-				ListTag::output(ostream, BIN);
+				// Do size sanity checking
+				if (this->size() > INT32_MAX) {
+					throw std::runtime_error(LIST_TOO_LONG);
+				}
+				IntTag::nbtOutput(ostream, this->size());
+				outputPayloadOnly(ostream, BIN, 0);
 				break;
 		}
 		return ostream;
 	}
 
 	std::ostream &BytesTag::textOutput(std::ostream &ostream, unsigned int indent) {
-		ostream << boost::format("Byte array with %i elements:") % this->size() << std::endl;
-		for (const auto &elemItr : this->payload) {
-			Tag::indent(ostream, indent + 1);
-			elemItr->textOutput(ostream, indent + 1);
-		}
+		ostream << boost::format("%s with %i elements:") % TypeNames[this->typeCode()] % this->size() << std::endl;
+		outputPayloadOnly(ostream, PRETTY_PRINT, indent);
 		return ostream;
 	}
 
