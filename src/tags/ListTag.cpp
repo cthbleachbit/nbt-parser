@@ -86,7 +86,7 @@ namespace NBTP {
 		if (rhs_ref.getContentType() != this->getContentType()) {
 			return false;
 		}
-	return this->payload == rhs_ref.payload;
+		return this->payload == rhs_ref.payload;
 	}
 
 	const ListTag::List &ListTag::getPayload() const {

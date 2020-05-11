@@ -36,10 +36,8 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
 
 	BOOST_AUTO_TEST_CASE(Str) {
 		auto str = std::make_shared<NBTP::StringTag>();
-		std::cout << *str << std::endl;
 		BOOST_ASSERT(str->size() == 0);
 		str->setPayload("test");
-		std::cout << *str << std::endl;
 		BOOST_ASSERT(str->size() == 4);
 	}
 
@@ -53,6 +51,7 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
 		memstream input2(bytes2, sizeof(bytes2));
 		run_len = 0;
 		auto parsed2 = NBTP::CompoundTag(input2, run_len);
+		BOOST_ASSERT(parsed1.getPayload().size() == 2);
 		BOOST_ASSERT(parsed1 == parsed2);
 	}
 

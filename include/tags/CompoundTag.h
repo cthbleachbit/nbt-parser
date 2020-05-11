@@ -61,6 +61,14 @@ namespace NBTP {
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
 		bool equal(Tag &rhs) override;
+
+		/**
+		 * Helper function for compound equals
+		 * @param lhs
+		 * @param rhs
+		 * @return
+		 */
+		static bool equal(const Compound& lhs, const Compound &rhs);
 	};
 }
 

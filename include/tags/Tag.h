@@ -85,8 +85,6 @@ namespace NBTP {
 		 */
 		virtual ssize_t size() = 0;
 	};
-
-
 }
 
 #endif

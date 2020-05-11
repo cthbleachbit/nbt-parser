@@ -5,6 +5,8 @@
 #include "libnbtp.h"
 #include <boost/format.hpp>
 #include <memory>
+#include <tags/CompoundTag.h>
+
 
 namespace NBTP {
 
@@ -71,7 +73,7 @@ namespace NBTP {
 		if (rhs.typeCode() != TagType::COMPOUND) {
 			return false;
 		}
-		return this->payload == ((CompoundTag &) rhs).payload;
+		return equal(this->payload, ((CompoundTag&) rhs).getPayload());
 	}
 
 	const CompoundTag::Compound &CompoundTag::getPayload() const {
@@ -88,5 +90,30 @@ namespace NBTP {
 			this->payload[name] = Tag::parseTag(input, typeCode, counter);
 		}
 		// Parse tag payload
+	}
+
+	bool CompoundTag::equal(const CompoundTag::Compound &lhs, const CompoundTag::Compound &rhs) {
+		if (lhs.size() != rhs.size()) {
+			return false;
+		}
+		for (const auto& l : lhs) {
+			auto r = rhs.find(l.first);
+			if (r == rhs.end()) {
+				return false;
+			}
+			if (*(l.second) != *(r->second)) {
+				return false;
+			}
+		}
+		for (const auto& r : rhs) {
+			auto l = lhs.find(r.first);
+			if (l == lhs.end()) {
+				return false;
+			}
+			if (*(r.second) != *(l->second)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
