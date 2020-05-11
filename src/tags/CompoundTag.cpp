@@ -73,7 +73,7 @@ namespace NBTP {
 		if (rhs.typeCode() != TagType::COMPOUND) {
 			return false;
 		}
-		return equal(this->payload, ((CompoundTag&) rhs).getPayload());
+		return equal(this->payload, ((CompoundTag &) rhs).getPayload());
 	}
 
 	const CompoundTag::Compound &CompoundTag::getPayload() const {
@@ -96,7 +96,7 @@ namespace NBTP {
 		if (lhs.size() != rhs.size()) {
 			return false;
 		}
-		for (const auto& l : lhs) {
+		for (const auto &l : lhs) {
 			auto r = rhs.find(l.first);
 			if (r == rhs.end()) {
 				return false;
@@ -105,7 +105,7 @@ namespace NBTP {
 				return false;
 			}
 		}
-		for (const auto& r : rhs) {
+		for (const auto &r : rhs) {
 			auto l = lhs.find(r.first);
 			if (l == lhs.end()) {
 				return false;
