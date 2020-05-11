@@ -18,9 +18,9 @@ add_executable(boost_basic_parse_test BasicParseTest.cpp memstream.h)
 target_link_libraries(boost_basic_parse_test ${Boost_LIBRARIES})
 target_link_libraries(boost_basic_parse_test nbtp)
 
-add_executable(boost_nested_parse_test NestedParseTest.cpp memstream.h)
-target_link_libraries(boost_nested_parse_test ${Boost_LIBRARIES})
-target_link_libraries(boost_nested_parse_test nbtp)
+add_executable(boost_unparse_test UnparseTest.cpp memstream.h)
+target_link_libraries(boost_unparse_test ${Boost_LIBRARIES})
+target_link_libraries(boost_unparse_test nbtp)
 
 add_executable(boost_real_parse_test RealParseTest.cpp)
 target_link_libraries(boost_real_parse_test ${Boost_LIBRARIES})

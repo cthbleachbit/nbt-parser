@@ -63,6 +63,14 @@ namespace NBTP {
 		 */
 		static std::string parseString(std::istream &input);
 
+		/**
+		 * Writes a string in NBT encoded format, i.e. length + non-termininated string
+		 * @param ostream
+		 * @param value
+		 * @return
+		 */
+		static std::ostream &nbtOutput(std::ostream &ostream, const std::string &value);
+
 		bool equal(Tag &rhs) override;
 	};
 }

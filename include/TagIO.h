@@ -19,6 +19,13 @@ namespace NBTP {
 		static std::shared_ptr<Tag> parseRoot(std::istream &input);
 
 		/**
+		 * Output the specified tag as the root tag to the ostream NBT-encoded
+		 * @param ostream
+		 * @param tag
+		 */
+		static void dumpRoot(std::ostream &ostream, Tag& tag);
+
+		/**
 		 * Print warning to stderr
 		 * @param msg      warning message
 		 * @param offset   the location in the stream this warning occurs

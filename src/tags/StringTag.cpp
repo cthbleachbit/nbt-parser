@@ -30,11 +30,7 @@ namespace NBTP {
 				this->textOutput(ostream, 0);
 				break;
 			case BIN:
-				// Write length
-				uint16_t be = Conversion::conv_16_hbe(this->size());
-				ostream.write(reinterpret_cast<const char *>(&be), sizeof(uint16_t));
-				// Write string itself w/o null terminator
-
+				nbtOutput(ostream, this->payload);
 				break;
 		}
 		return ostream;
@@ -77,6 +73,17 @@ namespace NBTP {
 		std::string ret = std::string(copy_buf);
 		delete[] copy_buf;
 		return ret;
+	}
+
+	std::ostream &StringTag::nbtOutput(std::ostream &ostream, const std::string &value) {
+		// Length sanity checking
+		if (value.length() > INT16_MAX) {
+			throw std::runtime_error(STRING_TOO_LONG);
+		}
+		ShortTag::nbtOutput(ostream, value.length());
+		// Write string itself w/o null terminator
+		ostream.write(value.c_str(), value.length());
+		return ostream;
 	}
 
 

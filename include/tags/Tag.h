@@ -52,7 +52,7 @@ namespace NBTP {
 		 */
 		static std::ostream &indent(std::ostream &ostream, unsigned int n);
 
-		virtual std::ostream &output(std::ostream &ostream, IOFormat format) = 0;
+		virtual std::ostream &output(std::ostream &ostream, IOFormat format);
 
 		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent);
 

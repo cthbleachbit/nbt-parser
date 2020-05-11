@@ -1,5 +1,7 @@
 #include "libnbtp.h"
 #include <istream>
+#include <tags/Tag.h>
+
 
 namespace NBTP {
 
@@ -18,6 +20,10 @@ namespace NBTP {
 			"Integet array",
 			"Long array"
 	};
+
+	std::ostream &Tag::output(std::ostream &ostream, IOFormat format) {
+		throw std::runtime_error(GENERIC_METHOD);
+	}
 
 	std::ostream &Tag::textOutput(std::ostream &ostream, unsigned int indent) {
 		return ostream;

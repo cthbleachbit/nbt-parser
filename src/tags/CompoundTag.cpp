@@ -22,7 +22,19 @@ namespace NBTP {
 				this->textOutput(ostream, 0);
 				break;
 			case BIN:
-				// TODO
+				// For each tag in there
+				//    - dump its type
+				//    - dump its name
+				//    - dump itself
+				// Add END
+				for (CompoundElem itr : this->payload) {
+					char typeByte = static_cast<char>(itr.second->typeCode());
+					ostream.write(&typeByte, 1);
+					StringTag::nbtOutput(ostream, itr.first);
+					itr.second->output(ostream, BIN);
+				}
+				char endByte = static_cast<char>(TagType::END);
+				ostream.write(&endByte, 1);
 				break;
 		}
 		return ostream;

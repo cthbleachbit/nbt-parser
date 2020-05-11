@@ -15,10 +15,10 @@ public:
 	}
 };
 
-class memstream : public std::istream {
+class memstream : public std::iostream {
 public:
 	memstream(const uint8_t *p, size_t l) :
-			std::istream(&_buffer),
+			std::iostream(&_buffer),
 			_buffer(p, l) {
 		rdbuf(&_buffer);
 	}
