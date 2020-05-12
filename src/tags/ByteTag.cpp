@@ -59,4 +59,15 @@ namespace NBTP {
 		ostream.write(reinterpret_cast<const char *>(&value), sizeof(V));
 		return ostream;
 	}
+
+	ByteTag::ByteTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				ByteTag(input, counter);
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+		}
+	}
 }

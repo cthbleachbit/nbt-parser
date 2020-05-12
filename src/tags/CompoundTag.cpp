@@ -116,4 +116,15 @@ namespace NBTP {
 		}
 		return true;
 	}
+
+	CompoundTag::CompoundTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				CompoundTag(input, counter);
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+		}
+	}
 }

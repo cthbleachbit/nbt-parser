@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
 	std::ifstream in(argv[1], std::ios::in | std::ios::binary);
 	ssize_t tagSize;
-	auto tag = NBTP::TagIO::parseRoot(in, tagSize);
+	auto tag = NBTP::TagIO::parseRoot(in, tagSize, NBTP::IOFormat::BIN);
 	in.close();
 
 	std::cout << tagSize << " Bytes read from file " << argv[1] << std::endl;

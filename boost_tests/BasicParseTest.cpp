@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_SUITE(BasicParseTester)
 		uint8_t bytes[] = {0x00, 0x00, 0x00, 0x03, 0x01, 0x02, 0x03};
 		memstream input(bytes, sizeof(bytes));
 		ssize_t run_len = 0;
-		auto parsed = NBTP::BytesTag(input, run_len);
+		auto parsed = NBTP::BytesTag(input, run_len, NBTP::IOFormat::BIN);
 		BOOST_ASSERT(parsed.size() == 3);
 		BOOST_ASSERT(run_len == sizeof(bytes));
 	}

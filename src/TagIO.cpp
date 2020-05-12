@@ -40,5 +40,16 @@ namespace NBTP {
 		auto errmsg = boost::format("Error at %i: %s") % counter % msg;
 		throw std::runtime_error(errmsg.str());
 	}
+
+	std::shared_ptr<Tag> TagIO::parseRoot(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				return parseRoot(input, counter);
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+			default:
+				return std::shared_ptr<Tag>(nullptr);
+		}
+	}
 }
 

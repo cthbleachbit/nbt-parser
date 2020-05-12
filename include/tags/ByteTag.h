@@ -28,10 +28,19 @@ namespace NBTP {
 		explicit ByteTag(V value);
 
 		/**
-		 * Deserializer constructor
+		 * Deserializer constructor for decompressed NBT input
 		 * @param input stream to read a single byte
+		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
-		explicit ByteTag(std::istream &input, ssize_t &counter);
+		ByteTag(std::istream &input, ssize_t &counter);
+
+		/**
+		 * Deserializer constructor with specified format
+		 * @param input
+		 * @param counter      updated to reflect the number of bytes read from the input stream
+		 * @param format       specifies the format of incoming data
+		 */
+		ByteTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
 		 * Helper function to write a single byte to ostream

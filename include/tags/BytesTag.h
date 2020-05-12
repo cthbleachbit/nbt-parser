@@ -33,10 +33,19 @@ namespace NBTP {
 		void insert(const std::shared_ptr<Tag> &v) override;
 
 		/**
-		 * Deserialize constructor
+		 * Deserialize constructor for decompressed NBT input
 		 * @param input
+		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
 		BytesTag(std::istream &input, ssize_t &counter);
+
+		/**
+		 * Deserialize constructor with a format specified
+		 * @param input
+		 * @param counter      updated to reflect the number of bytes read from the input stream
+		 * @param format       specifies the format of incoming data
+		 */
+		BytesTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
 		 * Trivial constructor

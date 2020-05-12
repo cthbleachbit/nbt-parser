@@ -110,4 +110,19 @@ namespace NBTP {
 		}
 		return ptr;
 	}
+
+	std::shared_ptr<Tag> Tag::parseTag(std::istream &input, TagType typeCode, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				return parseTag(input, typeCode, counter);
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+			default:
+				TagIO::error(PARSE_UNKNOWN_FMT, counter);
+				break;
+		}
+		// This should never happen
+		return std::shared_ptr<Tag>(nullptr);
+	}
 }

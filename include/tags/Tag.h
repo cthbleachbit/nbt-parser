@@ -68,11 +68,22 @@ namespace NBTP {
 
 		/**
 		 * A wrapper to parse tags based on type
-		 * @param input        input binary stream
+		 * @param input        input decompressed NBT binary stream
 		 * @param typeCode     type code of the upcoming tag
+		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 * @return a pointer to the tag
 		 */
 		static std::shared_ptr<Tag> parseTag(std::istream &input, TagType typeCode, ssize_t &counter);
+
+		/**
+		 * A wrapper to parse tags based on type
+		 * @param input        input decompressed NBT binary stream
+		 * @param typeCode     type code of the upcoming tag
+		 * @param counter      updated to reflect the number of bytes read from the input stream
+		 * @param format       specifies the format of incoming data
+		 * @return a pointer to the tag
+		 */
+		static std::shared_ptr<Tag> parseTag(std::istream &input, TagType typeCode, ssize_t &counter, IOFormat format);
 	};
 
 	/**

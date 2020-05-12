@@ -34,5 +34,16 @@ namespace NBTP {
 			this->payload.push_back(std::shared_ptr<Tag>(new ByteTag(input, counter)));
 		}
 	}
+
+	BytesTag::BytesTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				BytesTag(input, counter);
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+		}
+	}
 }
 
