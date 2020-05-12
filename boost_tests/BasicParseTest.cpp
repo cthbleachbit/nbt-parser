@@ -32,6 +32,7 @@ BOOST_AUTO_TEST_SUITE(BasicParseTester)
 		memstream input(bytes, sizeof(bytes));
 		ssize_t run_len = 0;
 		auto parsed = NBTP::BytesTag(input, run_len, NBTP::IOFormat::BIN);
+		std::cout << parsed << std::endl;
 		BOOST_ASSERT(parsed.size() == 3);
 		BOOST_ASSERT(run_len == sizeof(bytes));
 	}

@@ -37,18 +37,6 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	DoubleTag::DoubleTag(std::istream &input, ssize_t &counter) {
-		V buffer;
-		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-		// Perform java big-endian to host conversion
-		buffer = toH(buffer);
-		if (input.fail()) {
-			TagIO::error(IO_UNEXPECTED_EOF, counter);
-		}
-		this->payload = buffer;
-		counter += sizeof(V);
-	}
-
 	bool DoubleTag::equal(Tag &rhs) {
 		if (rhs.typeCode() != TagType::DOUBLE) {
 			return false;
@@ -65,5 +53,24 @@ namespace NBTP {
 		V big = toJ(value);
 		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		return ostream;
+	}
+
+	DoubleTag::DoubleTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				V buffer;
+				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
+				// Perform java big-endian to host conversion
+				buffer = toH(buffer);
+				if (input.fail()) {
+					TagIO::error(IO_UNEXPECTED_EOF, counter);
+				}
+				this->payload = buffer;
+				counter += sizeof(V);
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+		}
 	}
 }

@@ -25,20 +25,17 @@ namespace NBTP {
 		ListTag::insert(v);
 	}
 
-	BytesTag::BytesTag(std::istream &input, ssize_t &counter) {
-		int32_t size = IntTag::parseInt(input, counter);
-		if (size < 0) {
-			TagIO::error(CONTENT_LEN_NEG, counter);
-		}
-		for (int i = 0; i < size; i++) {
-			this->payload.push_back(std::shared_ptr<Tag>(new ByteTag(input, counter)));
-		}
-	}
-
 	BytesTag::BytesTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		int32_t size;
 		switch (format) {
 			case BIN:
-				BytesTag(input, counter);
+				size = IntTag::parseInt(input, counter);
+				if (size < 0) {
+					TagIO::error(CONTENT_LEN_NEG, counter);
+				}
+				for (int i = 0; i < size; i++) {
+					this->payload.push_back(std::shared_ptr<Tag>(new ByteTag(input, counter)));
+				}
 				break;
 			case PRETTY_PRINT:
 				TagIO::error(PARSE_PRETTY, counter);

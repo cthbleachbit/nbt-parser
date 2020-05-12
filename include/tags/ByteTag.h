@@ -32,7 +32,7 @@ namespace NBTP {
 		 * @param input stream to read a single byte
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
-		ByteTag(std::istream &input, ssize_t &counter);
+		ByteTag(std::istream &input, ssize_t &counter) : ByteTag(input, counter, BIN) {};
 
 		/**
 		 * Deserializer constructor with specified format

@@ -34,16 +34,6 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	ByteTag::ByteTag(std::istream &input, ssize_t &counter) {
-		V buffer;
-		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-		if (input.fail()) {
-			TagIO::error(IO_UNEXPECTED_EOF, counter);
-		}
-		this->payload = buffer;
-		counter += sizeof(V);
-	}
-
 	bool ByteTag::equal(Tag &rhs) {
 		if (rhs.typeCode() != TagType::BYTE) {
 			return false;
@@ -63,7 +53,13 @@ namespace NBTP {
 	ByteTag::ByteTag(std::istream &input, ssize_t &counter, IOFormat format) {
 		switch (format) {
 			case BIN:
-				ByteTag(input, counter);
+				V buffer;
+				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
+				if (input.fail()) {
+					TagIO::error(IO_UNEXPECTED_EOF, counter);
+				}
+				this->payload = buffer;
+				counter += sizeof(V);
 				break;
 			case PRETTY_PRINT:
 				TagIO::error(PARSE_PRETTY, counter);

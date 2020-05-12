@@ -55,7 +55,7 @@ namespace NBTP {
 		 * @param input stream to read a single byte
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
-		CompoundTag(std::istream &input, ssize_t &counter);
+		CompoundTag(std::istream &input, ssize_t &counter) : CompoundTag(input, counter, BIN) {};
 
 		/**
 		 * Deserializer constructor with specified format
@@ -66,7 +66,7 @@ namespace NBTP {
 		CompoundTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
-		 * Default constructor
+		 * Default constructor, gives an empty Compound Tag
 		 */
 		CompoundTag() = default;
 

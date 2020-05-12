@@ -37,7 +37,7 @@ namespace NBTP {
 		 * @param input
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
-		BytesTag(std::istream &input, ssize_t &counter);
+		BytesTag(std::istream &input, ssize_t &counter) : BytesTag(input, counter, BIN) {};
 
 		/**
 		 * Deserialize constructor with a format specified

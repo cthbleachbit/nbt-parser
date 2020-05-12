@@ -80,18 +80,6 @@ namespace NBTP {
 		return this->payload;
 	}
 
-	CompoundTag::CompoundTag(std::istream &input, ssize_t &counter) {
-		// Read in type
-		TagType typeCode;
-		while ((typeCode = readType(input, counter)) != END) {
-			// Read in name, this can be an empty string
-			std::string name = StringTag::parseString(input, counter);
-			// Construct and add tag
-			this->payload[name] = Tag::parseTag(input, typeCode, counter);
-		}
-		// Parse tag payload
-	}
-
 	bool CompoundTag::equal(const CompoundTag::Compound &lhs, const CompoundTag::Compound &rhs) {
 		if (lhs.size() != rhs.size()) {
 			return false;
@@ -120,7 +108,14 @@ namespace NBTP {
 	CompoundTag::CompoundTag(std::istream &input, ssize_t &counter, IOFormat format) {
 		switch (format) {
 			case BIN:
-				CompoundTag(input, counter);
+				// Read in type
+				TagType typeCode;
+				while ((typeCode = readType(input, counter)) != END) {
+					// Read in name, this can be an empty string
+					std::string name = StringTag::parseString(input, counter);
+					// Construct and add tag
+					this->payload[name] = Tag::parseTag(input, typeCode, counter);
+				}
 				break;
 			case PRETTY_PRINT:
 				TagIO::error(PARSE_PRETTY, counter);
