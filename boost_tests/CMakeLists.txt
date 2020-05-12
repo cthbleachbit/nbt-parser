@@ -13,9 +13,10 @@ set(NBTP_TESTS
 
 
 foreach(TEST_FILE ${NBTP_TESTS})
-add_executable(${TEST_FILE} ${TEST_FILE}.cpp memstream.h)
-target_link_libraries(${TEST_FILE} ${Boost_LIBRARIES})
-target_link_libraries(${TEST_FILE} nbtp)
+	add_executable(${TEST_FILE} ${TEST_FILE}.cpp memstream.h)
+	target_link_libraries(${TEST_FILE} ${Boost_LIBRARIES})
+	target_link_libraries(${TEST_FILE} nbtp)
+	add_test(NAME ${TEST_FILE} COMMAND ${TEST_FILE})
 endforeach()
 
 add_subdirectory(test_data)
