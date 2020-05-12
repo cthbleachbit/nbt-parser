@@ -93,32 +93,41 @@ namespace NBTP {
 		return this->payload;
 	}
 
-	ListTag::ListTag(std::istream &input, ssize_t &counter) {
-		// Check content type
-		TagType typeCode = readType(input, counter);
-		if (static_cast<int8_t>(typeCode) > LONGS || static_cast<int8_t>(typeCode) < END) {
-			TagIO::error(INVALID_TYPE, counter);
-		}
+	ListTag::ListTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		TagType typeCode;
+		int32_t size;
+		switch (format) {
+			case BIN:
+				// Check content type
+				typeCode = readType(input, counter);
+				if (static_cast<int8_t>(typeCode) > LONGS || static_cast<int8_t>(typeCode) < END) {
+					TagIO::error(INVALID_TYPE, counter);
+				}
 
-		// Read in payload length
-		int32_t size = IntTag::parseInt(input, counter);
-		if (size < 0) {
-			TagIO::error(CONTENT_LEN_NEG, counter);
-		}
+				// Read in payload length
+				size = IntTag::parseInt(input, counter);
+				if (size < 0) {
+					TagIO::error(CONTENT_LEN_NEG, counter);
+				}
 
-		// Check if type and length agree with each other
-		if (typeCode == END && size == 0) {
-			// This thing is empty
-			this->contentType = END;
-			return;
-		} else if (typeCode == END && size != 0) {
-			TagIO::error(LIST_END_NZ_LEN, counter);
-		}
+				// Check if type and length agree with each other
+				if (typeCode == END && size == 0) {
+					// This thing is empty
+					this->contentType = END;
+					return;
+				} else if (typeCode == END && size != 0) {
+					TagIO::error(LIST_END_NZ_LEN, counter);
+				}
 
-		// Otherwise this list has sensible contents:
-		this->contentType = typeCode;
-		for (int32_t i = 0; i < size; i++) {
-			this->payload.push_back(Tag::parseTag(input, typeCode, counter));
+				// Otherwise this list has sensible contents:
+				this->contentType = typeCode;
+				for (int32_t i = 0; i < size; i++) {
+					this->payload.push_back(Tag::parseTag(input, typeCode, counter));
+				}
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
 		}
 	}
 

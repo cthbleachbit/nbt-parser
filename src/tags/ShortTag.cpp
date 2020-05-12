@@ -38,8 +38,15 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	ShortTag::ShortTag(std::istream &input, ssize_t &counter) {
-		this->payload = parseShort(input, counter);
+	ShortTag::ShortTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				this->payload = parseShort(input, counter);
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+		}
 	}
 
 	bool ShortTag::equal(Tag &rhs) {

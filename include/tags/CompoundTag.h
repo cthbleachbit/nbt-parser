@@ -52,7 +52,7 @@ namespace NBTP {
 
 		/**
 		 * Deserializer constructor for decompressed NBT input
-		 * @param input stream to read a single byte
+		 * @param input        stream to read raw bytes from
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
 		CompoundTag(std::istream &input, ssize_t &counter) : CompoundTag(input, counter, BIN) {};

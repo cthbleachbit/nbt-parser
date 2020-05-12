@@ -30,10 +30,19 @@ namespace NBTP {
 		explicit ShortTag(V value);
 
 		/**
-		 * Deserializer constructor
-		 * @param input stream to read a single byte
+		 * Deserializer constructor for decompressed NBT input
+		 * @param input        stream to read a float in Big Endian from
+		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
-		explicit ShortTag(std::istream &input, ssize_t &counter);
+		ShortTag(std::istream &input, ssize_t &counter) : ShortTag(input, counter, BIN) {};
+
+		/**
+		 * Deserializer constructor with specified format
+		 * @param input
+		 * @param counter      updated to reflect the number of bytes read from the input stream
+		 * @param format       specifies the format of incoming data
+ */
+		ShortTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
 		 * Helper function to read in a single short from input binary stream

@@ -48,17 +48,31 @@ namespace NBTP {
 		StringTag();
 
 		/**
-		 * Deserializer constructor
-		 * @param input
+		 * Constructs a string tag from uncompressed NBT data stream
+		 * This will consume two bytes, to read in length of the string X, then the following X bytes
+		 * for the string itself.
+		 *
+		 * @param input    stream of uncompressed NBT data
+		 * @param counter  updated to reflect the number of bytes read from the input stream
 		 */
-		explicit StringTag(std::istream &input, ssize_t &counter);
+		StringTag(std::istream &input, ssize_t &counter) : StringTag(input, counter, BIN) {};
+
+		/**
+		 * Constructs a string tag from input stream with specified format
+		 *
+		 * @param input    stream of uncompressed NBT data
+		 * @param counter  updated to reflect the number of bytes read from the input stream
+		 * @param format   input format specifier
+		 */
+		StringTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
 		 * Static helper function for getting a string from NBT
 		 * This will consume two bytes, to read in length of the string X, then the following X bytes
 		 * for the string itself.
 		 *
-		 * @param input
+		 * @param input    stream of uncompressed NBT data
+		 * @param counter  updated to reflect the number of bytes read from the input stream
 		 * @return
 		 */
 		static std::string parseString(std::istream &input, ssize_t &counter);

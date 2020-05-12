@@ -37,8 +37,15 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	LongTag::LongTag(std::istream &input, ssize_t &counter) {
-		this->payload = parseLong(input, counter);
+	LongTag::LongTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				this->payload = parseLong(input, counter);
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+		}
 	}
 
 	bool LongTag::equal(Tag &rhs) {

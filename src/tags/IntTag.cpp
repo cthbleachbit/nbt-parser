@@ -38,10 +38,6 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	IntTag::IntTag(std::istream &input, ssize_t &counter) {
-		this->payload = parseInt(input, counter);
-	}
-
 	bool IntTag::equal(Tag &rhs) {
 		if (rhs.typeCode() != TagType::INT) {
 			return false;
@@ -70,5 +66,16 @@ namespace NBTP {
 		V big = toJ(value);
 		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		return ostream;
+	}
+
+	IntTag::IntTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				this->payload = parseInt(input, counter);
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+		}
 	}
 }

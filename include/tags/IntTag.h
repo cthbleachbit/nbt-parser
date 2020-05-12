@@ -30,10 +30,19 @@ namespace NBTP {
 		explicit IntTag(V value);
 
 		/**
-		 * Deserializer constructor
-		 * @param input stream to read a single byte
+		 * Deserializer constructor for decompressed NBT input
+		 * @param input        stream to read a int32_t in big endian from
+		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
-		explicit IntTag(std::istream &input, ssize_t &counter);
+		IntTag(std::istream &input, ssize_t &counter) : IntTag(input, counter, BIN) {};
+
+		/**
+		 * Deserializer constructor with specified format
+		 * @param input
+		 * @param counter      updated to reflect the number of bytes read from the input stream
+		 * @param format       specifies the format of incoming data
+		 */
+		IntTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
 		 * Read an NBT encoded 32 bit integer from istream

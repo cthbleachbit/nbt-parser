@@ -31,7 +31,7 @@ namespace NBTP {
 
 		/**
 		 * Deserializer constructor for decompressed NBT input
-		 * @param input stream to read a single byte
+		 * @param input        stream to read a double in Big Endian from
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
 		DoubleTag(std::istream &input, ssize_t &counter) : DoubleTag(input, counter, BIN) {};

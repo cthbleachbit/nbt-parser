@@ -40,10 +40,19 @@ namespace NBTP {
 		static V parseLong(std::istream &input, ssize_t &counter);
 
 		/**
-		 * Deserializer constructor
-		 * @param input stream to read a single byte
+		 * Deserializer constructor for decompressed NBT input
+		 * @param input        stream to read a int64_t in Big Endian from
+		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 */
-		explicit LongTag(std::istream &input, ssize_t &counter);
+		LongTag(std::istream &input, ssize_t &counter) : LongTag(input, counter, BIN) {};
+
+		/**
+		 * Deserializer constructor with specified format
+		 * @param input
+		 * @param counter      updated to reflect the number of bytes read from the input stream
+		 * @param format       specifies the format of incoming data
+		 */
+		LongTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
 		 * Write a literal long to ostream in NBT format

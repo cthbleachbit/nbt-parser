@@ -91,11 +91,19 @@ namespace NBTP {
 		explicit ListTag(TagType type);
 
 		/**
-		 * Deserializing constructor
+		 * Deserializing constructor that reads uncompressed NBT data
 		 * @param input
 		 * @param counter   progress tracking
 		 */
-		explicit ListTag(std::istream &input, ssize_t &counter);
+		ListTag(std::istream &input, ssize_t &counter) : ListTag(input, counter, BIN) {};
+
+		/**
+		 * Deserialize constructor with a format specified
+		 * @param input
+		 * @param counter      updated to reflect the number of bytes read from the input stream
+		 * @param format       specifies the format of incoming data
+		 */
+		ListTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 
@@ -118,10 +126,11 @@ namespace NBTP {
 	 * A prototype class for fixed type lists, namely Int, Byte, and Float array
 	 */
 	class TypedListTag : public ListTag {
+	public:
 		/**
-				 * For a fixed size list, this function does nothing as the type cannot be changed
-				 * @param type
-				 */
+		 * For a fixed size list, this function does nothing as the type cannot be changed
+		 * @param type
+		 */
 		void setContentType(TagType type) noexcept override;
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;

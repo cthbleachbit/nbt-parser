@@ -55,8 +55,15 @@ namespace NBTP {
 		this->payload = s;
 	}
 
-	StringTag::StringTag(std::istream &input, ssize_t &counter) {
-		this->payload = parseString(input, counter);
+	StringTag::StringTag(std::istream &input, ssize_t &counter, IOFormat format) {
+		switch (format) {
+			case BIN:
+				this->payload = parseString(input, counter);
+				break;
+			case PRETTY_PRINT:
+				TagIO::error(PARSE_PRETTY, counter);
+				break;
+		}
 	}
 
 	std::string StringTag::parseString(std::istream &input, ssize_t &counter) {
