@@ -16,7 +16,7 @@ namespace NBTP {
 		return TagType::LONG;
 	}
 
-	std::ostream &LongTag::output(std::ostream &ostream, IOFormat format) {
+	std::ostream &LongTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:
 				textOutput(ostream, 0);
@@ -28,7 +28,7 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::ostream &LongTag::textOutput(std::ostream &ostream, unsigned int indent) {
+	std::ostream &LongTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		ostream << boost::format("(%s) %d") % TypeNames[this->typeCode()] % (int64_t) this->payload;
 		return ostream << std::endl;
 	}

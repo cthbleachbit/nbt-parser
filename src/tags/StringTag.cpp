@@ -26,7 +26,7 @@ namespace NBTP {
 		return this->payload == ((StringTag &) rhs).payload;
 	}
 
-	std::ostream &StringTag::output(std::ostream &ostream, IOFormat format) {
+	std::ostream &StringTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:
 				this->textOutput(ostream, 0);
@@ -38,7 +38,7 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::ostream &StringTag::textOutput(std::ostream &ostream, unsigned int indent) {
+	std::ostream &StringTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		std::string print = this->payload.length() ? this->payload : "(empty string)";
 		ostream << boost::format("(%s) %s") % TypeNames[this->typeCode()] % print;
 		return ostream << std::endl;

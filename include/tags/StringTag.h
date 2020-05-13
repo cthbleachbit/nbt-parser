@@ -22,8 +22,8 @@ namespace NBTP {
 		 */
 		TagType typeCode() noexcept override;
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) override;
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
+		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
+		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
 		/**
 		 * @return an immutable reference to the string

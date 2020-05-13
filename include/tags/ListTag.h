@@ -105,9 +105,9 @@ namespace NBTP {
 		 */
 		ListTag(std::istream &input, ssize_t &counter, IOFormat format);
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) override;
+		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
+		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
 		bool equal(Tag &rhs) override;
 	protected:
@@ -119,7 +119,7 @@ namespace NBTP {
 		 * @param indent
 		 * @return
 		 */
-		std::ostream &outputPayloadOnly(std::ostream &ostream, IOFormat, unsigned int indent);
+		std::ostream &outputPayloadOnly(std::ostream &ostream, IOFormat, unsigned int indent) const;
 	};
 
 	/**
@@ -133,9 +133,9 @@ namespace NBTP {
 		 */
 		void setContentType(TagType type) noexcept override;
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) override;
+		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
+		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 	};
 }
 

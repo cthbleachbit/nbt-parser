@@ -22,11 +22,11 @@ namespace NBTP {
 			"Long array"
 	};
 
-	std::ostream &Tag::output(std::ostream &ostream, IOFormat format) {
+	std::ostream &Tag::output(std::ostream &ostream, IOFormat format) const {
 		throw std::runtime_error(GENERIC_METHOD);
 	}
 
-	std::ostream &Tag::textOutput(std::ostream &ostream, unsigned int indent) {
+	std::ostream &Tag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		return ostream;
 	}
 

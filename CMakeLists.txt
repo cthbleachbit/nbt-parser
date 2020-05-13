@@ -47,6 +47,7 @@ if(NBTP_O2)
 endif()
 option(NBTP_BUILD_TEST "Build unit tests" OFF)
 option(NBTP_BUILD_PYTHON_MODULE "Build python module" ON)
+set(USE_PYTHON_INCLUDE_DIR ON CACHE BOOL "")
 
 # Compilation options
 set (CMAKE_CXX_STANDARD 14)

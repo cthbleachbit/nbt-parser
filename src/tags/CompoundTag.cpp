@@ -19,7 +19,7 @@ namespace NBTP {
 		return this->payload.size();
 	}
 
-	std::ostream &CompoundTag::output(std::ostream &ostream, IOFormat format) {
+	std::ostream &CompoundTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:
 				this->textOutput(ostream, 0);
@@ -43,7 +43,7 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::ostream &CompoundTag::textOutput(std::ostream &ostream, unsigned int indent) {
+	std::ostream &CompoundTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		ostream << boost::format("Compound with %i elements:") % this->size() << std::endl;
 		for (const auto &elemItr : this->payload) {
 			Tag::indent(ostream, indent + 1);

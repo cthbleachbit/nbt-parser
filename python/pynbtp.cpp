@@ -11,8 +11,23 @@ std::shared_ptr<NBTP::CompoundTag> mksimple() {
 	return tag;
 }
 
+namespace py = pybind11;
+
 PYBIND11_MODULE(pynbtp, m) {
 	m.doc() = "Python bindings for libnbtp";
 
+	py::class_<NBTP::IntTag>(m, "IntTag")
+	        .def(py::init<int32_t>())
+	        .def("setPayload", &NBTP::IntTag::setPayload)
+	        .def("getPayload", &NBTP::IntTag::getPayload);
+	py::class_<NBTP::CompoundTag>(m, "CompoundTag")
+			.def(py::init<>())
+			.def("insert", &NBTP::CompoundTag::insert)
+			.def("lookup", &NBTP::CompoundTag::lookup)
+			.def("__repr__",
+					[](const NBTP::IntTag &a) {
+						std::stringstream ss;
+						a.output()
+					}
 	m.def("mksimple", &mksimple, "A function which adds two numbers");
 }

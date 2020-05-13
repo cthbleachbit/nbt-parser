@@ -32,7 +32,7 @@ namespace NBTP {
 		return this->contentType;
 	}
 
-	std::ostream &ListTag::output(std::ostream &ostream, IOFormat format) {
+	std::ostream &ListTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:
 				this->textOutput(ostream, 0);
@@ -53,7 +53,7 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::ostream &ListTag::textOutput(std::ostream &ostream, unsigned int indent) {
+	std::ostream &ListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		std::string typeString = TypeNames[this->getContentType()];
 		ostream << boost::format("List of type %s with %i elements:") % typeString % this->size() << std::endl;
 		this->outputPayloadOnly(ostream, PRETTY_PRINT, indent);
@@ -147,7 +147,7 @@ namespace NBTP {
 		}
 	}
 
-	std::ostream &ListTag::outputPayloadOnly(std::ostream &ostream, IOFormat format, unsigned int indent) {
+	std::ostream &ListTag::outputPayloadOnly(std::ostream &ostream, IOFormat format, unsigned int indent) const {
 		switch (format) {
 			case PRETTY_PRINT:
 				for (const auto &elemItr : this->payload) {
@@ -166,7 +166,7 @@ namespace NBTP {
 
 	void TypedListTag::setContentType(TagType type) noexcept {}
 
-	std::ostream &TypedListTag::output(std::ostream &ostream, IOFormat format) {
+	std::ostream &TypedListTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:
 				this->textOutput(ostream, 0);
@@ -183,7 +183,7 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::ostream &TypedListTag::textOutput(std::ostream &ostream, unsigned int indent) {
+	std::ostream &TypedListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		ostream << boost::format("%s with %i elements:") % TypeNames[this->typeCode()] % this->size() << std::endl;
 		outputPayloadOnly(ostream, PRETTY_PRINT, indent);
 		return ostream;

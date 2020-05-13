@@ -17,7 +17,7 @@ namespace NBTP {
 		return TagType::FLOAT;
 	}
 
-	std::ostream &FloatTag::output(std::ostream &ostream, IOFormat format) {
+	std::ostream &FloatTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:
 				textOutput(ostream, 0);
@@ -29,7 +29,7 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::ostream &FloatTag::textOutput(std::ostream &ostream, unsigned int indent) {
+	std::ostream &FloatTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		ostream << boost::format("(%s) %f") % TypeNames[this->typeCode()] % (float) this->payload;
 		return ostream << std::endl;
 	}
