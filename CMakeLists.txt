@@ -40,13 +40,13 @@ if(NBTP_DEBUG OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 		add_compile_options("-fprofile-instr-generate")
 		add_compile_options("-fcoverage-mapping")
 	endif()
-
 endif()
 option(NBTP_O2 "Build binary with optimization" ON)
 if(NBTP_O2)
 	add_compile_options("-O2")
 endif()
 option(NBTP_BUILD_TEST "Build unit tests" OFF)
+option(NBTP_BUILD_PYTHON_MODULE "Build python module" ON)
 
 # Compilation options
 set (CMAKE_CXX_STANDARD 14)
@@ -68,6 +68,10 @@ add_subdirectory(src)
 add_subdirectory(pkgconfig)
 if(NBTP_BUILD_TEST OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 	add_subdirectory(boost_tests)
+endif()
+if(NBTP_BUILD_PYTHON_MODULE)
+	add_subdirectory(pybind11)
+	add_subdirectory(python)
 endif()
 
 # Resources
