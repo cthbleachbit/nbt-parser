@@ -87,7 +87,22 @@ namespace NBTP {
 		if (rhs_ref.getContentType() != this->getContentType()) {
 			return false;
 		}
-		return this->payload == rhs_ref.payload;
+		// Note that using vector operator== won't work, as comparing shared pointers doesn't make sense
+		// This thing -> return this->payload == rhs_ref.payload;
+		auto l_p = this->payload;
+		auto r_p = rhs_ref.payload;
+		if (l_p.size() == r_p.size()) {
+			return false;
+		}
+
+		auto l_itr = l_p.cbegin();
+		auto r_itr = r_p.cbegin();
+		for (; l_itr != l_p.end() && r_itr != r_p.end(); l_itr++, r_itr++) {
+			if (*l_itr != *r_itr) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	const ListTag::List &ListTag::getPayload() const {
