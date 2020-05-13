@@ -35,13 +35,6 @@ namespace NBTP {
 		this->payload = value;
 	}
 
-	bool ByteTag::equal(Tag &rhs) {
-		if (rhs.typeCode() != TagType::BYTE) {
-			return false;
-		}
-		return this->payload == ((ByteTag &) rhs).payload;
-	}
-
 	std::ostream &ByteTag::nbtOutput(std::ostream &ostream, ByteTag::V value) {
 		ostream.write(reinterpret_cast<const char *>(&value), sizeof(V));
 		return ostream;

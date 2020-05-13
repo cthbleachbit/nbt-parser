@@ -12,8 +12,6 @@ namespace NBTP {
 	class ByteTag : public SingleValuedTag<int8_t> {
 	public:
 		typedef int8_t V;
-	private:
-		V payload;
 	public:
 		/**
 		 * @return NBT type code compound 1
@@ -48,8 +46,6 @@ namespace NBTP {
 		 * @return
 		 */
 		static std::ostream &nbtOutput(std::ostream &ostream, V value);
-
-		bool equal(Tag &rhs) override;
 	};
 }
 

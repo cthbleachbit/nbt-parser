@@ -20,6 +20,13 @@ namespace NBTP {
 		virtual V getPayload() const {
 			return this->payload;
 		}
+
+		bool equal(Tag &rhs) override {
+			if (rhs.typeCode() != this->typeCode()) {
+				return false;
+			}
+			return this->payload == ((SingleValuedTag<V> &) rhs).payload;
+		}
 	};
 }
 

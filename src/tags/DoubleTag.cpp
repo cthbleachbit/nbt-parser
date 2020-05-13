@@ -34,44 +34,29 @@ namespace NBTP {
 		return ostream << std::endl;
 	}
 
-	DoubleTag::DoubleTag(V value) {
+	DoubleTag::DoubleTag(double value) {
 		this->payload = value;
 	}
 
-	bool DoubleTag::equal(Tag &rhs) {
-		if (rhs.typeCode() != TagType::DOUBLE) {
-			return false;
-		}
-		return this->payload == ((DoubleTag &) rhs).payload;
-	}
-
-	DoubleTag::V DoubleTag::getPayload() const {
-		return this->payload;
-	}
-
-	void DoubleTag::setPayload(V value) {
-		this->payload = value;
-	}
-
-	std::ostream &DoubleTag::nbtOutput(std::ostream &ostream, DoubleTag::V value) {
+	std::ostream &DoubleTag::nbtOutput(std::ostream &ostream, double value) {
 		// Perform host to java big endian conversion
-		V big = toJ(value);
-		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
+		double big = toJ(value);
+		ostream.write(reinterpret_cast<const char *>(&big), sizeof(double));
 		return ostream;
 	}
 
 	DoubleTag::DoubleTag(std::istream &input, ssize_t &counter, IOFormat format) {
 		switch (format) {
 			case BIN:
-				V buffer;
-				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
+				double buffer;
+				input.read(reinterpret_cast<char *>(&buffer), sizeof(double));
 				// Perform java big-endian to host conversion
 				buffer = toH(buffer);
 				if (input.fail()) {
 					Logging::error(IO_UNEXPECTED_EOF, counter);
 				}
 				this->payload = buffer;
-				counter += sizeof(V);
+				counter += sizeof(double);
 				break;
 			case PRETTY_PRINT:
 				Logging::error(PARSE_PRETTY, counter);

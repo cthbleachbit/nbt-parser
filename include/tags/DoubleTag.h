@@ -6,18 +6,15 @@
 #define NBTP_DOUBLETAG_H
 
 #include "Tag.h"
+#include "SingleValuedTag.h"
 
 namespace NBTP {
-	class DoubleTag : public Tag {
+	class DoubleTag : public SingleValuedTag<double> {
 	public:
-		typedef double V;
-
-		typedef V (*EndianConv)(V);
+		typedef double (*EndianConv)(double);
 
 		static EndianConv toH;
 		static EndianConv toJ;
-	private:
-		V payload;
 	public:
 		TagType typeCode() noexcept override;
 
@@ -25,11 +22,7 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
-		V getPayload() const;
-
-		void setPayload(V value);
-
-		explicit DoubleTag(V value);
+		explicit DoubleTag(double value);
 
 		/**
 		 * Deserializer constructor for decompressed NBT input
@@ -52,9 +45,7 @@ namespace NBTP {
 		 * @param value
 		 * @return
 		 */
-		static std::ostream &nbtOutput(std::ostream &ostream, V value);
-
-		bool equal(Tag &rhs) override;
+		static std::ostream &nbtOutput(std::ostream &ostream, double value);
 	};
 }
 
