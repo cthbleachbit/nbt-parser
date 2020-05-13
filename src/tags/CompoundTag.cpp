@@ -53,10 +53,10 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::shared_ptr<Tag> CompoundTag::lookup(const std::string &k) const noexcept {
+	std::shared_ptr<Tag> CompoundTag::lookup(const std::string &k) noexcept {
 		auto itr = this->payload.find(k);
 		if (itr == this->payload.end()) {
-			return std::shared_ptr<Tag>(nullptr);
+			Logging::error(SUBTAG_NOT_FOUND, 0);
 		} else {
 			return itr->second;
 		}

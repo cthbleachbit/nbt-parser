@@ -9,6 +9,7 @@
 #define IO_UNEXPECTED_EOF   "Premature end-of-file"
 #define PARSE_PRETTY        "Parsing pretty input isn't supported yet"
 #define PARSE_UNKNOWN_FMT   "Unknown IOFormat"
+#define SUBTAG_NOT_FOUND    "Tag not in compound"
 
 // Disallowed operations
 #define LIST_CHANGE_TYPE    "Changing type on a non-empty list is not allowed"

@@ -48,7 +48,7 @@ namespace NBTP {
 		 * Check if the key is in there
 		 * @return the tag, or null if it doesn't exist
 		 */
-		std::shared_ptr<Tag> lookup(const std::string &) const noexcept;
+		std::shared_ptr<Tag> lookup(const std::string &) noexcept;
 
 		/**
 		 * Deserializer constructor for decompressed NBT input

@@ -72,7 +72,7 @@ if(NBTP_BUILD_TEST OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 endif()
 if(NBTP_BUILD_PYTHON_MODULE)
 	add_subdirectory(pybind11)
-	add_subdirectory(python)
+	add_subdirectory(pynbtp)
 endif()
 
 # Resources

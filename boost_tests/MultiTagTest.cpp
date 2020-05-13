@@ -55,4 +55,18 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
 		BOOST_ASSERT(parsed1 == parsed2);
 	}
 
+	BOOST_AUTO_TEST_CASE(ComplexInsert) {
+		auto tag = std::make_shared<NBTP::CompoundTag>();
+		tag->insert("www", std::make_shared<NBTP::IntTag>(20));
+		std::cout << *tag << std::endl;
+		auto subtag = (NBTP::IntTag &) *(tag->lookup("www"));
+		BOOST_ASSERT(subtag.getPayload() == 20 );
+	}
+
+	BOOST_AUTO_TEST_CASE(Nonexistent) {
+		auto tag = std::make_shared<NBTP::CompoundTag>();
+		auto subtag = (NBTP::IntTag &) *(tag->lookup("www"));
+
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
