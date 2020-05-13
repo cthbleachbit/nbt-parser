@@ -9,17 +9,15 @@
 
 namespace NBTP {
 
-	class TagIO {
-	protected:
+	namespace TagIO {
 		/**
 		 * Parse a root tag, this will initialize this tag's type and stuff.
 		 * @param input     the decompressed NBT binary stream
 		 * @param counter   the number of bytes parsed
 		 * @return
 		 */
-		static std::shared_ptr<Tag> parseRoot(std::istream &input, ssize_t &counter);
+		std::shared_ptr<Tag> parseRoot(std::istream &input, ssize_t &counter);
 
-	public:
 		/**
 		 * Parse a root tag, this will initialize this tag's type and stuff.
 		 * @param input     the input stream
@@ -27,14 +25,14 @@ namespace NBTP {
 		 * @param format    specifies the format of incoming data
 		 * @return
 		 */
-		static std::shared_ptr<Tag> parseRoot(std::istream &input, ssize_t &counter, IOFormat format);
+		std::shared_ptr<Tag> parseRoot(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
 		 * Output the specified tag as the root tag to the ostream NBT-encoded
 		 * @param ostream
 		 * @param tag
 		 */
-		static void dumpRoot(std::ostream &ostream, Tag &tag);
+		void dumpRoot(std::ostream &ostream, Tag &tag);
 	};
 }
 

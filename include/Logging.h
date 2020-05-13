@@ -8,21 +8,19 @@
 #include "tags/Tag.h"
 
 namespace NBTP {
-	class Logging {
-
-	public:
+	namespace Logging {
 		/**
 		 * Print warning to stderr
 		 * @param msg      warning message
 		 * @param counter  the location in the stream this warning occurs
 		 */
-		static void warn(const std::string &msg, ssize_t counter);
+		void warn(const std::string &msg, ssize_t counter);
 		/**
 			 * Throws a runtime error with custom message
 			 * @param msg
 			 * @param counter  the location in the stream this error occurs
 			 */
-		static void error(const std::string &msg, ssize_t counter);
+		void error(const std::string &msg, ssize_t counter);
 	};
 }
 
