@@ -48,6 +48,10 @@ namespace NBTP {
 		return this->payload;
 	}
 
+	void DoubleTag::setPayload(V value) {
+		this ->payload = value;
+	}
+
 	std::ostream &DoubleTag::nbtOutput(std::ostream &ostream, DoubleTag::V value) {
 		// Perform host to java big endian conversion
 		V big = toJ(value);

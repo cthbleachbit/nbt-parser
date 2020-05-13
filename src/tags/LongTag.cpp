@@ -77,4 +77,8 @@ namespace NBTP {
 		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		return ostream;
 	}
+
+	void LongTag::setPayload(LongTag::V value) {
+		this->payload = value;
+	}
 }

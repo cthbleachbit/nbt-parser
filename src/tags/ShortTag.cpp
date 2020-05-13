@@ -78,4 +78,8 @@ namespace NBTP {
 		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		return ostream;
 	}
+
+	void ShortTag::setPayload(ShortTag::V value) {
+		this->payload = value;
+	}
 }

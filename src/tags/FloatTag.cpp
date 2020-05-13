@@ -48,6 +48,10 @@ namespace NBTP {
 		return this->payload;
 	}
 
+	void FloatTag::setPayload(FloatTag::V value) {
+		this->payload = value;
+	}
+
 	std::ostream &FloatTag::nbtOutput(std::ostream &ostream, FloatTag::V value) {
 		// Perform host to java big endian conversion
 		V big = toJ(value);

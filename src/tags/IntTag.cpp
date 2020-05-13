@@ -78,4 +78,8 @@ namespace NBTP {
 				break;
 		}
 	}
+
+	void IntTag::setPayload(IntTag::V value) {
+		this->payload = value;
+	}
 }

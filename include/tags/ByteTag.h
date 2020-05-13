@@ -25,6 +25,8 @@ namespace NBTP {
 
 		V getPayload() const;
 
+		void setPayload(V value);
+
 		explicit ByteTag(V value);
 
 		/**

@@ -30,6 +30,8 @@ namespace NBTP {
 
 		V getPayload() const;
 
+		void setPayload(V value);
+
 		explicit LongTag(V value);
 
 		/**
