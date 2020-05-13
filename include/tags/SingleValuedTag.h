@@ -2,12 +2,14 @@
 // Created by cth451 on 2020/05/12.
 //
 
-#ifndef NBTP_NUMBERTAG_H
-#define NBTP_NUMBERTAG_H
+#ifndef NBTP_SINGLEVALUEDTAG_H
+#define NBTP_SINGLEVALUEDTAG_H
+
+#include "Tag.h"
 
 namespace NBTP {
 	template<typename V>
-	class NumberTag {
+	class SingleValuedTag : public Tag {
 	protected:
 		V payload;
 	public:
@@ -21,4 +23,4 @@ namespace NBTP {
 	};
 }
 
-#endif //NBTP_NUMBERTAG_H
+#endif //NBTP_SINGLEVALUEDTAG_H

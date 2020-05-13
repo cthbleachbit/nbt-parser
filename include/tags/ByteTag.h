@@ -5,10 +5,11 @@
 #ifndef NBTP_BYTETAG_H
 #define NBTP_BYTETAG_H
 
+#include "SingleValuedTag.h"
 #include "Tag.h"
 
 namespace NBTP {
-	class ByteTag : public Tag {
+	class ByteTag : public SingleValuedTag<int8_t> {
 	public:
 		typedef int8_t V;
 	private:
@@ -22,10 +23,6 @@ namespace NBTP {
 		std::ostream &output(std::ostream &ostream, IOFormat format) override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
-
-		V getPayload() const;
-
-		void setPayload(V value);
 
 		explicit ByteTag(V value);
 
