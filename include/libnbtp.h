@@ -7,6 +7,8 @@
 #include "TagIO.h"
 
 #include "tags/Tag.h"
+#include "tags/NumberTag.h"
+
 #include "tags/ByteTag.h"
 #include "tags/ShortTag.h"
 #include "tags/IntTag.h"

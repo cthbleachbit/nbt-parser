@@ -8,7 +8,6 @@
 #include "tags/Tag.h"
 
 namespace NBTP {
-
 	namespace TagIO {
 		/**
 		 * Parse a root tag, this will initialize this tag's type and stuff.

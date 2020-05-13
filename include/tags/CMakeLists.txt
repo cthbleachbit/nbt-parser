@@ -1,5 +1,6 @@
 set(NBTP_TAGS_HEADERS
 		Tag.h
+		NumberTag.h
 		ByteTag.h
 		ShortTag.h
 		IntTag.h

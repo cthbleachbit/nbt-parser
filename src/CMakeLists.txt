@@ -1,5 +1,6 @@
 set(LIBNBTP_SRC
 		tags/Tag.cpp
+
 		tags/ByteTag.cpp
 		tags/ShortTag.cpp
 		tags/IntTag.cpp
@@ -12,6 +13,7 @@ set(LIBNBTP_SRC
 		tags/ListTag.cpp
 		tags/CompoundTag.cpp
 		tags/StringTag.cpp
+
 		conv.cpp
 		Logging.cpp
 		TagIO.cpp
