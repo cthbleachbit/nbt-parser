@@ -22,7 +22,7 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
-		explicit ByteTag(V value);
+		explicit ByteTag(V value) : SingleValuedTag<int8_t>(value) {};
 
 		/**
 		 * Deserializer constructor for decompressed NBT input

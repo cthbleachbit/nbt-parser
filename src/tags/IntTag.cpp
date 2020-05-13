@@ -35,21 +35,6 @@ namespace NBTP {
 		return ostream << std::endl;
 	}
 
-	IntTag::IntTag(V value) {
-		this->payload = value;
-	}
-
-	bool IntTag::equal(Tag &rhs) {
-		if (rhs.typeCode() != TagType::INT) {
-			return false;
-		}
-		return this->payload == ((IntTag &) rhs).payload;
-	}
-
-	IntTag::V IntTag::getPayload() const {
-		return this->payload;
-	}
-
 	IntTag::V IntTag::parseInt(std::istream &input, ssize_t &counter) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
@@ -78,9 +63,5 @@ namespace NBTP {
 				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
-	}
-
-	void IntTag::setPayload(IntTag::V value) {
-		this->payload = value;
 	}
 }

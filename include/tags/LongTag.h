@@ -6,9 +6,10 @@
 #define NBTP_LONGTAG_H
 
 #include "Tag.h"
+#include "SingleValuedTag.h"
 
 namespace NBTP {
-	class LongTag : public Tag {
+	class LongTag : public SingleValuedTag<int64_t> {
 	public:
 		typedef int64_t V;
 
@@ -16,8 +17,6 @@ namespace NBTP {
 
 		static EndianConv toH;
 		static EndianConv toJ;
-	private:
-		V payload;
 	public:
 		/**
 		 * @return NBT type code compound 1
@@ -28,11 +27,7 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
-		V getPayload() const;
-
-		void setPayload(V value);
-
-		explicit LongTag(V value);
+		explicit LongTag(V value) : SingleValuedTag<int64_t>(value) {};
 
 		/**
 		 * Helper function to read in a single long from input binary stream
@@ -62,8 +57,6 @@ namespace NBTP {
 		 * @return ostream
 		 */
 		static std::ostream &nbtOutput(std::ostream &ostream, V value);
-
-		bool equal(Tag &rhs) override;
 	};
 }
 

@@ -27,6 +27,10 @@ namespace NBTP {
 			}
 			return this->payload == ((SingleValuedTag<V> &) rhs).payload;
 		}
+
+		SingleValuedTag() = default;
+
+		explicit SingleValuedTag(V value) : payload(value) {};
 	};
 }
 

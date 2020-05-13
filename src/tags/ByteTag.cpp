@@ -31,10 +31,6 @@ namespace NBTP {
 		return ostream << std::endl;
 	}
 
-	ByteTag::ByteTag(V value) {
-		this->payload = value;
-	}
-
 	std::ostream &ByteTag::nbtOutput(std::ostream &ostream, ByteTag::V value) {
 		ostream.write(reinterpret_cast<const char *>(&value), sizeof(V));
 		return ostream;

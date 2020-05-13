@@ -34,44 +34,25 @@ namespace NBTP {
 		return ostream << std::endl;
 	}
 
-	FloatTag::FloatTag(V value) {
-		this->payload = value;
-	}
-
-	bool FloatTag::equal(Tag &rhs) {
-		if (rhs.typeCode() != TagType::FLOAT) {
-			return false;
-		}
-		return this->payload == ((FloatTag &) rhs).payload;
-	}
-
-	FloatTag::V FloatTag::getPayload() const {
-		return this->payload;
-	}
-
-	void FloatTag::setPayload(FloatTag::V value) {
-		this->payload = value;
-	}
-
-	std::ostream &FloatTag::nbtOutput(std::ostream &ostream, FloatTag::V value) {
+	std::ostream &FloatTag::nbtOutput(std::ostream &ostream, float value) {
 		// Perform host to java big endian conversion
-		V big = toJ(value);
-		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
+		float big = toJ(value);
+		ostream.write(reinterpret_cast<const char *>(&big), sizeof(float));
 		return ostream;
 	}
 
 	FloatTag::FloatTag(std::istream &input, ssize_t &counter, IOFormat format) {
 		switch (format) {
 			case BIN:
-				V buffer;
-				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
+				float buffer;
+				input.read(reinterpret_cast<char *>(&buffer), sizeof(float));
 				// Perform java big-endian to host conversion
 				buffer = toH(buffer);
 				if (input.fail()) {
 					Logging::error(IO_UNEXPECTED_EOF, counter);
 				}
 				this->payload = buffer;
-				counter += sizeof(V);
+				counter += sizeof(float);
 				break;
 			case PRETTY_PRINT:
 				Logging::error(PARSE_PRETTY, counter);

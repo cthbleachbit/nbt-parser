@@ -4,7 +4,6 @@
 
 #include "tags/LongTag.h"
 #include "conv.h"
-#include "TagIO.h"
 #include "Logging.h"
 #include <boost/format.hpp>
 #include <istream>
@@ -34,10 +33,6 @@ namespace NBTP {
 		return ostream << std::endl;
 	}
 
-	LongTag::LongTag(V value) {
-		this->payload = value;
-	}
-
 	LongTag::LongTag(std::istream &input, ssize_t &counter, IOFormat format) {
 		switch (format) {
 			case BIN:
@@ -47,17 +42,6 @@ namespace NBTP {
 				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
-	}
-
-	bool LongTag::equal(Tag &rhs) {
-		if (rhs.typeCode() != TagType::LONG) {
-			return false;
-		}
-		return this->payload == ((LongTag &) rhs).payload;
-	}
-
-	LongTag::V LongTag::getPayload() const {
-		return this->payload;
 	}
 
 	LongTag::V LongTag::parseLong(std::istream &input, ssize_t &counter) {
@@ -77,9 +61,5 @@ namespace NBTP {
 		V big = toJ(value);
 		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		return ostream;
-	}
-
-	void LongTag::setPayload(LongTag::V value) {
-		this->payload = value;
 	}
 }

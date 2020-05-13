@@ -6,9 +6,10 @@
 #define NBTP_SHORTTAG_H
 
 #include "Tag.h"
+#include "SingleValuedTag.h"
 
 namespace NBTP {
-	class ShortTag : public Tag {
+	class ShortTag : public SingleValuedTag<int16_t> {
 	public:
 		typedef int16_t V;
 
@@ -16,8 +17,6 @@ namespace NBTP {
 
 		static EndianConv toH;
 		static EndianConv toJ;
-	private:
-		V payload;
 	public:
 		TagType typeCode() noexcept override;
 
@@ -25,11 +24,7 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) override;
 
-		V getPayload() const;
-
-		void setPayload(V value);
-
-		explicit ShortTag(V value);
+		explicit ShortTag(V value) : SingleValuedTag<int16_t>(value) {};
 
 		/**
 		 * Deserializer constructor for decompressed NBT input
@@ -59,8 +54,6 @@ namespace NBTP {
 		 * @return ostream
 		 */
 		static std::ostream &nbtOutput(std::ostream &ostream, V value);
-
-		bool equal(Tag &rhs) override;
 	};
 }
 

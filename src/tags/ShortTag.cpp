@@ -35,10 +35,6 @@ namespace NBTP {
 		return ostream << std::endl;
 	}
 
-	ShortTag::ShortTag(V value) {
-		this->payload = value;
-	}
-
 	ShortTag::ShortTag(std::istream &input, ssize_t &counter, IOFormat format) {
 		switch (format) {
 			case BIN:
@@ -48,17 +44,6 @@ namespace NBTP {
 				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
-	}
-
-	bool ShortTag::equal(Tag &rhs) {
-		if (rhs.typeCode() != TagType::SHORT) {
-			return false;
-		}
-		return this->payload == ((ShortTag &) rhs).payload;
-	}
-
-	ShortTag::V ShortTag::getPayload() const {
-		return this->payload;
 	}
 
 	ShortTag::V ShortTag::parseShort(std::istream &input, ssize_t &counter) {
@@ -78,9 +63,5 @@ namespace NBTP {
 		V big = toJ(value);
 		ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
 		return ostream;
-	}
-
-	void ShortTag::setPayload(ShortTag::V value) {
-		this->payload = value;
 	}
 }
