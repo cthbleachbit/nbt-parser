@@ -1,6 +1,7 @@
 #include "libnbtp.h"
 #include "Logging.h"
 #include <istream>
+#include <sstream>
 #include <tags/Tag.h>
 
 
@@ -125,5 +126,11 @@ namespace NBTP {
 		}
 		// This should never happen
 		return std::shared_ptr<Tag>(nullptr);
+	}
+
+	std::string Tag::toString() {
+		std::stringstream ss;
+		textOutput(ss, 0);
+		return ss.str();
 	}
 }

@@ -56,6 +56,8 @@ namespace NBTP {
 
 		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const;
 
+		std::string toString();
+
 		virtual bool equal(Tag &rhs) const = 0;
 
 		bool equal(std::shared_ptr<Tag> &rhs) const;
