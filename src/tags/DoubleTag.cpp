@@ -13,7 +13,7 @@ namespace NBTP {
 	DoubleTag::EndianConv DoubleTag::toH = Conversion::conv_d_beh;
 	DoubleTag::EndianConv DoubleTag::toJ = Conversion::conv_d_hbe;
 
-	TagType DoubleTag::typeCode() noexcept {
+	TagType DoubleTag::typeCode() const noexcept {
 		return TagType::DOUBLE;
 	}
 

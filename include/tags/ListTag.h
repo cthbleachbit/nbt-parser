@@ -26,12 +26,12 @@ namespace NBTP {
 		/**
 		 * @return size of this compound map
 		 */
-		ssize_t size() override;
+		ssize_t size() const override;
 
 		/**
 		 * @return NBT type code list 9
 		 */
-		TagType typeCode() noexcept override;
+		TagType typeCode() const noexcept override;
 
 		/**
 		 * @brief Insert a tag into the list.
@@ -109,7 +109,7 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
-		bool equal(Tag &rhs) override;
+		bool equal(Tag &rhs) const override;
 	protected:
 		/**
 		 * This output function only handles the payload vector itself w/o writing the type and length.

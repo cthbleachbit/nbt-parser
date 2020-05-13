@@ -30,7 +30,7 @@ namespace NBTP {
 		return ostream;
 	}
 
-	TagType Tag::typeCode() noexcept {
+	TagType Tag::typeCode() const noexcept {
 		return TagType::INVALID;
 	}
 
@@ -55,15 +55,15 @@ namespace NBTP {
 		return static_cast<TagType>(buf);
 	}
 
-	bool Tag::equal(std::shared_ptr<Tag> &rhs) {
+	bool Tag::equal(std::shared_ptr<Tag> &rhs) const {
 		return this->equal(*rhs);
 	}
 
-	bool Tag::operator==(Tag &rhs) {
+	bool Tag::operator==(Tag &rhs) const {
 		return this->equal(rhs);
 	}
 
-	bool Tag::operator!=(Tag &rhs) {
+	bool Tag::operator!=(Tag &rhs) const {
 		return !(this->operator==(rhs));
 	}
 

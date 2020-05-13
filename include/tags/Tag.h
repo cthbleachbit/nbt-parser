@@ -42,7 +42,7 @@ namespace NBTP {
 	 */
 	class Tag {
 	public:
-		virtual TagType typeCode() noexcept;
+		virtual TagType typeCode() const noexcept;
 
 		/**
 		 * A helper function to print 4n spaces
@@ -56,15 +56,15 @@ namespace NBTP {
 
 		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const;
 
-		virtual bool equal(Tag &rhs) = 0;
+		virtual bool equal(Tag &rhs) const = 0;
 
-		bool equal(std::shared_ptr<Tag> &rhs);
+		bool equal(std::shared_ptr<Tag> &rhs) const;
 
 		friend std::ostream &operator<<(std::ostream &ostream, Tag &tag);
 
-		bool operator==(Tag &rhs);
+		bool operator==(Tag &rhs) const;
 
-		bool operator!=(Tag &rhs);
+		bool operator!=(Tag &rhs) const;
 
 		/**
 		 * A wrapper to parse tags based on type
@@ -94,7 +94,7 @@ namespace NBTP {
 		/**
 		 * @return size of this container
 		 */
-		virtual ssize_t size() = 0;
+		virtual ssize_t size() const = 0;
 	};
 }
 

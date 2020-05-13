@@ -13,7 +13,7 @@ namespace NBTP {
 	FloatTag::EndianConv FloatTag::toH = Conversion::conv_f_beh;
 	FloatTag::EndianConv FloatTag::toJ = Conversion::conv_f_hbe;
 
-	TagType FloatTag::typeCode() noexcept {
+	TagType FloatTag::typeCode() const noexcept {
 		return TagType::FLOAT;
 	}
 

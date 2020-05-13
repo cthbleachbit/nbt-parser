@@ -15,12 +15,12 @@ namespace NBTP {
 		/**
 		 * @return length of the string
 		 */
-		ssize_t size() override;
+		ssize_t size() const override;
 
 		/**
 		 * @return NBT type code string
 		 */
-		TagType typeCode() noexcept override;
+		TagType typeCode() const noexcept override;
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
@@ -85,7 +85,7 @@ namespace NBTP {
 		 */
 		static std::ostream &nbtOutput(std::ostream &ostream, const std::string &value);
 
-		bool equal(Tag &rhs) override;
+		bool equal(Tag &rhs) const override;
 	};
 }
 

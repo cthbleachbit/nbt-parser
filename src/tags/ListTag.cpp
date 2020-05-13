@@ -10,11 +10,11 @@
 #include "Logging.h"
 
 namespace NBTP {
-	TagType ListTag::typeCode() noexcept {
+	TagType ListTag::typeCode() const noexcept {
 		return TagType::LIST;
 	}
 
-	ssize_t ListTag::size() {
+	ssize_t ListTag::size() const {
 		return this->payload.size();
 	}
 
@@ -79,7 +79,7 @@ namespace NBTP {
 		this->contentType = TagType::END;
 	}
 
-	bool ListTag::equal(Tag &rhs) {
+	bool ListTag::equal(Tag &rhs) const {
 		if (rhs.typeCode() != TagType::LIST) {
 			return false;
 		}

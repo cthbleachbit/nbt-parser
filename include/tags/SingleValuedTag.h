@@ -21,7 +21,7 @@ namespace NBTP {
 			return this->payload;
 		}
 
-		bool equal(Tag &rhs) override {
+		bool equal(Tag &rhs) const override {
 			if (rhs.typeCode() != this->typeCode()) {
 				return false;
 			}

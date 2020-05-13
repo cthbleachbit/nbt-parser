@@ -12,7 +12,7 @@ namespace NBTP {
 	LongTag::EndianConv LongTag::toH = Conversion::conv_64_beh;
 	LongTag::EndianConv LongTag::toJ = Conversion::conv_64_hbe;
 
-	TagType LongTag::typeCode() noexcept {
+	TagType LongTag::typeCode() const noexcept {
 		return TagType::LONG;
 	}
 

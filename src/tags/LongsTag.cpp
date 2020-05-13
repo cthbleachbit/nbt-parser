@@ -10,7 +10,7 @@
 #include "Logging.h"
 
 namespace NBTP {
-	TagType LongsTag::typeCode() noexcept {
+	TagType LongsTag::typeCode() const noexcept {
 		return TagType::LONGS;
 	}
 

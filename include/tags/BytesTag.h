@@ -13,7 +13,7 @@ namespace NBTP {
 		/**
 		 * @return NBT type byte array 7
 		 */
-		TagType typeCode() noexcept override;
+		TagType typeCode() const noexcept override;
 
 		/**
 		 * @return NBT type byte 1

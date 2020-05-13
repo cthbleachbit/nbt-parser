@@ -10,7 +10,7 @@
 #include "Logging.h"
 
 namespace NBTP {
-	TagType ByteTag::typeCode() noexcept {
+	TagType ByteTag::typeCode() const noexcept {
 		return TagType::BYTE;
 	}
 

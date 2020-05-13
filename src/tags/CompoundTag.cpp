@@ -11,11 +11,11 @@
 
 namespace NBTP {
 
-	TagType CompoundTag::typeCode() noexcept {
+	TagType CompoundTag::typeCode() const noexcept {
 		return TagType::COMPOUND;
 	}
 
-	ssize_t CompoundTag::size() {
+	ssize_t CompoundTag::size() const {
 		return this->payload.size();
 	}
 
@@ -53,7 +53,7 @@ namespace NBTP {
 		return ostream;
 	}
 
-	std::shared_ptr<Tag> CompoundTag::lookup(const std::string &k) noexcept {
+	std::shared_ptr<Tag> CompoundTag::lookup(const std::string &k) const noexcept {
 		auto itr = this->payload.find(k);
 		if (itr == this->payload.end()) {
 			return std::shared_ptr<Tag>(nullptr);
@@ -70,7 +70,7 @@ namespace NBTP {
 		this->payload.erase(k);
 	}
 
-	bool CompoundTag::equal(Tag &rhs) {
+	bool CompoundTag::equal(Tag &rhs) const {
 		if (rhs.typeCode() != TagType::COMPOUND) {
 			return false;
 		}

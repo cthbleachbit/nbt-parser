@@ -14,7 +14,7 @@ namespace NBTP {
 	IntTag::EndianConv IntTag::toH = Conversion::conv_32_beh;
 	IntTag::EndianConv IntTag::toJ = Conversion::conv_32_hbe;
 
-	TagType IntTag::typeCode() noexcept {
+	TagType IntTag::typeCode() const noexcept {
 		return TagType::INT;
 	}
 

@@ -21,12 +21,12 @@ namespace NBTP {
 		/**
 		 * @return size of this compound map
 		 */
-		ssize_t size() override;
+		ssize_t size() const override;
 
 		/**
 		 * @return NBT type code compound 10
 		 */
-		TagType typeCode() noexcept override;
+		TagType typeCode() const noexcept override;
 
 		/**
 		 * Get a reference to internals. Note that will return a immutable reference
@@ -48,7 +48,7 @@ namespace NBTP {
 		 * Check if the key is in there
 		 * @return the tag, or null if it doesn't exist
 		 */
-		std::shared_ptr<Tag> lookup(const std::string &) noexcept;
+		std::shared_ptr<Tag> lookup(const std::string &) const noexcept;
 
 		/**
 		 * Deserializer constructor for decompressed NBT input
@@ -74,7 +74,7 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
-		bool equal(Tag &rhs) override;
+		bool equal(Tag &rhs) const override;
 
 		/**
 		 * Helper function for compound equals

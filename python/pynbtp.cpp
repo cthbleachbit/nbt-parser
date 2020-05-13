@@ -3,6 +3,7 @@
 //
 
 #include <pybind11/pybind11.h>
+#include <sstream>
 #include "libnbtp.h"
 
 std::shared_ptr<NBTP::CompoundTag> mksimple() {
@@ -23,11 +24,6 @@ PYBIND11_MODULE(pynbtp, m) {
 	py::class_<NBTP::CompoundTag>(m, "CompoundTag")
 			.def(py::init<>())
 			.def("insert", &NBTP::CompoundTag::insert)
-			.def("lookup", &NBTP::CompoundTag::lookup)
-			.def("__repr__",
-					[](const NBTP::IntTag &a) {
-						std::stringstream ss;
-						a.output()
-					}
+			.def("lookup", &NBTP::CompoundTag::lookup);
 	m.def("mksimple", &mksimple, "A function which adds two numbers");
 }
