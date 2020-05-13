@@ -34,21 +34,7 @@ namespace NBTP {
 		 * @param ostream
 		 * @param tag
 		 */
-		static void dumpRoot(std::ostream &ostream, Tag& tag);
-
-		/**
-		 * Print warning to stderr
-		 * @param msg      warning message
-		 * @param counter  the location in the stream this warning occurs
-		 */
-		static void warn(const std::string &msg, ssize_t counter);
-
-		/**
-		 * Throws a runtime error with custom message
-		 * @param msg
-		 * @param counter  the location in the stream this error occurs
-		 */
-		static void error(const std::string &msg, ssize_t counter);
+		static void dumpRoot(std::ostream &ostream, Tag &tag);
 	};
 }
 

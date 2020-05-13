@@ -7,6 +7,7 @@
 #include <boost/format.hpp>
 #include <istream>
 #include "TagIO.h"
+#include "Logging.h"
 
 namespace NBTP {
 	DoubleTag::EndianConv DoubleTag::toH = Conversion::conv_d_beh;
@@ -49,7 +50,7 @@ namespace NBTP {
 	}
 
 	void DoubleTag::setPayload(V value) {
-		this ->payload = value;
+		this->payload = value;
 	}
 
 	std::ostream &DoubleTag::nbtOutput(std::ostream &ostream, DoubleTag::V value) {
@@ -67,13 +68,13 @@ namespace NBTP {
 				// Perform java big-endian to host conversion
 				buffer = toH(buffer);
 				if (input.fail()) {
-					TagIO::error(IO_UNEXPECTED_EOF, counter);
+					Logging::error(IO_UNEXPECTED_EOF, counter);
 				}
 				this->payload = buffer;
 				counter += sizeof(V);
 				break;
 			case PRETTY_PRINT:
-				TagIO::error(PARSE_PRETTY, counter);
+				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
 	}

@@ -7,28 +7,25 @@
 #include "TagIO.h"
 #include "tags/StringTag.h"
 #include "tags/ShortTag.h"
+#include "Logging.h"
 
 namespace NBTP {
 	std::shared_ptr<Tag> TagIO::parseRoot(std::istream &input, ssize_t &counter) {
 		counter = 0;
 		TagType typeCode = readType(input, counter);
 		if (typeCode != COMPOUND) {
-			warn(ROOT_NOT_COMPOUND, counter);
+			Logging::warn(ROOT_NOT_COMPOUND, counter);
 		}
 		std::string name = StringTag::parseString(input, counter);
 		if (name.length() != 0) {
-			warn(ROOT_HAS_NAME, counter);
+			Logging::warn(ROOT_HAS_NAME, counter);
 		}
 		return Tag::parseTag(input, typeCode, counter);
 	}
 
-	void TagIO::warn(const std::string &msg, ssize_t counter) {
-		std::cerr << boost::format("Warning at %i: %s") % counter % msg << std::endl;
-	}
-
 	void TagIO::dumpRoot(std::ostream &ostream, Tag &tag) {
 		if (tag.typeCode() != COMPOUND) {
-			warn(ROOT_NOT_COMPOUND, 0);
+			Logging::warn(ROOT_NOT_COMPOUND, 0);
 		}
 		char typeByte = static_cast<char>(tag.typeCode());
 		ostream.write(&typeByte, 1);
@@ -36,17 +33,12 @@ namespace NBTP {
 		tag.output(ostream, BIN);
 	}
 
-	void TagIO::error(const std::string &msg, ssize_t counter) {
-		auto errmsg = boost::format("Error at %i: %s") % counter % msg;
-		throw std::runtime_error(errmsg.str());
-	}
-
 	std::shared_ptr<Tag> TagIO::parseRoot(std::istream &input, ssize_t &counter, IOFormat format) {
 		switch (format) {
 			case BIN:
 				return parseRoot(input, counter);
 			case PRETTY_PRINT:
-				TagIO::error(PARSE_PRETTY, counter);
+				Logging::error(PARSE_PRETTY, counter);
 			default:
 				return std::shared_ptr<Tag>(nullptr);
 		}

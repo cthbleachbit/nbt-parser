@@ -6,6 +6,7 @@
 #include "conv.h"
 #include "constants.h"
 #include "TagIO.h"
+#include "Logging.h"
 #include <boost/format.hpp>
 #include <istream>
 
@@ -55,7 +56,7 @@ namespace NBTP {
 		// Perform java big-endian to host conversion
 		buffer = toH(buffer);
 		if (input.fail()) {
-			TagIO::error(IO_UNEXPECTED_EOF, counter);
+			Logging::error(IO_UNEXPECTED_EOF, counter);
 		}
 		counter += sizeof(V);
 		return buffer;
@@ -74,7 +75,7 @@ namespace NBTP {
 				this->payload = parseInt(input, counter);
 				break;
 			case PRETTY_PRINT:
-				TagIO::error(PARSE_PRETTY, counter);
+				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
 	}

@@ -7,6 +7,7 @@
 #include <tags/ListTag.h>
 
 #include "libnbtp.h"
+#include "Logging.h"
 
 namespace NBTP {
 	TagType ListTag::typeCode() noexcept {
@@ -101,13 +102,13 @@ namespace NBTP {
 				// Check content type
 				typeCode = readType(input, counter);
 				if (static_cast<int8_t>(typeCode) > LONGS || static_cast<int8_t>(typeCode) < END) {
-					TagIO::error(INVALID_TYPE, counter);
+					Logging::error(INVALID_TYPE, counter);
 				}
 
 				// Read in payload length
 				size = IntTag::parseInt(input, counter);
 				if (size < 0) {
-					TagIO::error(CONTENT_LEN_NEG, counter);
+					Logging::error(CONTENT_LEN_NEG, counter);
 				}
 
 				// Check if type and length agree with each other
@@ -116,7 +117,7 @@ namespace NBTP {
 					this->contentType = END;
 					return;
 				} else if (typeCode == END && size != 0) {
-					TagIO::error(LIST_END_NZ_LEN, counter);
+					Logging::error(LIST_END_NZ_LEN, counter);
 				}
 
 				// Otherwise this list has sensible contents:
@@ -126,7 +127,7 @@ namespace NBTP {
 				}
 				break;
 			case PRETTY_PRINT:
-				TagIO::error(PARSE_PRETTY, counter);
+				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
 	}

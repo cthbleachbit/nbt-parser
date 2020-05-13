@@ -4,6 +4,7 @@
 
 #include "tags/FloatTag.h"
 #include "TagIO.h"
+#include "Logging.h"
 #include <conv.h>
 #include <boost/format.hpp>
 #include <istream>
@@ -67,13 +68,13 @@ namespace NBTP {
 				// Perform java big-endian to host conversion
 				buffer = toH(buffer);
 				if (input.fail()) {
-					TagIO::error(IO_UNEXPECTED_EOF, counter);
+					Logging::error(IO_UNEXPECTED_EOF, counter);
 				}
 				this->payload = buffer;
 				counter += sizeof(V);
 				break;
 			case PRETTY_PRINT:
-				TagIO::error(PARSE_PRETTY, counter);
+				Logging::error(PARSE_PRETTY, counter);
 		}
 	}
 }

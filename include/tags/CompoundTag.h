@@ -82,7 +82,7 @@ namespace NBTP {
 		 * @param rhs
 		 * @return
 		 */
-		static bool equal(const Compound& lhs, const Compound &rhs);
+		static bool equal(const Compound &lhs, const Compound &rhs);
 	};
 }
 

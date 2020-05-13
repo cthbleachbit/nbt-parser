@@ -1,4 +1,5 @@
 #include "libnbtp.h"
+#include "Logging.h"
 #include <istream>
 #include <tags/Tag.h>
 
@@ -48,7 +49,7 @@ namespace NBTP {
 		int8_t buf;
 		input.read(reinterpret_cast<char *>(&buf), 1);
 		if (input.fail()) {
-			TagIO::error(IO_UNEXPECTED_EOF, counter);
+			Logging::error(IO_UNEXPECTED_EOF, counter);
 		}
 		counter++;
 		return static_cast<TagType>(buf);
@@ -106,7 +107,7 @@ namespace NBTP {
 				ptr = std::make_shared<LongsTag>(input, counter);
 				break;
 			default:
-				TagIO::error(INVALID_TYPE, counter);
+				Logging::error(INVALID_TYPE, counter);
 		}
 		return ptr;
 	}
@@ -116,10 +117,10 @@ namespace NBTP {
 			case BIN:
 				return parseTag(input, typeCode, counter);
 			case PRETTY_PRINT:
-				TagIO::error(PARSE_PRETTY, counter);
+				Logging::error(PARSE_PRETTY, counter);
 				break;
 			default:
-				TagIO::error(PARSE_UNKNOWN_FMT, counter);
+				Logging::error(PARSE_UNKNOWN_FMT, counter);
 				break;
 		}
 		// This should never happen

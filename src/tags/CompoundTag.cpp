@@ -3,6 +3,7 @@
 //
 
 #include "libnbtp.h"
+#include "Logging.h"
 #include <boost/format.hpp>
 #include <memory>
 #include <tags/CompoundTag.h>
@@ -118,7 +119,7 @@ namespace NBTP {
 				}
 				break;
 			case PRETTY_PRINT:
-				TagIO::error(PARSE_PRETTY, counter);
+				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
 	}

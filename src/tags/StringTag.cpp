@@ -8,6 +8,7 @@
 #include "tags/ShortTag.h"
 #include "conv.h"
 #include "TagIO.h"
+#include "Logging.h"
 
 namespace NBTP {
 	ssize_t StringTag::size() {
@@ -61,7 +62,7 @@ namespace NBTP {
 				this->payload = parseString(input, counter);
 				break;
 			case PRETTY_PRINT:
-				TagIO::error(PARSE_PRETTY, counter);
+				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
 	}
@@ -69,14 +70,14 @@ namespace NBTP {
 	std::string StringTag::parseString(std::istream &input, ssize_t &counter) {
 		int16_t length = ShortTag::parseShort(input, counter);
 		if (length < 0) {
-			TagIO::error(CONTENT_LEN_NEG, counter);
+			Logging::error(CONTENT_LEN_NEG, counter);
 		}
 		char *copy_buf = new char[length + 1];
 		input.read(copy_buf, length);
 		copy_buf[length] = 0x00;
 		if (input.fail()) {
 			delete[] copy_buf;
-			TagIO::error(IO_UNEXPECTED_EOF, counter);
+			Logging::error(IO_UNEXPECTED_EOF, counter);
 		}
 		std::string ret = std::string(copy_buf);
 		delete[] copy_buf;
