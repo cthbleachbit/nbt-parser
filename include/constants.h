@@ -24,7 +24,7 @@
 #define ROOT_NOT_COMPOUND   "Root tag is not a compound"
 #define ROOT_HAS_NAME       "Root tag has non-empty name string"
 
-BEGIN_NBTP_NS
+namespace NBTP {
 
 	/**
 	 * Indicates the format of related input or output buffer
@@ -36,6 +36,6 @@ BEGIN_NBTP_NS
 //		YAML = 3
 	};
 
-END_NBTP_NS
+}
 
 #endif //NBTP_CONSTANTS_H

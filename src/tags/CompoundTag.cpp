@@ -77,7 +77,7 @@ namespace NBTP {
 		return equal(this->payload, ((CompoundTag &) rhs).getPayload());
 	}
 
-	const CompoundTag::Compound &CompoundTag::getPayload() const {
+	CompoundTag::Compound &CompoundTag::getPayload() {
 		return this->payload;
 	}
 

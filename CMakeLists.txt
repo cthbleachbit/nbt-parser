@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.0)
 project (NBTP)
-set(VERSION "0.1")
+set(VERSION "0.1.1")
 
 # Dependencies
 find_package(PkgConfig REQUIRED)
@@ -59,9 +59,6 @@ set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "Installation
 set(INSTALL_PKGCONFIG_DIR ${CMAKE_INSTALL_PREFIX}/share/pkgconfig CACHE PATH "Installation directory for pkgconfig (.pc) files")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH ${INSTALL_LIB_DIR})
-
-add_definitions(-DBEGIN_NBTP_NS=namespace\ NBTP\ {)
-add_definitions(-DEND_NBTP_NS=})
 
 # Source files
 include_directories(include)

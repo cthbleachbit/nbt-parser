@@ -32,7 +32,7 @@ namespace NBTP {
 		 * Get a reference to internals. Note that will return a immutable reference
 		 * @return a reference to the vector
 		 */
-		const Compound &getPayload() const;
+		Compound &getPayload();
 
 		/**
 		 * Insert a tag into the compound, will replace existing tag if the key already exists
