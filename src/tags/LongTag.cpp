@@ -3,7 +3,7 @@
 //
 
 #include "tags/LongTag.h"
-#include "conv.h"
+#include "Conversion.h"
 #include "Logging.h"
 #include <boost/format.hpp>
 #include <istream>

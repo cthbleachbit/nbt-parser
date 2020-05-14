@@ -1,7 +1,7 @@
 set(NBTP_PUBLIC_HEADERS
 		libnbtp.h
 		constants.h
-		conv.h
+		Conversion.h
 		TagIO.h
 		Logging.h
 		)

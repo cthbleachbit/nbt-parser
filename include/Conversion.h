@@ -2,8 +2,8 @@
 // Created by cth451 on 2020/05/09.
 //
 
-#ifndef NBTP_CONV_H
-#define NBTP_CONV_H
+#ifndef NBTP_CONVERSION_H
+#define NBTP_CONVERSION_H
 
 #include <cstdint>
 
@@ -31,4 +31,4 @@ namespace NBTP {
 	}
 }
 
-#endif //NBTP_CONV_H
+#endif //NBTP_CONVERSION_H

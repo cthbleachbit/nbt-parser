@@ -4,7 +4,7 @@
 
 #include "tags/ShortTag.h"
 #include "constants.h"
-#include "conv.h"
+#include "Conversion.h"
 #include "TagIO.h"
 #include "Logging.h"
 #include <boost/format.hpp>

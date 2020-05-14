@@ -11,7 +11,6 @@ set(NBTP_TESTS
 		RealParseTest
 		)
 
-
 foreach(TEST_FILE ${NBTP_TESTS})
 	add_executable(${TEST_FILE} ${TEST_FILE}.cpp memstream.h)
 	target_link_libraries(${TEST_FILE} ${Boost_LIBRARIES})

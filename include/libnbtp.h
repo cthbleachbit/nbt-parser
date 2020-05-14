@@ -2,7 +2,7 @@
 #define NBTP_LIBNBTP_H
 
 #include "constants.h"
-#include "conv.h"
+#include "Conversion.h"
 #include "Logging.h"
 #include "TagIO.h"
 

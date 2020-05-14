@@ -3,7 +3,7 @@
 //
 
 #include "tags/DoubleTag.h"
-#include "conv.h"
+#include "Conversion.h"
 #include <boost/format.hpp>
 #include <istream>
 #include "TagIO.h"

@@ -5,7 +5,7 @@
 #include "tags/FloatTag.h"
 #include "TagIO.h"
 #include "Logging.h"
-#include <conv.h>
+#include <Conversion.h>
 #include <boost/format.hpp>
 #include <istream>
 
