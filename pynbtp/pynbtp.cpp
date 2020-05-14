@@ -7,6 +7,7 @@
 #include <pybind11/stl.h>
 #include <sstream>
 #include "libnbtp.h"
+#include "PyBytesBuf.h"
 
 namespace pyNBTP {
 	std::shared_ptr<NBTP::CompoundTag> mksimple() {
@@ -16,10 +17,15 @@ namespace pyNBTP {
 	}
 
 	void pyOutputTag(NBTP::Tag *tag, pybind11::object &io, NBTP::IOFormat format) {
-		pybind11::detail::pythonbuf buffer(io);
-		std::ostream out(&buffer);
-		// FIXME doesn't work when format is BIN
-		tag->output(out, format);
+		if (format == NBTP::PRETTY_PRINT) {
+			pybind11::detail::pythonbuf buffer(io);
+			std::ostream out(&buffer);
+			tag->output(out, format);
+		} else if (format == NBTP::BIN) {
+			PyBytesBuf buffer(io);
+			std::ostream out(&buffer);
+			tag->output(out, format);
+		}
 	}
 }
 

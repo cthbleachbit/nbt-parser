@@ -9,7 +9,10 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/pytypes.h>
 
-namespace NBTP {
+namespace pyNBTP {
+	/**
+	 * This is a modified version of pythonbuf from pybind11 to read / write bytes
+	 */
 	class PyBytesBuf : public std::streambuf {
 	private:
 		using traits_type = std::streambuf::traits_type;
@@ -29,8 +32,7 @@ namespace NBTP {
 
 		int sync() {
 			if (pbase() != pptr()) {
-				// This subtraction cannot be negative, so dropping the sign
-				pybind11::str line(pbase(), static_cast<size_t>(pptr() - pbase()));
+				pybind11::bytes line(pbase(), static_cast<size_t>(pptr() - pbase()));
 
 				{
 					pybind11::gil_scoped_acquire tmp;
