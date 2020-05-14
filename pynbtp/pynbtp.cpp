@@ -24,7 +24,7 @@ namespace pyNBTP {
 			std::ostream out(&buffer);
 			tag->output(out, format);
 		} else if (format == NBTP::BIN) {
-			PyBytesBuf buffer(io);
+			PyOBytesBuf buffer(io);
 			std::ostream out(&buffer);
 			tag->output(out, format);
 		}
@@ -32,7 +32,7 @@ namespace pyNBTP {
 
 	std::shared_ptr<NBTP::Tag> pyParseRoot(pybind11::object &io) {
 		ssize_t counter;
-		PyBytesBuf buffer(io);
+		PyIBytesBuf buffer(io);
 		std::istream in(&buffer);
 		return NBTP::TagIO::parseRoot(in, counter);
 	}

@@ -8,12 +8,13 @@
 #include <ostream>
 #include <pybind11/pybind11.h>
 #include <pybind11/pytypes.h>
+#include <pybind11/cast.h>
 
 namespace pyNBTP {
 	/**
 	 * This is a modified version of pythonbuf from pybind11 to read / write bytes
 	 */
-	class PyBytesBuf : public std::streambuf {
+	class PyOBytesBuf : public std::streambuf {
 	private:
 		using traits_type = std::streambuf::traits_type;
 
@@ -47,7 +48,7 @@ namespace pyNBTP {
 
 	public:
 
-		PyBytesBuf(pybind11::object pyostream, size_t buffer_size = 1024)
+		PyOBytesBuf(pybind11::object pyostream, size_t buffer_size = 1024)
 				: buf_size(buffer_size),
 				  d_buffer(new char[buf_size]),
 				  pywrite(pyostream.attr("write")),
@@ -55,12 +56,48 @@ namespace pyNBTP {
 			setp(d_buffer.get(), d_buffer.get() + buf_size - 1);
 		}
 
-		PyBytesBuf(PyBytesBuf&&) = default;
+		PyOBytesBuf(PyOBytesBuf&&) = default;
 
 		/// Sync before destroy
-		~PyBytesBuf() {
+		~PyOBytesBuf() {
 			sync();
 		}
+	};
+
+	class PyIBytesBuf : public std::streambuf {
+	private:
+		using traits_type = std::streambuf::traits_type;
+
+		const size_t buf_size;
+		std::unique_ptr<char[]> d_buffer;
+		pybind11::object pyread;
+
+	public:
+		/**
+		 * Executed when the buffer is out of contents
+		 */
+		int underflow() {
+			ssize_t len = 0;
+			if (!traits_type::eq_int_type(*gptr(), traits_type::eof())) {
+				// Not EOF yet, try to read more stuff from pyistream
+				pybind11::bytes b = pyread(buf_size);
+				len = pybind11::len(b);
+				std::string incoming(b);
+				const char * cstring = incoming.c_str();
+				std::memcpy(d_buffer.get(), cstring, len);
+			}
+			setg(d_buffer.get(), d_buffer.get(), d_buffer.get() + len - 1);
+			return len == 0 ? traits_type::eof() : traits_type::not_eof(*gptr());
+		}
+
+		PyIBytesBuf(pybind11::object pyistream, size_t buffer_size = 1024)
+				: buf_size(buffer_size),
+				  d_buffer(new char[buf_size]),
+				  pyread(pyistream.attr("read")) {
+			setg(d_buffer.get(), d_buffer.get() + buf_size - 1, d_buffer.get() + buf_size - 1);
+		};
+
+		PyIBytesBuf(PyIBytesBuf&&) = default;
 	};
 }
 
