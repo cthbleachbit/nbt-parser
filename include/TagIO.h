@@ -31,7 +31,7 @@ namespace NBTP {
 		 * @param ostream
 		 * @param tag
 		 */
-		void dumpRoot(std::ostream &ostream, Tag &tag);
+		void writeRoot(std::ostream &ostream, Tag &tag);
 	};
 }
 

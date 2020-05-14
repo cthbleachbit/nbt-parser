@@ -23,7 +23,7 @@ namespace NBTP {
 		return Tag::parseTag(input, typeCode, counter);
 	}
 
-	void TagIO::dumpRoot(std::ostream &ostream, Tag &tag) {
+	void TagIO::writeRoot(std::ostream &ostream, Tag &tag) {
 		if (tag.typeCode() != COMPOUND) {
 			Logging::warn(ROOT_NOT_COMPOUND, 0);
 		}

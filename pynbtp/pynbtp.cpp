@@ -43,6 +43,12 @@ namespace pyNBTP {
 		std::istream in(&buffer);
 		return pybind11::make_tuple(NBTP::TagIO::parseRoot(in, counter, format), counter);
 	}
+
+	void pyWriteRoot(pybind11::object &io, NBTP::Tag &tag) {
+		PyOBytesBuf buffer(io);
+		std::ostream out(&buffer);
+		tag.output(out, NBTP::IOFormat::BIN);
+	}
 }
 
 PYBIND11_MODULE(pynbtp, m) {
@@ -145,6 +151,7 @@ PYBIND11_MODULE(pynbtp, m) {
 		using namespace NBTP;
 		m.def("parseRoot", &pyNBTP::pyParseRoot , "Parse Root Tag");
 		m.def("parseRoot", &pyNBTP::pyParseRootFormat, "Parse Root Tag");
+		m.def("writeRoot", &pyNBTP::pyWriteRoot, "Write Root Tag");
 	}
 
 	m.def("mksimple", &pyNBTP::mksimple, "A function which adds two numbers");

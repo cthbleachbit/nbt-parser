@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_SUITE(UnparseTester)
 		input.close();
 
 		std::ofstream output("test_data/world.dat.nbt.out", std::ios::out | std::ios::binary);
-		NBTP::TagIO::dumpRoot(output, *tag1);
+		NBTP::TagIO::writeRoot(output, *tag1);
 		output.close();
 
 		std::ifstream input_recursion("test_data/world.dat.nbt.out", std::ios::in | std::ios::binary);
