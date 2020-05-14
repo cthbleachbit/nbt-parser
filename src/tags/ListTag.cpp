@@ -105,7 +105,7 @@ namespace NBTP {
 		return true;
 	}
 
-	const ListTag::List &ListTag::getPayload() const {
+	ListTag::List &ListTag::getPayload() {
 		return this->payload;
 	}
 

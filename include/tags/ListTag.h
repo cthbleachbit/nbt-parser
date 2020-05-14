@@ -51,7 +51,7 @@ namespace NBTP {
 		 * Get a reference to internals. Note that will return a immutable reference
 		 * @return a reference to the vector
 		 */
-		const List &getPayload() const;
+		List &getPayload();
 
 		/**
 		 * Set content type of this list.
