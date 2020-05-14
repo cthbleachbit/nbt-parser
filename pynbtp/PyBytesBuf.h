@@ -77,24 +77,41 @@ namespace pyNBTP {
 		 * Executed when the buffer is out of contents
 		 */
 		int underflow() {
-			ssize_t len = 0;
+			ssize_t actual_read = 0;
 			if (!traits_type::eq_int_type(*gptr(), traits_type::eof())) {
 				// Not EOF yet, try to read more stuff from pyistream
-				pybind11::bytes b = pyread(buf_size);
-				len = pybind11::len(b);
+				ssize_t to_read = egptr() - gptr();
+				if (to_read == 0) {
+					// If we are at the end of the segment
+					setg(d_buffer.get(), d_buffer.get(), d_buffer.get() + buf_size);
+					to_read = buf_size;
+				}
+
+				pybind11::bytes b;
+				{
+					pybind11::gil_scoped_acquire tmp;
+					b = pyread(to_read);
+				}
+
+				actual_read = pybind11::len(b);
 				std::string incoming(b);
 				const char * cstring = incoming.c_str();
-				std::memcpy(d_buffer.get(), cstring, len);
+				for (ssize_t j = 0; j < 20; j++) {
+					fprintf(stderr, "%02X ", cstring[j]);
+				}
+				fprintf(stderr, "\n");
+				std::memcpy(d_buffer.get(), cstring, actual_read);
 			}
-			setg(d_buffer.get(), d_buffer.get(), d_buffer.get() + len - 1);
-			return len == 0 ? traits_type::eof() : traits_type::not_eof(*gptr());
+			fprintf(stderr, "Advancing buffer, len = %li\n", actual_read);
+			int ret = actual_read == 0 ? traits_type::eof() : traits_type::not_eof(*gptr());
+			return ret;
 		}
 
 		PyIBytesBuf(pybind11::object pyistream, size_t buffer_size = 1024)
 				: buf_size(buffer_size),
 				  d_buffer(new char[buf_size]),
 				  pyread(pyistream.attr("read")) {
-			setg(d_buffer.get(), d_buffer.get() + buf_size - 1, d_buffer.get() + buf_size - 1);
+			setg(d_buffer.get(), d_buffer.get() + buf_size, d_buffer.get() + buf_size);
 		};
 
 		PyIBytesBuf(PyIBytesBuf&&) = default;

@@ -30,11 +30,11 @@ namespace pyNBTP {
 		}
 	}
 
-	std::shared_ptr<NBTP::Tag> pyParseRoot(pybind11::object &io) {
+	pybind11::object pyParseRoot(pybind11::object &io) {
 		ssize_t counter;
 		PyIBytesBuf buffer(io);
 		std::istream in(&buffer);
-		return NBTP::TagIO::parseRoot(in, counter);
+		return pybind11::make_tuple(NBTP::TagIO::parseRoot(in, counter), counter);
 	}
 }
 
