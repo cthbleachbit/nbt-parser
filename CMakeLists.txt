@@ -4,8 +4,8 @@ set(VERSION "0.1")
 
 # Dependencies
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(ZLIB REQUIRED zlib)
-pkg_check_modules(YAML REQUIRED yaml-0.1)
+#pkg_check_modules(ZLIB REQUIRED zlib)
+#pkg_check_modules(YAML REQUIRED yaml-0.1)
 find_package(Boost REQUIRED)
 
 # Version numbers
