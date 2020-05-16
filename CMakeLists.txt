@@ -49,6 +49,7 @@ option(NBTP_BUILD_TEST "Build unit tests" OFF)
 option(NBTP_BUILD_PYTHON_MODULE "Build python module" ON)
 set(USE_PYTHON_INCLUDE_DIR ON CACHE BOOL "")
 set(PYTHON_MODULES_DIR "/lib/python3.8/site-packages" CACHE STRING "Directory relative to CMAKE_INSTALL_PREFIX to install pyNBTP")
+option(NBTP_BUILD_STATIC_LIB "Build static library as well" OFF)
 
 # Compilation options
 set (CMAKE_CXX_STANDARD 14)

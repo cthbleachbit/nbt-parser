@@ -25,24 +25,25 @@ set(NBTP_SRC
 
 add_library(nbtp SHARED ${LIBNBTP_SRC})
 
-target_link_libraries(nbtp ${ZLIB_LIBRARIES})
-target_include_directories(nbtp PUBLIC ${ZLIB_INCLUDE_DIRS})
-target_compile_options(nbtp PUBLIC ${ZLIB_CFLAGS_OTHER})
-
-target_link_libraries(nbtp ${YAML_LIBRARIES})
-target_include_directories(nbtp PUBLIC ${YAML_INCLUDE_DIRS})
-target_compile_options(nbtp PUBLIC ${YAML_CFLAGS_OTHER})
-
 target_link_libraries(nbtp ${Boost_LIBRARIES})
 target_include_directories(nbtp PUBLIC ${Boost_INCLUDE_DIRS})
 
+install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
+
+if (NBTP_BUILD_STATIC_LIB)
+	add_library(nbtp-static STATIC ${LIBNBTP_SRC})
+	set_target_properties(nbtp-static PROPERTIES OUTPUT_NAME nbtp)
+
+	target_link_libraries(nbtp-static ${Boost_LIBRARIES})
+	target_include_directories(nbtp-static PUBLIC ${Boost_INCLUDE_DIRS})
+	install(TARGETS nbtp-static DESTINATION ${INSTALL_LIB_DIR})
+endif()
 
 add_executable(nbtp-cli ${NBTP_SRC})
 target_link_libraries(nbtp-cli nbtp)
 target_link_libraries(nbtp-cli ${Boost_LIBRARIES})
 target_include_directories(nbtp-cli PUBLIC ${Boost_INCLUDE_DIRS})
 
-install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
 install(TARGETS nbtp-cli DESTINATION ${INSTALL_BIN_DIR})
 
 
