@@ -37,7 +37,7 @@ if (NBTP_BUILD_STATIC_LIB OR MSVC)
 	set_target_properties(nbtp-static PROPERTIES OUTPUT_NAME nbtp)
 
 	if (MSVC)
-		target_link_libraries(nbtp-static ws2)
+		target_link_libraries(nbtp-static ws2_32)
 	endif()
 	target_link_libraries(nbtp-static ${Boost_LIBRARIES})
 	target_include_directories(nbtp-static PUBLIC ${Boost_INCLUDE_DIRS})
