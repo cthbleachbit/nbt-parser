@@ -2,8 +2,38 @@
 // Created by cth451 on 2020/05/09.
 //
 
+#if (defined(_WIN16) || defined(_WIN32) || defined(_WIN64)) && !defined(__WINDOWS__)
+#define __WINDOWS__
+#endif
+
 #include "Conversion.h"
+
+// This dirty hack comes from https://gist.github.com/panzi/6856583#file-portable_endian-h
+
+#ifndef __WINDOWS__
 #include <endian.h>
+#else
+#include <winsock2.h>
+#include <sys/param.h>
+#if BYTE_ORDER == LITTLE_ENDIAN
+
+#	define htobe16(x) htons(x)
+#	define htole16(x) (x)
+#	define be16toh(x) ntohs(x)
+#	define le16toh(x) (x)
+
+#	define htobe32(x) htonl(x)
+#	define htole32(x) (x)
+#	define be32toh(x) ntohl(x)
+#	define le32toh(x) (x)
+
+#	define htobe64(x) htonll(x)
+#	define htole64(x) (x)
+#	define be64toh(x) ntohll(x)
+#	define le64toh(x) (x)
+#endif
+#endif
+
 
 namespace NBTP {
 	namespace Conversion {
