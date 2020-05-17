@@ -24,8 +24,16 @@ if (SYSTEM_BIG)
 	add_compile_definitions(SYSTEM_IS_BIG_ENDIAN)
 endif ()
 
-# Built setup
+# User options
 option(NBTP_DEBUG "Build binary with debug symbols" OFF)
+option(NBTP_O2 "Build binary with optimization" ON)
+option(NBTP_BUILD_TEST "Build unit tests" OFF)
+option(NBTP_BUILD_PYTHON_MODULE "Build python module" ON)
+set(USE_PYTHON_INCLUDE_DIR ON CACHE BOOL "")
+set(PYTHON_MODULES_DIR "/lib/python3.8/site-packages" CACHE STRING "Directory relative to CMAKE_INSTALL_PREFIX to install pyNBTP")
+option(NBTP_BUILD_STATIC_LIB "Build static library as well (Unix only)" OFF)
+
+# Windows hacks
 if (NBTP_DEBUG OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 	if (NOT MSVC)
 		add_compile_options("-g")
@@ -44,15 +52,9 @@ if (NBTP_DEBUG OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 		add_compile_options("-fcoverage-mapping")
 	endif ()
 endif ()
-option(NBTP_O2 "Build binary with optimization" ON)
 if (NBTP_O2 AND NOT MSVC)
 	add_compile_options("-O2")
 endif ()
-option(NBTP_BUILD_TEST "Build unit tests" OFF)
-option(NBTP_BUILD_PYTHON_MODULE "Build python module" ON)
-set(USE_PYTHON_INCLUDE_DIR ON CACHE BOOL "")
-set(PYTHON_MODULES_DIR "/lib/python3.8/site-packages" CACHE STRING "Directory relative to CMAKE_INSTALL_PREFIX to install pyNBTP")
-option(NBTP_BUILD_STATIC_LIB "Build static library as well" OFF)
 
 # Compilation options
 set(CMAKE_CXX_STANDARD 14)

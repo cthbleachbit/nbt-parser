@@ -23,24 +23,33 @@ set(NBTP_SRC
 		nbtp.cpp
 		)
 
-add_library(nbtp SHARED ${LIBNBTP_SRC})
+if (NOT MSVC)
+	add_library(nbtp SHARED ${LIBNBTP_SRC})
 
-target_link_libraries(nbtp ${Boost_LIBRARIES})
-target_include_directories(nbtp PUBLIC ${Boost_INCLUDE_DIRS})
+	target_link_libraries(nbtp ${Boost_LIBRARIES})
+	target_include_directories(nbtp PUBLIC ${Boost_INCLUDE_DIRS})
 
-install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
+	install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
+endif()
 
-if (NBTP_BUILD_STATIC_LIB)
+if (NBTP_BUILD_STATIC_LIB OR MSVC)
 	add_library(nbtp-static STATIC ${LIBNBTP_SRC})
 	set_target_properties(nbtp-static PROPERTIES OUTPUT_NAME nbtp)
 
+	if (MSVC)
+		target_link_libraries(nbtp-static ws2)
+	endif()
 	target_link_libraries(nbtp-static ${Boost_LIBRARIES})
 	target_include_directories(nbtp-static PUBLIC ${Boost_INCLUDE_DIRS})
 	install(TARGETS nbtp-static DESTINATION ${INSTALL_LIB_DIR})
 endif()
 
 add_executable(nbtp-cli ${NBTP_SRC})
-target_link_libraries(nbtp-cli nbtp)
+if (MSVC)
+	target_link_libraries(nbtp-cli nbtp-static)
+else()
+	target_link_libraries(nbtp-cli nbtp)
+endif()
 target_link_libraries(nbtp-cli ${Boost_LIBRARIES})
 target_include_directories(nbtp-cli PUBLIC ${Boost_INCLUDE_DIRS})
 
