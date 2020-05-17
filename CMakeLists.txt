@@ -5,6 +5,11 @@ set(VERSION "0.1.1")
 # Dependencies
 find_package(Boost REQUIRED)
 
+if (NOT Boost_FOUND)
+	set(Boost_INCLUDE_DIRS "" CACHE PATH "Search path for boost headers")
+	set(Boost_LIBRARIES "" CACHE PATH "Link flags for boost shared objects")
+endif()
+
 # Version numbers
 set(VERSION_STRING ${VERSION})
 add_compile_definitions(NBTP_VERSION=\"${VERSION_STRING}\")
