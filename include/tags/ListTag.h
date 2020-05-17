@@ -110,6 +110,9 @@ namespace NBTP {
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
 		bool equal(Tag &rhs) const override;
+
+		virtual ~ListTag() = default;
+
 	protected:
 		/**
 		 * This output function only handles the payload vector itself w/o writing the type and length.
@@ -136,6 +139,8 @@ namespace NBTP {
 		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
+
+		virtual ~TypedListTag() = default;
 	};
 }
 

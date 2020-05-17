@@ -86,6 +86,8 @@ namespace NBTP {
 		 * @return a pointer to the tag
 		 */
 		static std::shared_ptr<Tag> parseTag(std::istream &input, TagType typeCode, ssize_t &counter, IOFormat format);
+
+		virtual ~Tag() = default;
 	};
 
 	/**
@@ -97,6 +99,8 @@ namespace NBTP {
 		 * @return size of this container
 		 */
 		virtual ssize_t size() const = 0;
+
+		virtual ~ContainerTag() = default;
 	};
 }
 

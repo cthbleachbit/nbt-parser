@@ -39,9 +39,11 @@ namespace NBTP {
 				return parseRoot(input, counter);
 			case PRETTY_PRINT:
 				Logging::error(PARSE_PRETTY, counter);
+				break;
 			default:
 				return std::shared_ptr<Tag>(nullptr);
 		}
+		return nullptr;
 	}
 }
 

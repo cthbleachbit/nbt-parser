@@ -31,6 +31,8 @@ namespace NBTP {
 		SingleValuedTag() = default;
 
 		explicit SingleValuedTag(V value) : payload(value) {};
+
+		virtual ~SingleValuedTag() = default;
 	};
 }
 

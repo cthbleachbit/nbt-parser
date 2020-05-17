@@ -60,6 +60,7 @@ namespace NBTP {
 		} else {
 			return itr->second;
 		}
+		return nullptr;
 	}
 
 	void CompoundTag::insert(const std::string &k, const std::shared_ptr<Tag> &v) noexcept {

@@ -83,6 +83,8 @@ namespace NBTP {
 		 * @return
 		 */
 		static bool equal(const Compound &lhs, const Compound &rhs);
+
+		virtual ~CompoundTag() = default;
 	};
 }
 
