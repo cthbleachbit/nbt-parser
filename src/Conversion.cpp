@@ -13,6 +13,7 @@
 #ifndef __WINDOWS__
 #include <endian.h>
 #else
+#pragma comment(lib, "ws2_32.lib")
 #include <winsock2.h>
 #define htobe16(x) htons(x)
 #define htole16(x) (x)
