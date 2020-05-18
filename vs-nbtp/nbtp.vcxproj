@@ -155,6 +155,7 @@
     <ClInclude Include="..\include\tags\SingleValuedTag.h" />
     <ClInclude Include="..\include\tags\StringTag.h" />
     <ClInclude Include="..\include\tags\Tag.h" />
+    <ClInclude Include="..\include\WindowsHacks.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

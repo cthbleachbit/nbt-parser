@@ -122,6 +122,9 @@
     <ClInclude Include="..\include\TagIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\WindowsHacks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
