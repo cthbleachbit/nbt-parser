@@ -5,6 +5,7 @@
 #ifndef NBTP_TAGIO_H
 #define NBTP_TAGIO_H
 
+#include "WindowsHacks.h"
 #include "tags/Tag.h"
 
 namespace NBTP {

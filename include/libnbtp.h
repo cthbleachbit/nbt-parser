@@ -9,6 +9,10 @@
 #include "tags/Tag.h"
 #include "tags/SingleValuedTag.h"
 
+#if defined(_MSC_VER)
+#include "WindowsHacks.h"
+#endif
+
 #include "tags/ByteTag.h"
 #include "tags/ShortTag.h"
 #include "tags/IntTag.h"

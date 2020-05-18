@@ -5,6 +5,7 @@
 #ifndef NBTP_LOGGING_H
 #define NBTP_LOGGING_H
 
+#include "WindowsHacks.h"
 #include "tags/Tag.h"
 
 namespace NBTP {
