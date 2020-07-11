@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.0)
 project(NBTP)
-set(VERSION "0.1.1")
+set(NBTP_VERSION "0.1.1")
 
 # Dependencies
 find_package(Boost REQUIRED)
 
 # Version numbers
-set(VERSION_STRING ${VERSION})
-add_compile_definitions(NBTP_VERSION=\"${VERSION_STRING}\")
+add_compile_definitions(NBTP_VERSION=\"${NBTP_VERSION}\")
 execute_process(COMMAND git rev-parse HEAD
 		OUTPUT_VARIABLE GIT_SHA1
 		RESULT_VARIABLE GIT_RET_VAL)
@@ -66,8 +65,25 @@ set(INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "Installation directo
 set(INSTALL_LIB_DIR ${CMAKE_INSTALL_PREFIX}/lib CACHE PATH "Installation directory for libraries")
 set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "Installation directory for headers")
 set(INSTALL_PKGCONFIG_DIR ${CMAKE_INSTALL_PREFIX}/share/pkgconfig CACHE PATH "Installation directory for pkgconfig (.pc) files")
+set(INSTALL_INCLUDE_DIR include CACHE PATH
+		"Installation directory for header files")
+if(WIN32 AND NOT CYGWIN)
+	set(DEF_INSTALL_CMAKE_DIR CMake)
+else()
+	set(DEF_INSTALL_CMAKE_DIR lib/cmake/nbtp)
+endif()
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+		"Installation directory for CMake files")
+
 set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH ${INSTALL_LIB_DIR})
+
+foreach(p LIB BIN INCLUDE CMAKE)
+	set(var INSTALL_${p}_DIR)
+	if(NOT IS_ABSOLUTE "${${var}}")
+		set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+	endif()
+endforeach()
 
 # Source files
 include_directories(include)
@@ -92,3 +108,18 @@ endif ()
 
 # Testing
 enable_testing()
+
+# CMake package configuration
+export(TARGETS nbtp FILE "${PROJECT_BINARY_DIR}/nbtp-targets.cmake")
+export(PACKAGE nbtp)
+set(CONF_INCLUDE_DIRS "${INSTALL_INCLUDE_DIR}/nbtp")
+configure_file(nbtp-config.cmake.in
+		"${PROJECT_BINARY_DIR}/nbtp-config.cmake" @ONLY)
+configure_file(nbtp-config-version.cmake.in
+		"${PROJECT_BINARY_DIR}/nbtp-config-version.cmake" @ONLY)
+install(FILES
+		"${PROJECT_BINARY_DIR}/nbtp-config.cmake"
+		"${PROJECT_BINARY_DIR}/nbtp-config-version.cmake"
+		DESTINATION "${INSTALL_CMAKE_DIR}")
+install(EXPORT NBTPTargets DESTINATION
+		"${INSTALL_CMAKE_DIR}")

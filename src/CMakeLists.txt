@@ -29,7 +29,9 @@ if (NOT MSVC)
 	target_link_libraries(nbtp ${Boost_LIBRARIES})
 	target_include_directories(nbtp PUBLIC ${Boost_INCLUDE_DIRS})
 
-	install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
+	install(TARGETS nbtp
+			EXPORT NBTPTargets
+			DESTINATION ${INSTALL_LIB_DIR})
 endif()
 
 if (NBTP_BUILD_STATIC_LIB OR MSVC)
@@ -53,6 +55,6 @@ endif()
 target_link_libraries(nbtp-cli ${Boost_LIBRARIES})
 target_include_directories(nbtp-cli PUBLIC ${Boost_INCLUDE_DIRS})
 
-install(TARGETS nbtp-cli DESTINATION ${INSTALL_BIN_DIR})
-
-
+install(TARGETS nbtp-cli
+		EXPORT NBTPTargets
+		DESTINATION ${INSTALL_BIN_DIR})

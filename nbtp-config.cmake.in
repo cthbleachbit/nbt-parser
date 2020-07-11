@@ -1,0 +1,12 @@
+# Compute paths
+get_filename_component(nbtp_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(nbtp_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET nbtp AND NOT nbtp_BINARY_DIR)
+  include("${NBTP_CMAKE_DIR}/NBTPTargets.cmake")
+endif()
+
+set(nbtp_LIBRARIES nbtp)
+
+find_package_handle_standard_args(nbtp DEFAULT_MSG nbtp_LIBRARIES)
