@@ -28,6 +28,8 @@ if (NOT MSVC)
 
 	target_link_libraries(nbtp ${Boost_LIBRARIES})
 	target_include_directories(nbtp PUBLIC ${Boost_INCLUDE_DIRS})
+	set_target_properties(nbtp PROPERTIES VERSION ${VERSION})
+	set_target_properties(nbtp PROPERTIES SOVERSION 0.1)
 
 	install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
 endif()
