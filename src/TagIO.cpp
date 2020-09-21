@@ -4,6 +4,8 @@
 
 #include <iostream>
 #include <boost/format.hpp>
+#include <utility>
+#include <climits>
 #include "TagIO.h"
 #include "tags/StringTag.h"
 #include "tags/ShortTag.h"
@@ -44,6 +46,25 @@ namespace NBTP {
 				return std::shared_ptr<Tag>(nullptr);
 		}
 		return nullptr;
+	}
+
+	TagParseException::TagParseException(ssize_t offset, std::string reason) noexcept
+		: runtime_error(reason), offset(offset), reason(std::move(reason)) {
+		message = static_cast<char *>(malloc(LINE_MAX));
+	}
+
+	const char *TagParseException::what() const noexcept {
+		snprintf(message, LINE_MAX - 1, "Error at byte offset %li: %s", offset, reason.c_str());
+		return this -> message;
+	}
+
+	TagParseException::~TagParseException() {
+		free(message);
+	}
+
+	TagParseException::TagParseException(const TagParseException &arg) noexcept
+		: std::runtime_error(arg.reason), offset(arg.offset), reason(arg.reason) {
+		message = static_cast<char *>(malloc(LINE_MAX));
 	}
 }
 

@@ -33,6 +33,20 @@ namespace NBTP {
 		 * @param tag
 		 */
 		void writeRoot(std::ostream &ostream, Tag &tag);
+	}
+
+	class TagParseException : std::runtime_error {
+	private:
+		const ssize_t offset;
+		const std::string reason;
+		char *message;
+
+	public:
+		TagParseException(ssize_t offset, std::string reason) noexcept;
+		TagParseException(const TagParseException&) noexcept;
+		~TagParseException() override;
+		const char * what() const noexcept override;
+
 	};
 }
 
