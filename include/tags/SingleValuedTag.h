@@ -28,6 +28,54 @@ namespace NBTP {
 			return this->payload == ((SingleValuedTag<V> &) rhs).payload;
 		}
 
+		/**
+		 * Copy constructor. This constructor cannot cause an exception.
+		 * Since a single valued tag only store a single number within itself, this does not
+		 * involve memory alloc / dealloc for the payload.
+		 * @param tag tag to copy from
+		 */
+		SingleValuedTag(const SingleValuedTag<V>& tag) noexcept {
+			this->payload = tag.payload;
+		}
+
+		/**
+		 * Copy assignment operator.
+		 * @param tag  The right hand side to copy from
+		 * @return Updated tag
+		 */
+		SingleValuedTag& operator=(const SingleValuedTag<V>& tag) noexcept {
+			if (&tag == this) {
+				return *this;
+			}
+
+			this -> payload = tag.payload;
+			return *this;
+		}
+
+		/**
+		 * Move constructor. This constructor cannot cause an exception.
+		 * Since a single valued tag only store a single number within itself, this does not
+		 * involve memory alloc / dealloc for the payload.
+		 * @param tag tag to move from
+		 */
+		SingleValuedTag(SingleValuedTag<V>&& tag) noexcept {
+			this->payload = tag.payload;
+		}
+
+		/**
+		 * Move assignment operator
+		 * @param tag   The right hand side to move from
+		 * @return Updated tag
+		 */
+		SingleValuedTag& operator=(SingleValuedTag<V>&& tag) noexcept {
+			if (&tag == this) {
+				return *this;
+			}
+
+			this -> payload = tag.payload;
+			return *this;
+		}
+
 		SingleValuedTag() = default;
 
 		explicit SingleValuedTag(V value) : payload(value) {};

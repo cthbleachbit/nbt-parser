@@ -38,7 +38,7 @@ namespace NBTP {
 		 * @param input
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 * @param format       specifies the format of incoming data
- */
+		 */
 		ShortTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**

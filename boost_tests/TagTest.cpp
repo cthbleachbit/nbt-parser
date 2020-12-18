@@ -68,4 +68,14 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		BOOST_ASSERT(*PL2 == *PR2);
 	}
 
+	BOOST_AUTO_TEST_CASE(SingleValuedTagCopyMove) {
+		// MOVE ASSIGNMENT
+		NBTP::LongTag L1 = NBTP::LongTag(3);
+		// COPY ASSIGNMENT
+		NBTP::LongTag L2 = L1;
+		L2.setPayload(20L);
+		BOOST_ASSERT(L1.getPayload() == 3L);
+		BOOST_ASSERT(L2.getPayload() == 20L);
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
