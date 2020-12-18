@@ -5,6 +5,7 @@
 #ifndef NBTP_TAGIO_H
 #define NBTP_TAGIO_H
 
+#include <stdexcept>
 #include "WindowsHacks.h"
 #include "tags/Tag.h"
 
