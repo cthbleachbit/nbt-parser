@@ -124,4 +124,38 @@ namespace NBTP {
 				break;
 		}
 	}
+
+	// COPY
+	CompoundTag::CompoundTag(const CompoundTag &tag) noexcept {
+		this->payload.clear();
+		for (const auto &elemItr : tag.payload) {
+			std::shared_ptr<Tag> from = Tag::deepCopy(elemItr.second);
+			this->payload[elemItr.first] = from;
+		}
+	}
+
+	// COPY
+	CompoundTag &CompoundTag::operator=(const CompoundTag &tag) noexcept {
+		if (&tag != this) {
+			this->payload.clear();
+			for (const auto &elemItr : tag.payload) {
+				std::shared_ptr<Tag> from = Tag::deepCopy(elemItr.second);
+				this->payload[elemItr.first] = from;
+			}
+		}
+		return *this;
+	}
+
+	// MOVE
+	CompoundTag::CompoundTag(CompoundTag &&tag) noexcept {
+		this->payload = tag.payload;
+	}
+
+	// MOVE
+	CompoundTag &CompoundTag::operator=(CompoundTag &&tag) noexcept {
+		if (&tag != this) {
+			this->payload = tag.payload;
+		}
+		return *this;
+	}
 }

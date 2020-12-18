@@ -70,6 +70,33 @@ namespace NBTP {
 		 */
 		CompoundTag() = default;
 
+		/**
+		 * Copy constructor
+		 * This creates a deep copy of all the contents inside the compound.
+		 * @param tag tag to copy
+		 */
+		CompoundTag(const CompoundTag& tag) noexcept;
+
+		/**
+		 * Copy assignment. This creates a deep copy of all contents in the compound.
+		 * @param tag tag on right hand side
+		 * @return
+		 */
+		CompoundTag& operator=(const CompoundTag& tag) noexcept;
+
+		/**
+		 * Move constructor
+		 * @param tag  tag to move from
+		 */
+		CompoundTag(CompoundTag&& tag) noexcept;
+
+		/**
+		 * Move assignment
+		 * @param tag  tag to move from
+		 * @return updated tag
+		 */
+		CompoundTag& operator=(CompoundTag&& tag) noexcept;
+
 		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;

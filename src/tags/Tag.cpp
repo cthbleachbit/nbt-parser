@@ -128,7 +128,52 @@ namespace NBTP {
 		return std::shared_ptr<Tag>(nullptr);
 	}
 
-	std::string Tag::toString() {
+	std::shared_ptr<Tag> Tag::deepCopy(const std::shared_ptr<Tag>& from) noexcept {
+		std::shared_ptr<Tag> to;
+		switch (from->typeCode()) {
+			case BYTE:
+				to = std::make_shared<ByteTag>(*(ByteTag *) from.get());
+				break;
+			case SHORT:
+				to = std::make_shared<ShortTag>(*(ShortTag *) from.get());
+				break;
+			case INT:
+				to = std::make_shared<IntTag>(*(IntTag *) from.get());
+				break;
+			case LONG:
+				to = std::make_shared<LongTag>(*(LongTag *) from.get());
+				break;
+			case FLOAT:
+				to = std::make_shared<FloatTag>(*(FloatTag *) from.get());
+				break;
+			case DOUBLE:
+				to = std::make_shared<DoubleTag>(*(DoubleTag *) from.get());
+				break;
+			case BYTES:
+				to = std::make_shared<BytesTag>(*(BytesTag *) from.get());
+				break;
+			case STRING:
+				to = std::make_shared<StringTag>(*(StringTag *) from.get());
+				break;
+			case LIST:
+				to = std::make_shared<ListTag>(*(ListTag *) from.get());
+				break;
+			case COMPOUND:
+				to = std::make_shared<CompoundTag>(*(CompoundTag *) from.get());
+				break;
+			case INTS:
+				to = std::make_shared<IntsTag>(*(IntsTag *) from.get());
+				break;
+			case LONGS:
+				to = std::make_shared<LongsTag>(*(LongsTag *) from.get());
+				break;
+			default:
+				to = nullptr;
+		}
+		return to;
+	}
+
+	std::string Tag::toString() const {
 		std::stringstream ss;
 		textOutput(ss, 0);
 		return ss.str();

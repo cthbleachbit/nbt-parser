@@ -57,7 +57,7 @@ namespace NBTP {
 
 		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const;
 
-		std::string toString();
+		std::string toString() const;
 
 		virtual bool equal(Tag &rhs) const = 0;
 
@@ -87,6 +87,13 @@ namespace NBTP {
 		 * @return a pointer to the tag
 		 */
 		static std::shared_ptr<Tag> parseTag(std::istream &input, TagType typeCode, ssize_t &counter, IOFormat format);
+
+		/**
+		 * Deep copy a tag to a new shared pointer. This creates a copy that can be updated independently.
+		 * @param from   tag to copy from
+		 * @return       a copy of the tag in a new memory location
+		 */
+		static std::shared_ptr<Tag> deepCopy(const std::shared_ptr<Tag>& from) noexcept;
 
 		virtual ~Tag() = default;
 	};

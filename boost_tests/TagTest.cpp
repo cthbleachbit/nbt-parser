@@ -78,4 +78,19 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		BOOST_ASSERT(L2.getPayload() == 20L);
 	}
 
+	BOOST_AUTO_TEST_CASE(CompoundCopyMove) {
+		NBTP::CompoundTag T1;
+		T1.insert("S1", std::make_shared<NBTP::IntTag>(10));
+		BOOST_ASSERT(T1.size() == 1);
+		// COPY ASSIGNMENT
+		NBTP::CompoundTag T2 = T1;
+		BOOST_ASSERT(T1.size() == 1);
+		T2.insert("S2", std::make_shared<NBTP::StringTag>("tag value"));
+		BOOST_ASSERT(T1.size() == 1);
+		NBTP::Tag *inttag = T2.lookup("S1").get();
+		((NBTP::IntTag* ) inttag)->setPayload(50);
+		std::cout << T1 << std::endl;
+		std::cout << T2 << std::endl;
+	}
+
 BOOST_AUTO_TEST_SUITE_END()
