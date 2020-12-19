@@ -100,6 +100,7 @@ PYBIND11_MODULE(pynbtp, m) {
 		// Base classes
 		py::class_<ListTag, ContainerTag, Tag, shared_ptr<ListTag>>(m, "ListTag")
 				.def(py::init<>())
+				.def(py::init<TagType>())
 				.def("insert", &ListTag::insert)
 				.def("remove", &ListTag::remove)
 				.def("setContentType", &ListTag::setContentType)
