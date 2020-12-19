@@ -48,6 +48,13 @@ namespace NBTP {
 		virtual void insert(const std::shared_ptr<Tag> &v);
 
 		/**
+		 * Remove a element from the list
+		 * @param index   index of the tag to remove
+		 * @return the tag removed or null if the index is out of bound
+		 */
+		virtual std::shared_ptr<Tag> remove(const ssize_t index);
+
+		/**
 		 * Get a reference to internals. Note that will return a immutable reference
 		 * @return a reference to the vector
 		 */

@@ -196,6 +196,15 @@ namespace NBTP {
 		return *this;
 	}
 
+	std::shared_ptr<Tag> ListTag::remove(const ssize_t index) {
+		if (index >= size()) {
+			return nullptr;
+		}
+		auto ret = this->payload[index];
+		this->payload.erase(this->payload.begin() + index);
+		return ret;
+	}
+
 	void TypedListTag::setContentType(TagType type) noexcept {}
 
 	std::ostream &TypedListTag::output(std::ostream &ostream, IOFormat format) const {

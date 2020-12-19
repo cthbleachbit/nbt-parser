@@ -82,6 +82,9 @@ PYBIND11_MODULE(pynbtp, m) {
 		using namespace std;
 		// Virtual Classes
 		py::class_<Tag, std::shared_ptr<Tag>>(m, "Tag")
+				.def("__copy__", [](const shared_ptr<Tag> &self) {
+					return Tag::deepCopy(self);
+				})
 				.def("output", pyNBTP::pyOutputTag)
 				.def("typeCode", &Tag::typeCode)
 				.def("__repr__", &Tag::toString);
@@ -98,6 +101,7 @@ PYBIND11_MODULE(pynbtp, m) {
 		py::class_<ListTag, ContainerTag, Tag, shared_ptr<ListTag>>(m, "ListTag")
 				.def(py::init<>())
 				.def("insert", &ListTag::insert)
+				.def("remove", &ListTag::remove)
 				.def("setContentType", &ListTag::setContentType)
 				.def("getContentType", &ListTag::getContentType)
 				.def("getPayload", &ListTag::getPayload);
@@ -105,6 +109,7 @@ PYBIND11_MODULE(pynbtp, m) {
 				.def(py::init<>())
 				.def("insert", &CompoundTag::insert)
 				.def("lookup", &CompoundTag::lookup)
+				.def("remove", &CompoundTag::remove)
 				.def("getPayload", &CompoundTag::getPayload);
 		py::class_<StringTag, ContainerTag, Tag, shared_ptr<StringTag>>(m, "StringTag")
 				.def(py::init<>())
