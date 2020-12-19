@@ -93,4 +93,21 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		std::cout << T2 << std::endl;
 	}
 
+	BOOST_AUTO_TEST_CASE(ListCopyMove) {
+		using namespace NBTP;
+		ListTag L1 = ListTag(TagType::STRING);
+		ListTag L2(TagType::INT);
+		L1.insert(std::make_shared<StringTag>("blah"));
+		L2.insert(std::make_shared<IntTag>(50));
+		L2.insert(std::make_shared<IntTag>(100));
+		L1 = L2;
+		std::cout << L1 << std::endl;
+		std::cout << L2 << std::endl;
+		BOOST_ASSERT(L1.size() == 2);
+		BOOST_ASSERT(L2.size() == 2);
+		L2.insert(std::make_shared<IntTag>(250));
+		BOOST_ASSERT(L1.size() == 2);
+		BOOST_ASSERT(L2.size() == 3);
+	}
+
 BOOST_AUTO_TEST_SUITE_END()

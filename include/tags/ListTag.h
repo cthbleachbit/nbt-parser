@@ -80,15 +80,41 @@ namespace NBTP {
 		virtual TagType getContentType() const noexcept;
 
 		/**
-		 * Default constructor
+		 * Default constructor, this gives you an empty list with unspecified type.
 		 */
-		ListTag();
+		ListTag() noexcept;
 
 		/**
 		 * Construct a list with specific type of contents
 		 * @param type
 		 */
-		explicit ListTag(TagType type);
+		explicit ListTag(TagType type) noexcept;
+
+		/**
+		 * Copy constructor: Do a deep copy.
+		 * @param tag  tag to be copied
+		 */
+		ListTag(const ListTag &tag) noexcept;
+
+		/**
+		 * Copy assignment
+		 * @param tag  list tag to copy from
+		 * @return
+		 */
+		ListTag &operator=(const ListTag &tag) noexcept;
+
+		/**
+		 * Move constructor
+		 * @param tag tag to move from
+		 */
+		ListTag(ListTag &&tag) noexcept;
+
+		/**
+		 * Move assignment
+		 * @param tag  list tag to move from
+		 * @return  moved tag
+		 */
+		ListTag &operator=(ListTag &&tag) noexcept;
 
 		/**
 		 * Deserializing constructor that reads uncompressed NBT data
@@ -140,7 +166,21 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
+		TypedListTag() = default;
+
 		virtual ~TypedListTag() = default;
+
+		/**
+		 * Copy constructor for all array-like tags. Inherits from ListTag.
+		 * @param from tag to copy from
+		 */
+		TypedListTag(const TypedListTag &from) noexcept = default;
+
+		/**
+		 * Move constructor for all array-like tags. Inherits from ListTag.
+		 * @param from tag to move from
+		 */
+		TypedListTag(TypedListTag&& from) noexcept = default;
 	};
 }
 

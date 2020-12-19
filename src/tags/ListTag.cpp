@@ -71,11 +71,11 @@ namespace NBTP {
 		this->payload.push_back(v);
 	}
 
-	ListTag::ListTag(TagType type) {
+	ListTag::ListTag(TagType type) noexcept {
 		this->contentType = type;
 	}
 
-	ListTag::ListTag() {
+	ListTag::ListTag() noexcept {
 		this->contentType = TagType::END;
 	}
 
@@ -162,6 +162,38 @@ namespace NBTP {
 				break;
 		}
 		return ostream;
+	}
+
+	ListTag::ListTag(const ListTag &tag) noexcept {
+		this->contentType = tag.contentType;
+		this->payload.clear();
+		for (const auto &elemItr : tag.payload) {
+			this->payload.push_back(Tag::deepCopy(elemItr));
+		}
+	}
+
+	ListTag &ListTag::operator=(const ListTag &tag) noexcept {
+		if (this != &tag) {
+			this->contentType = tag.contentType;
+			this->payload.clear();
+			for (const auto &elemItr : tag.payload) {
+				this->payload.push_back(Tag::deepCopy(elemItr));
+			}
+		}
+		return *this;
+	}
+
+	ListTag::ListTag(ListTag &&tag) noexcept {
+		this->contentType = tag.contentType;
+		this->payload = tag.payload;
+	}
+
+	ListTag &ListTag::operator=(ListTag &&tag) noexcept {
+		if (this != &tag) {
+			this->contentType = tag.contentType;
+			this->payload = tag.payload;
+		}
+		return *this;
 	}
 
 	void TypedListTag::setContentType(TagType type) noexcept {}
