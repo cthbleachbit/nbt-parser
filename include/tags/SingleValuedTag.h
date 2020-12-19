@@ -80,7 +80,7 @@ namespace NBTP {
 
 		explicit SingleValuedTag(V value) : payload(value) {};
 
-		virtual ~SingleValuedTag() = default;
+		~SingleValuedTag() override = default;
 	};
 }
 

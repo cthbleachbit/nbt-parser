@@ -111,7 +111,7 @@ namespace NBTP {
 		 */
 		static bool equal(const Compound &lhs, const Compound &rhs);
 
-		virtual ~CompoundTag() = default;
+		~CompoundTag() override = default;
 	};
 }
 

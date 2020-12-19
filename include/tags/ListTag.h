@@ -137,7 +137,7 @@ namespace NBTP {
 
 		bool equal(Tag &rhs) const override;
 
-		virtual ~ListTag() = default;
+		~ListTag() override = default;
 
 	protected:
 		/**
@@ -168,7 +168,7 @@ namespace NBTP {
 
 		TypedListTag() = default;
 
-		virtual ~TypedListTag() = default;
+		~TypedListTag() override = default;
 
 		/**
 		 * Copy constructor for all array-like tags. Inherits from ListTag.

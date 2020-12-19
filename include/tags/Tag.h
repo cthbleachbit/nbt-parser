@@ -108,7 +108,7 @@ namespace NBTP {
 		 */
 		virtual ssize_t size() const = 0;
 
-		virtual ~ContainerTag() = default;
+		~ContainerTag() override = default;
 	};
 }
 
