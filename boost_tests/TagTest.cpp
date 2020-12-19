@@ -110,4 +110,15 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		BOOST_ASSERT(L2.size() == 3);
 	}
 
+	BOOST_AUTO_TEST_CASE(ByteArrayCopyMove) {
+		using namespace NBTP;
+		BytesTag B1;
+		BytesTag B2;
+		B1.insert('2');
+		B1.insert('4');
+		B2.insert('3');
+		B2 = B1;
+		BOOST_ASSERT(B2.size() == 2);
+	}
+
 BOOST_AUTO_TEST_SUITE_END()

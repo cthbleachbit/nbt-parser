@@ -48,14 +48,6 @@ namespace NBTP {
 		BytesTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
-		 * Copy constructor
-		 * @param tag  byte array tag to copy from
-		 */
-		BytesTag(const BytesTag &tag) noexcept = default;
-
-		BytesTag(BytesTag &&tag) noexcept = default;
-
-		/**
 		 * Trivial constructor
 		 */
 		BytesTag() = default;
