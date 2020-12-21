@@ -128,7 +128,7 @@ namespace NBTP {
 		return std::shared_ptr<Tag>(nullptr);
 	}
 
-	std::shared_ptr<Tag> Tag::deepCopy(const std::shared_ptr<Tag>& from) noexcept {
+	std::shared_ptr<Tag> Tag::deepCopy(const std::shared_ptr<Tag> &from) noexcept {
 		std::shared_ptr<Tag> to;
 		switch (from->typeCode()) {
 			case BYTE:

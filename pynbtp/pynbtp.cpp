@@ -12,18 +12,19 @@
 namespace py = pybind11;
 
 namespace pyNBTP {
-	std::shared_ptr<NBTP::CompoundTag> mksimple() {
-		auto tag = std::make_shared<NBTP::CompoundTag>();
-		tag->insert("tag1", std::make_shared<NBTP::IntTag>(14));
+	using namespace NBTP;
+	std::shared_ptr<CompoundTag> mksimple() {
+		auto tag = std::make_shared<CompoundTag>();
+		tag->insert("tag1", std::make_shared<IntTag>(14));
 		return tag;
 	}
 
-	void pyOutputTag(NBTP::Tag *tag, pybind11::object &io, NBTP::IOFormat format) {
-		if (format == NBTP::PRETTY_PRINT) {
+	void pyOutputTag(Tag *tag, pybind11::object &io, IOFormat format) {
+		if (format == PRETTY_PRINT) {
 			pybind11::detail::pythonbuf buffer(io);
 			std::ostream out(&buffer);
 			tag->output(out, format);
-		} else if (format == NBTP::BIN) {
+		} else if (format == BIN) {
 			PyOBytesBuf buffer(io);
 			std::ostream out(&buffer);
 			tag->output(out, format);
@@ -34,20 +35,20 @@ namespace pyNBTP {
 		ssize_t counter;
 		PyIBytesBuf buffer(io);
 		std::istream in(&buffer);
-		return pybind11::make_tuple(NBTP::TagIO::parseRoot(in, counter), counter);
+		return pybind11::make_tuple(TagIO::parseRoot(in, counter), counter);
 	}
 
-	pybind11::object pyParseRootFormat(pybind11::object &io, NBTP::IOFormat format) {
+	pybind11::object pyParseRootFormat(pybind11::object &io, IOFormat format) {
 		ssize_t counter;
 		PyIBytesBuf buffer(io);
 		std::istream in(&buffer);
-		return pybind11::make_tuple(NBTP::TagIO::parseRoot(in, counter, format), counter);
+		return pybind11::make_tuple(TagIO::parseRoot(in, counter, format), counter);
 	}
 
-	void pyWriteRoot(pybind11::object &io, NBTP::Tag &tag) {
+	void pyWriteRoot(pybind11::object &io, Tag &tag) {
 		PyOBytesBuf buffer(io);
 		std::ostream out(&buffer);
-		tag.output(out, NBTP::IOFormat::BIN);
+		tag.output(out, IOFormat::BIN);
 	}
 }
 
@@ -152,7 +153,7 @@ PYBIND11_MODULE(pynbtp, m) {
 
 	// Parsing entry point
 	{
-		m.def("parseRoot", &pyNBTP::pyParseRoot , "Parse Root Tag");
+		m.def("parseRoot", &pyNBTP::pyParseRoot, "Parse Root Tag");
 		m.def("parseRoot", &pyNBTP::pyParseRootFormat, "Parse Root Tag");
 		m.def("writeRoot", &pyNBTP::pyWriteRoot, "Write Root Tag");
 	}

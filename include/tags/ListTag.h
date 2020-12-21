@@ -189,9 +189,9 @@ namespace NBTP {
 		 * Move constructor for all array-like tags. Inherits from ListTag.
 		 * @param from tag to move from
 		 */
-		TypedListTag(TypedListTag&& from) noexcept = default;
+		TypedListTag(TypedListTag &&from) noexcept = default;
 
-		TypedListTag &operator=(TypedListTag&& from) noexcept = default;
+		TypedListTag &operator=(TypedListTag &&from) noexcept = default;
 	};
 }
 

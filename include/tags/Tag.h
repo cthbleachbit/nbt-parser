@@ -93,7 +93,7 @@ namespace NBTP {
 		 * @param from   tag to copy from
 		 * @return       a copy of the tag in a new memory location
 		 */
-		static std::shared_ptr<Tag> deepCopy(const std::shared_ptr<Tag>& from) noexcept;
+		static std::shared_ptr<Tag> deepCopy(const std::shared_ptr<Tag> &from) noexcept;
 
 		virtual ~Tag() = default;
 	};

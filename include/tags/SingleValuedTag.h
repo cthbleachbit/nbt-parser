@@ -34,7 +34,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to copy from
 		 */
-		SingleValuedTag(const SingleValuedTag<V>& tag) noexcept {
+		SingleValuedTag(const SingleValuedTag<V> &tag) noexcept {
 			this->payload = tag.payload;
 		}
 
@@ -43,12 +43,12 @@ namespace NBTP {
 		 * @param tag  The right hand side to copy from
 		 * @return Updated tag
 		 */
-		SingleValuedTag& operator=(const SingleValuedTag<V>& tag) noexcept {
+		SingleValuedTag &operator=(const SingleValuedTag<V> &tag) noexcept {
 			if (&tag == this) {
 				return *this;
 			}
 
-			this -> payload = tag.payload;
+			this->payload = tag.payload;
 			return *this;
 		}
 
@@ -58,7 +58,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to move from
 		 */
-		SingleValuedTag(SingleValuedTag<V>&& tag) noexcept {
+		SingleValuedTag(SingleValuedTag<V> &&tag) noexcept {
 			this->payload = tag.payload;
 		}
 
@@ -67,12 +67,12 @@ namespace NBTP {
 		 * @param tag   The right hand side to move from
 		 * @return Updated tag
 		 */
-		SingleValuedTag& operator=(SingleValuedTag<V>&& tag) noexcept {
+		SingleValuedTag &operator=(SingleValuedTag<V> &&tag) noexcept {
 			if (&tag == this) {
 				return *this;
 			}
 
-			this -> payload = tag.payload;
+			this->payload = tag.payload;
 			return *this;
 		}
 
