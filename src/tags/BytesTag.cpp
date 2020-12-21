@@ -3,8 +3,6 @@
 //
 
 #include <tags/ByteTag.h>
-#include <boost/format.hpp>
-#include "TagIO.h"
 #include "tags/BytesTag.h"
 #include "tags/IntTag.h"
 #include "Logging.h"

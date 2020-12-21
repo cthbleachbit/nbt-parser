@@ -6,7 +6,6 @@
 #include "tags/IntTag.h"
 #include "tags/LongTag.h"
 #include "tags/LongsTag.h"
-#include "TagIO.h"
 #include "Logging.h"
 
 namespace NBTP {

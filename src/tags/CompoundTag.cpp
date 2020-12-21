@@ -4,9 +4,10 @@
 
 #include "libnbtp.h"
 #include "Logging.h"
-#include <boost/format.hpp>
 #include <memory>
+#include <iostream>
 #include <tags/CompoundTag.h>
+#include <climits>
 
 
 namespace NBTP {
@@ -44,7 +45,10 @@ namespace NBTP {
 	}
 
 	std::ostream &CompoundTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		ostream << boost::format("Compound with %i elements:") % this->size() << std::endl;
+		char *message = new char[LINE_MAX];
+		snprintf(message, LINE_MAX - 1, "Compound with %li elements:", this->size());
+		ostream << message << std::endl;
+		delete[] message;
 		for (const auto &elemItr : this->payload) {
 			Tag::indent(ostream, indent + 1);
 			ostream << elemItr.first << ": ";

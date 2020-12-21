@@ -2,12 +2,11 @@
 // Created by cth451 on 5/10/20.
 //
 
-#include <boost/format.hpp>
 #include <istream>
+#include <climits>
 #include "tags/StringTag.h"
 #include "tags/ShortTag.h"
 #include "Conversion.h"
-#include "TagIO.h"
 #include "Logging.h"
 
 namespace NBTP {
@@ -40,8 +39,11 @@ namespace NBTP {
 
 	std::ostream &StringTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		std::string print = this->payload.length() ? this->payload : "(empty string)";
-		ostream << boost::format("(%s) %s") % TypeNames[this->typeCode()] % print;
-		return ostream << std::endl;
+		char *message = new char[LINE_MAX];
+		snprintf(message, LINE_MAX - 1, "(%s) %s", TypeNames[this->typeCode()].c_str(), print.c_str());
+		ostream << message << std::endl;
+		delete[] message;
+		return ostream;
 	}
 
 	const std::string &StringTag::getPayload() const {

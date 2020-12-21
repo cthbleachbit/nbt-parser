@@ -5,8 +5,8 @@
 #include "tags/LongTag.h"
 #include "Conversion.h"
 #include "Logging.h"
-#include <boost/format.hpp>
 #include <istream>
+#include <climits>
 
 namespace NBTP {
 	LongTag::EndianConv LongTag::toH = Conversion::conv_64_beh;
@@ -29,8 +29,11 @@ namespace NBTP {
 	}
 
 	std::ostream &LongTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		ostream << boost::format("(%s) %d") % TypeNames[this->typeCode()] % (int64_t) this->payload;
-		return ostream << std::endl;
+		char *message = new char[LINE_MAX];
+		snprintf(message, LINE_MAX - 1, "(%s) %ld", TypeNames[this->typeCode()].c_str(), this->payload);
+		ostream << message << std::endl;
+		delete[] message;
+		return ostream;
 	}
 
 	LongTag::LongTag(std::istream &input, ssize_t &counter, IOFormat format) {

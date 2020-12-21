@@ -4,9 +4,8 @@
 
 #include "tags/DoubleTag.h"
 #include "Conversion.h"
-#include <boost/format.hpp>
 #include <istream>
-#include "TagIO.h"
+#include <climits>
 #include "Logging.h"
 
 namespace NBTP {
@@ -30,8 +29,11 @@ namespace NBTP {
 	}
 
 	std::ostream &DoubleTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		ostream << boost::format("(%s) %f") % TypeNames[this->typeCode()] % (double) this->payload;
-		return ostream << std::endl;
+		char *message = new char[LINE_MAX];
+		snprintf(message, LINE_MAX - 1, "(%s) %f", TypeNames[this->typeCode()].c_str(), this->payload);
+		ostream << message << std::endl;
+		delete[] message;
+		return ostream;
 	}
 
 	DoubleTag::DoubleTag(double value) {

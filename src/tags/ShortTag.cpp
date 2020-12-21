@@ -5,10 +5,9 @@
 #include "tags/ShortTag.h"
 #include "constants.h"
 #include "Conversion.h"
-#include "TagIO.h"
 #include "Logging.h"
-#include <boost/format.hpp>
 #include <istream>
+#include <climits>
 
 namespace NBTP {
 	ShortTag::EndianConv ShortTag::toH = Conversion::conv_16_beh;
@@ -31,8 +30,11 @@ namespace NBTP {
 	}
 
 	std::ostream &ShortTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		ostream << boost::format("(%s) %d") % TypeNames[this->typeCode()] % (int64_t) this->payload;
-		return ostream << std::endl;
+		char *message = new char[LINE_MAX];
+		snprintf(message, LINE_MAX - 1, "(%s) %d", TypeNames[this->typeCode()].c_str(), this->payload);
+		ostream << message << std::endl;
+		delete[] message;
+		return ostream;
 	}
 
 	ShortTag::ShortTag(std::istream &input, ssize_t &counter, IOFormat format) {

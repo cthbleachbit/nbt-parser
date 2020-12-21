@@ -2,9 +2,9 @@
 // Created by cth451 on 2020/05/09.
 //
 
-#include <boost/format.hpp>
 #include <iostream>
 #include <tags/ListTag.h>
+#include <climits>
 
 #include "libnbtp.h"
 #include "Logging.h"
@@ -55,7 +55,10 @@ namespace NBTP {
 
 	std::ostream &ListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		std::string typeString = TypeNames[this->getContentType()];
-		ostream << boost::format("List of type %s with %i elements:") % typeString % this->size() << std::endl;
+		char *message = new char[LINE_MAX];
+		snprintf(message, LINE_MAX - 1, "List of type %s with %i elements:", typeString, this->size());
+		ostream << message << std::endl;
+		delete[] message;
 		this->outputPayloadOnly(ostream, PRETTY_PRINT, indent);
 		return ostream;
 	}
@@ -225,7 +228,10 @@ namespace NBTP {
 	}
 
 	std::ostream &TypedListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		ostream << boost::format("%s with %i elements:") % TypeNames[this->typeCode()] % this->size() << std::endl;
+		char *message = new char[LINE_MAX];
+		snprintf(message, LINE_MAX - 1, "%s with %i elements:", TypeNames[this->typeCode()].c_str(), this->size());
+		ostream << message << std::endl;
+		delete[] message;
 		outputPayloadOnly(ostream, PRETTY_PRINT, indent);
 		return ostream;
 	}

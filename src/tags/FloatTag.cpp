@@ -3,11 +3,10 @@
 //
 
 #include "tags/FloatTag.h"
-#include "TagIO.h"
 #include "Logging.h"
 #include <Conversion.h>
-#include <boost/format.hpp>
 #include <istream>
+#include <climits>
 
 namespace NBTP {
 	FloatTag::EndianConv FloatTag::toH = Conversion::conv_f_beh;
@@ -30,8 +29,11 @@ namespace NBTP {
 	}
 
 	std::ostream &FloatTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		ostream << boost::format("(%s) %f") % TypeNames[this->typeCode()] % (float) this->payload;
-		return ostream << std::endl;
+		char *message = new char[LINE_MAX];
+		snprintf(message, LINE_MAX - 1, "(%s) %f", TypeNames[this->typeCode()].c_str(), this->payload);
+		ostream << message << std::endl;
+		delete[] message;
+		return ostream;
 	}
 
 	std::ostream &FloatTag::nbtOutput(std::ostream &ostream, float value) {
