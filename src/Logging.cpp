@@ -3,16 +3,15 @@
 //
 
 #include "TagIO.h"
-#include <boost/format.hpp>
 #include <iostream>
 #include "Logging.h"
 
-void NBTP::Logging::error(const std::string &msg, ssize_t counter) {
-	throw TagParseException(counter, msg);
-}
-
 namespace NBTP {
 	void Logging::warn(const std::string &msg, ssize_t counter) {
-		std::cerr << boost::format("Warning at byte offset %i: %s") % counter % msg << std::endl;
+		fprintf(stderr, "Warning at byte offset %li: %s", counter, msg.c_str());
+	}
+
+	void Logging::error(const std::string &msg, ssize_t counter) {
+		throw TagParseException(counter, msg);
 	}
 }

@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <boost/format.hpp>
 #include <utility>
 #include <climits>
 #include "TagIO.h"

@@ -2,9 +2,6 @@ cmake_minimum_required(VERSION 3.0)
 project(NBTP)
 set(VERSION "0.1.2")
 
-# Dependencies
-find_package(Boost REQUIRED)
-
 # Version numbers
 set(VERSION_STRING ${VERSION})
 add_compile_definitions(NBTP_VERSION=\"${VERSION_STRING}\")

@@ -1,7 +1,5 @@
 #include "libnbtp.h"
 #include <iostream>
-#include <cstring>
-#include <boost/format.hpp>
 #include <fstream>
 
 #ifndef NBTP_VERSION
