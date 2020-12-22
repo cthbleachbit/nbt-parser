@@ -44,10 +44,21 @@ namespace NBTP {
 
 	public:
 		TagParseException(ssize_t offset, std::string reason) noexcept;
-		TagParseException(const TagParseException&) noexcept;
+		TagParseException(const TagParseException &) noexcept;
 		~TagParseException() override;
-		const char * what() const noexcept override;
+		const char *what() const noexcept override;
+	};
 
+	class ListTypeUnmatchException : std::runtime_error {
+	private:
+		const TagType expected;
+		const TagType got;
+		char *message;
+	public:
+		ListTypeUnmatchException(TagType expected, TagType got) noexcept;
+		ListTypeUnmatchException(const ListTypeUnmatchException &) noexcept = default;
+		~ListTypeUnmatchException() override;
+		const char *what() const noexcept override;
 	};
 }
 

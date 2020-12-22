@@ -15,14 +15,14 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
 		auto bytes = std::make_shared<NBTP::BytesTag>();
 		bytes->insert(5);
 		BOOST_ASSERT(bytes->size() == 1);
-		BOOST_REQUIRE_THROW(bytes->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), std::runtime_error);
+		BOOST_REQUIRE_THROW(bytes->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), NBTP::ListTypeUnmatchException);
 	}
 
 	BOOST_AUTO_TEST_CASE(Longs) {
 		auto longs = std::make_shared<NBTP::LongsTag>();
 		longs->insert(3874747474747474774L);
 		BOOST_ASSERT(longs->size() == 1);
-		BOOST_REQUIRE_THROW(longs->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), std::runtime_error);
+		BOOST_REQUIRE_THROW(longs->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), NBTP::ListTypeUnmatchException);
 	}
 
 	BOOST_AUTO_TEST_CASE(LongsItr) {
@@ -65,8 +65,7 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
 
 	BOOST_AUTO_TEST_CASE(Nonexistent) {
 		auto tag = std::make_shared<NBTP::CompoundTag>();
-		auto subtag = (NBTP::IntTag &) *(tag->lookup("www"));
-
+		BOOST_ASSERT(tag->lookup("www") == nullptr);
 	}
 
 BOOST_AUTO_TEST_SUITE_END()

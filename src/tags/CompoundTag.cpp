@@ -60,11 +60,10 @@ namespace NBTP {
 	std::shared_ptr<Tag> CompoundTag::lookup(const std::string &k) noexcept {
 		auto itr = this->payload.find(k);
 		if (itr == this->payload.end()) {
-			Logging::error(SUBTAG_NOT_FOUND, 0);
+			return nullptr;
 		} else {
 			return itr->second;
 		}
-		return nullptr;
 	}
 
 	void CompoundTag::insert(const std::string &k, const std::shared_ptr<Tag> &v) noexcept {

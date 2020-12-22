@@ -56,7 +56,7 @@ namespace NBTP {
 	std::ostream &ListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		std::string typeString = TypeNames[this->getContentType()];
 		char *message = new char[LINE_MAX];
-		snprintf(message, LINE_MAX - 1, "List of type %s with %i elements:", typeString, this->size());
+		snprintf(message, LINE_MAX - 1, "List of type %s with %li elements:", typeString.c_str(), this->size());
 		ostream << message << std::endl;
 		delete[] message;
 		this->outputPayloadOnly(ostream, PRETTY_PRINT, indent);
@@ -68,7 +68,7 @@ namespace NBTP {
 			this->contentType = v->typeCode();
 		} else {
 			if (this->contentType != v->typeCode()) {
-				throw std::runtime_error(LIST_ADD_UNMATCH);
+				throw ListTypeUnmatchException(this->typeCode(), typeCode());
 			}
 		}
 		this->payload.push_back(v);
@@ -229,7 +229,7 @@ namespace NBTP {
 
 	std::ostream &TypedListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		char *message = new char[LINE_MAX];
-		snprintf(message, LINE_MAX - 1, "%s with %i elements:", TypeNames[this->typeCode()].c_str(), this->size());
+		snprintf(message, LINE_MAX - 1, "%s with %li elements:", TypeNames[this->typeCode()].c_str(), this->size());
 		ostream << message << std::endl;
 		delete[] message;
 		outputPayloadOnly(ostream, PRETTY_PRINT, indent);

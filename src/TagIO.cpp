@@ -62,8 +62,24 @@ namespace NBTP {
 	}
 
 	TagParseException::TagParseException(const TagParseException &arg) noexcept
-		: std::runtime_error(arg.reason), offset(arg.offset), reason(arg.reason) {
+			: std::runtime_error(arg.reason), offset(arg.offset), reason(arg.reason) {
 		message = static_cast<char *>(malloc(LINE_MAX));
 	}
+
+	ListTypeUnmatchException::ListTypeUnmatchException(TagType expected, TagType got) noexcept
+			:
+			std::runtime_error("List Type Unmatch"), expected(expected), got(got) {
+		message = static_cast<char *>(malloc(LINE_MAX));
+	}
+
+	const char *ListTypeUnmatchException::what() const noexcept {
+		snprintf(message, LINE_MAX - 1, LIST_ADD_UNMATCH,
+		         TypeNames[got].c_str(), TypeNames[expected].c_str());
+		return message;
+	}
+
+	ListTypeUnmatchException::~ListTypeUnmatchException() {
+		free(message);
+	};
 }
 
