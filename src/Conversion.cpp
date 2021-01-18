@@ -10,8 +10,7 @@
 
 // This dirty hack comes from https://gist.github.com/panzi/6856583#file-portable_endian-h
 
-#if defined(_MSC_VER) && defined(__WINDOWS__)
-#pragma comment(lib, "ws2_32.lib")
+#if defined(__WINDOWS__)
 #include <winsock2.h>
 #define htobe16(x) htons(x)
 #define htole16(x) (x)

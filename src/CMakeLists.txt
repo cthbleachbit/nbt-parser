@@ -23,7 +23,7 @@ set(NBTP_SRC
 		nbtp.cpp
 		)
 
-if (NOT MSVC)
+if (NOT WIN32)
 	add_library(nbtp SHARED ${LIBNBTP_SRC})
 	set_target_properties(nbtp PROPERTIES VERSION ${VERSION})
 	set_target_properties(nbtp PROPERTIES SOVERSION 0.1)
@@ -31,11 +31,11 @@ if (NOT MSVC)
 	install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
 endif()
 
-if (NBTP_BUILD_STATIC_LIB OR MSVC)
+if (NBTP_BUILD_STATIC_LIB OR WIN32)
 	add_library(nbtp-static STATIC ${LIBNBTP_SRC})
 	set_target_properties(nbtp-static PROPERTIES OUTPUT_NAME nbtp)
 
-	if (MSVC)
+	if (WIN32)
 		target_link_libraries(nbtp-static ws2_32)
 	endif()
 	install(TARGETS nbtp-static DESTINATION ${INSTALL_LIB_DIR})
