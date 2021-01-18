@@ -2,10 +2,6 @@
 // Created by cth451 on 2020/05/09.
 //
 
-#if (defined(_WIN16) || defined(_WIN32) || defined(_WIN64)) && !defined(__WINDOWS__)
-#define __WINDOWS__
-#endif
-
 #include "Conversion.h"
 
 // This dirty hack comes from https://gist.github.com/panzi/6856583#file-portable_endian-h
@@ -14,16 +10,17 @@
 #include <winsock2.h>
 
 // This is a very adhoc solution to build on msys2, where ntohll and htonll do not exist.
-#ifndef flipll
-#define flipll(x) ((((uint64_t)htonl(x)) << 32) + htonl((x) >> 32))
-#endif
-
+// Also this applies to windows only, which for now implies a little-endian processor.
 #ifndef htonll
-#define htonll(x) flipll(x)
+int64_t htonll(int64_t x) {
+	uint64_t high = htonl((uint32_t) x);
+	uint64_t low = htonl((uint32_t) (x >> 32));
+	return (int64_t) ((high << 32) + low);
+}
 #endif
 
 #ifndef ntohll
-#define ntohll(x) flipll(x)
+#define ntohll(x) htonll(x)
 #endif
 
 #define htobe16(x) htons(x)

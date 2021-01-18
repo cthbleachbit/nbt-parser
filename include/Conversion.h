@@ -7,6 +7,10 @@
 
 #include <cstdint>
 
+#if (defined(_WIN16) || defined(_WIN32) || defined(_WIN64)) && !defined(__WINDOWS__)
+#define __WINDOWS__
+#endif
+
 namespace NBTP {
 	namespace Conversion {
 		int16_t conv_16_beh(int16_t v);

@@ -30,7 +30,12 @@ namespace NBTP {
 
 	std::ostream &LongTag::textOutput(std::ostream &ostream, unsigned int indent) const {
 		char *message = new char[LINE_MAX];
+#ifdef __WINDOWS__
+		// Under windows uint64_t and int64_t is considered long long int.
+		snprintf(message, LINE_MAX - 1, "(%s) %lld", TypeNames[this->typeCode()].c_str(), this->payload);
+#else
 		snprintf(message, LINE_MAX - 1, "(%s) %ld", TypeNames[this->typeCode()].c_str(), this->payload);
+#endif
 		ostream << message << std::endl;
 		delete[] message;
 		return ostream;
