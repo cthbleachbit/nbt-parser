@@ -10,9 +10,7 @@
 
 // This dirty hack comes from https://gist.github.com/panzi/6856583#file-portable_endian-h
 
-#ifndef __WINDOWS__
-#include <endian.h>
-#else
+#if defined(_MSC_VER) && defined(__WINDOWS__)
 #pragma comment(lib, "ws2_32.lib")
 #include <winsock2.h>
 #define htobe16(x) htons(x)
@@ -29,6 +27,8 @@
 #define htole64(x) (x)
 #define be64toh(x) ntohll(x)
 #define le64toh(x) (x)
+#else
+#include <endian.h>
 #endif
 
 
