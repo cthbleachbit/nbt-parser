@@ -12,6 +12,20 @@
 
 #if defined(__WINDOWS__)
 #include <winsock2.h>
+
+// This is a very adhoc solution to build on msys2, where ntohll and htonll do not exist.
+#ifndef flipll
+#define flipll(x) ((((uint64_t)htonl(x)) << 32) + htonl((x) >> 32))
+#endif
+
+#ifndef htonll
+#define htonll(x) flipll(x)
+#endif
+
+#ifndef ntohll
+#define ntohll(x) flipll(x)
+#endif
+
 #define htobe16(x) htons(x)
 #define htole16(x) (x)
 #define be16toh(x) ntohs(x)
