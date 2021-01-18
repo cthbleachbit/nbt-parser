@@ -42,7 +42,7 @@ if (NBTP_BUILD_STATIC_LIB OR WIN32)
 endif()
 
 add_executable(nbtp-cli ${NBTP_SRC})
-if (MSVC)
+if (WIN32)
 	target_link_libraries(nbtp-cli nbtp-static)
 else()
 	target_link_libraries(nbtp-cli nbtp)
