@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_SUITE(TagTester)
 		auto _tag = new NBTP::ByteTag(3);
 		auto _tag2 = new NBTP::IntTag(5);
 		testTag.insert(std::shared_ptr<NBTP::Tag>(_tag));
-		BOOST_REQUIRE_THROW(testTag.insert(std::shared_ptr<NBTP::Tag>(_tag2)), std::runtime_error);
+		BOOST_REQUIRE_THROW(testTag.insert(std::shared_ptr<NBTP::Tag>(_tag2)), NBTP::ListTypeUnmatchException);
 	}
 
 	BOOST_AUTO_TEST_CASE(TagCompare) {
