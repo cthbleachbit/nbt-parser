@@ -6,7 +6,6 @@
 #include "Conversion.h"
 #include "Logging.h"
 #include <istream>
-#include <climits>
 
 namespace NBTP {
 	LongTag::EndianConv LongTag::toH = Conversion::conv_64_beh;
