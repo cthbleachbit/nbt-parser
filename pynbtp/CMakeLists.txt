@@ -1,4 +1,4 @@
-pybind11_add_module(pynbtp MODULE SYSTEM THIN_LTO pynbtp.cpp PyBytesBuf.h)
+pybind11_add_module(pynbtp MODULE THIN_LTO pynbtp.cpp PyBytesBuf.h)
 if (WIN32)
 	target_link_libraries(pynbtp PRIVATE nbtp-static)
 else()
