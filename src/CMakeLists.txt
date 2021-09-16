@@ -19,8 +19,8 @@ set(LIBNBTP_SRC
 		TagIO.cpp
 		)
 
-set(NBTP_SRC
-		nbtp.cpp
+set(NBTP_CLI_SRC
+		nbtp-cli.cpp
 		)
 
 if (NOT WIN32)
@@ -41,7 +41,7 @@ if (NBTP_BUILD_STATIC_LIB OR WIN32)
 	install(TARGETS nbtp-static DESTINATION ${INSTALL_LIB_DIR})
 endif()
 
-add_executable(nbtp-cli ${NBTP_SRC})
+add_executable(nbtp-cli ${NBTP_CLI_SRC})
 if (WIN32)
 	target_link_libraries(nbtp-cli nbtp-static)
 else()

@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
 	auto tag = NBTP::TagIO::parseRoot(in, tagSize, NBTP::IOFormat::BIN);
 	in.close();
 
-	std::cout << tagSize << " Bytes read from file " << argv[1] << std::endl;
+	std::cerr << tagSize << " Bytes read from file " << argv[1] << std::endl;
 	std::cout << *tag << std::endl;
 	return 0;
 }
