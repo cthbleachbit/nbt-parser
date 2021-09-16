@@ -19,6 +19,7 @@ void version(std::ostream &o) {
 void usage(std::ostream &o) {
 	using namespace std;
 	o << "Usage: nbtp-cli <NBT FILE>" << endl;
+	o << "Use - to specify standard input" << endl;
 	o << endl;
 	o << "Example program, a single decompressed NBT viewer, with libnbtp." << endl;
 	version(o);
@@ -34,12 +35,26 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-	std::ifstream in(argv[1], std::ios::in | std::ios::binary);
 	ssize_t tagSize;
-	auto tag = NBTP::TagIO::parseRoot(in, tagSize, NBTP::IOFormat::BIN);
-	in.close();
+	std::shared_ptr<NBTP::Tag> tag;
+	std::string input_file = argv[1];
+	try {
+		if (input_file == "-") {
+			tag = NBTP::TagIO::parseRoot(std::cin, tagSize, NBTP::IOFormat::BIN);
+		} else {
+			std::ifstream in(input_file, std::ios::in | std::ios::binary);
+			if (in.fail()) {
+				std::cerr << "Cannot open file " << input_file << std::endl;
+				exit(1);
+			}
+			tag = NBTP::TagIO::parseRoot(in, tagSize, NBTP::IOFormat::BIN);
+		}
+	} catch (NBTP::TagParseException &e) {
+		std::cerr << e.what() << std::endl;
+		exit(2);
+	}
 
-	std::cerr << tagSize << " Bytes read from file " << argv[1] << std::endl;
+	std::cerr << tagSize << " bytes read" << std::endl;
 	std::cout << *tag << std::endl;
 	return 0;
 }
