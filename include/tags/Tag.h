@@ -43,7 +43,7 @@ namespace NBTP {
 	 */
 	class Tag {
 	public:
-		virtual TagType typeCode() const noexcept;
+		virtual constexpr TagType typeCode() const noexcept { return INVALID; }
 
 		/**
 		 * A helper function to print 4n spaces

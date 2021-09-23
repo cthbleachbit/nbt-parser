@@ -18,7 +18,7 @@ namespace NBTP {
 		static EndianConv toH;
 		static EndianConv toJ;
 	public:
-		TagType typeCode() const noexcept override;
+		constexpr TagType typeCode() const noexcept override { return SHORT; }
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 

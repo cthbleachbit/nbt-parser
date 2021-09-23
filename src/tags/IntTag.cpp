@@ -13,10 +13,6 @@ namespace NBTP {
 	IntTag::EndianConv IntTag::toH = Conversion::conv_32_beh;
 	IntTag::EndianConv IntTag::toJ = Conversion::conv_32_hbe;
 
-	TagType IntTag::typeCode() const noexcept {
-		return TagType::INT;
-	}
-
 	std::ostream &IntTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:

@@ -11,18 +11,19 @@
 namespace NBTP {
 	class FloatTag : public SingleValuedTag<float> {
 	public:
-		typedef float (*EndianConv)(float);
+		typedef float V;
+		typedef V (*EndianConv)(float);
 
 		static EndianConv toH;
 		static EndianConv toJ;
 	public:
-		TagType typeCode() const noexcept override;
+		constexpr TagType typeCode() const noexcept override { return FLOAT; }
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
-		explicit FloatTag(float value) : SingleValuedTag<float>(value) {};
+		explicit FloatTag(V value) : SingleValuedTag<V>(value) {};
 
 		/**
 		 * Deserializer constructor for decompressed NBT input

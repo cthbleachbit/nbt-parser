@@ -20,7 +20,7 @@ namespace NBTP {
 		/**
 		 * @return NBT type code string
 		 */
-		TagType typeCode() const noexcept override;
+		constexpr TagType typeCode() const noexcept override { return STRING; }
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;

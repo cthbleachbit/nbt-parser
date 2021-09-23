@@ -12,10 +12,6 @@ namespace NBTP {
 	LongTag::EndianConv LongTag::toH = Conversion::conv_64_beh;
 	LongTag::EndianConv LongTag::toJ = Conversion::conv_64_hbe;
 
-	TagType LongTag::typeCode() const noexcept {
-		return TagType::LONG;
-	}
-
 	std::ostream &LongTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:

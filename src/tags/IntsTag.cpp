@@ -8,16 +8,8 @@
 #include "Logging.h"
 
 namespace NBTP {
-	TagType IntsTag::typeCode() const noexcept {
-		return TagType::INTS;
-	}
-
 	void IntsTag::insert(int32_t v) {
 		ListTag::insert(std::make_shared<IntTag>(v));
-	}
-
-	TagType IntsTag::getContentType() const noexcept {
-		return TagType::BYTE;
 	}
 
 	void IntsTag::insert(const std::shared_ptr<Tag> &v) {

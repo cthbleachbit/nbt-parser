@@ -13,12 +13,12 @@ namespace NBTP {
 		/**
 		 * @return NBT type byte array 7
 		 */
-		TagType typeCode() const noexcept override;
+		constexpr TagType typeCode() const noexcept override { return BYTES; }
 
 		/**
 		 * @return NBT type byte 1
 		 */
-		TagType getContentType() const noexcept override;
+		constexpr TagType getContentType() const noexcept override { return BYTE; }
 
 		/**
 		 * Insert a literal byte into the byte array

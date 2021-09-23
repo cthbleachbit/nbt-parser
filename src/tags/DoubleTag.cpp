@@ -12,10 +12,6 @@ namespace NBTP {
 	DoubleTag::EndianConv DoubleTag::toH = Conversion::conv_d_beh;
 	DoubleTag::EndianConv DoubleTag::toJ = Conversion::conv_d_hbe;
 
-	TagType DoubleTag::typeCode() const noexcept {
-		return TagType::DOUBLE;
-	}
-
 	std::ostream &DoubleTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:
@@ -34,10 +30,6 @@ namespace NBTP {
 		ostream << message << std::endl;
 		delete[] message;
 		return ostream;
-	}
-
-	DoubleTag::DoubleTag(double value) {
-		this->payload = value;
 	}
 
 	std::ostream &DoubleTag::nbtOutput(std::ostream &ostream, double value) {

@@ -14,10 +14,6 @@ namespace NBTP {
 		return this->payload.length();
 	}
 
-	TagType StringTag::typeCode() const noexcept {
-		return TagType::STRING;
-	}
-
 	bool StringTag::equal(Tag &rhs) const {
 		if (rhs.typeCode() != TagType::STRING) {
 			return false;

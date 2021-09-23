@@ -21,7 +21,7 @@ namespace NBTP {
 		/**
 		 * @return NBT type code compound 1
 		 */
-		TagType typeCode() const noexcept override;
+		constexpr TagType typeCode() const noexcept override { return LONG; }
 
 		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 

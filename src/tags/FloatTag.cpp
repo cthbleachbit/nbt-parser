@@ -12,10 +12,6 @@ namespace NBTP {
 	FloatTag::EndianConv FloatTag::toH = Conversion::conv_f_beh;
 	FloatTag::EndianConv FloatTag::toJ = Conversion::conv_f_hbe;
 
-	TagType FloatTag::typeCode() const noexcept {
-		return TagType::FLOAT;
-	}
-
 	std::ostream &FloatTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:

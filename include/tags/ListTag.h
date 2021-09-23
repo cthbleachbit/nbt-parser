@@ -31,7 +31,7 @@ namespace NBTP {
 		/**
 		 * @return NBT type code list 9
 		 */
-		TagType typeCode() const noexcept override;
+		constexpr TagType typeCode() const noexcept override { return LIST; }
 
 		/**
 		 * @brief Insert a tag into the list.

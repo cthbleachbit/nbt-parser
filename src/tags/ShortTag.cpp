@@ -13,10 +13,6 @@ namespace NBTP {
 	ShortTag::EndianConv ShortTag::toH = Conversion::conv_16_beh;
 	ShortTag::EndianConv ShortTag::toJ = Conversion::conv_16_hbe;
 
-	TagType ShortTag::typeCode() const noexcept {
-		return TagType::SHORT;
-	}
-
 	std::ostream &ShortTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:

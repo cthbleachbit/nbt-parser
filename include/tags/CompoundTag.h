@@ -26,7 +26,7 @@ namespace NBTP {
 		/**
 		 * @return NBT type code compound 10
 		 */
-		TagType typeCode() const noexcept override;
+		constexpr TagType typeCode() const noexcept override { return COMPOUND; }
 
 		/**
 		 * Get a reference to internals. Note that will return a immutable reference

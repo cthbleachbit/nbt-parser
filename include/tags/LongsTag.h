@@ -13,12 +13,12 @@ namespace NBTP {
 		/**
 		 * @return NBT type long array 12
 		 */
-		TagType typeCode() const noexcept override;
+		constexpr TagType typeCode() const noexcept override { return LONGS; }
 
 		/**
 		 * @return NBT type long 4
 		 */
-		TagType getContentType() const noexcept override;
+		constexpr TagType getContentType() const noexcept override { return LONG; }
 
 		/**
 		 * Insert a literal long into the byte array

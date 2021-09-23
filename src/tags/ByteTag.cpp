@@ -9,10 +9,6 @@
 #include "Logging.h"
 
 namespace NBTP {
-	TagType ByteTag::typeCode() const noexcept {
-		return TagType::BYTE;
-	}
-
 	std::ostream &ByteTag::output(std::ostream &ostream, IOFormat format) const {
 		switch (format) {
 			case PRETTY_PRINT:

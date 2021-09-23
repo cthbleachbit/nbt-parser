@@ -12,10 +12,6 @@
 
 namespace NBTP {
 
-	TagType CompoundTag::typeCode() const noexcept {
-		return TagType::COMPOUND;
-	}
-
 	ssize_t CompoundTag::size() const {
 		return this->payload.size();
 	}
