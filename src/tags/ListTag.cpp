@@ -28,34 +28,23 @@ namespace NBTP {
 		return this->contentType;
 	}
 
-	std::ostream &ListTag::output(std::ostream &ostream, IOFormat format) const {
-		switch (format) {
-			case PRETTY_PRINT:
-				this->textOutput(ostream, 0);
-				break;
-			case BIN:
-				// Grab type
-				char typeByte = static_cast<char>(this->getContentType());
-				// Check element numbers
-				if (this->size() > INT32_MAX) {
-					throw std::runtime_error(LIST_TOO_LONG);
-				}
-				// Otherwise we can start writing, type byte, then length, then actual contents
-				ostream.write(&typeByte, 1);
-				IntTag tmp(this->size());
-				tmp.nbtOutput(ostream);
-				outputPayloadOnly(ostream, BIN, 0);
-				break;
+	std::ostream &ListTag::nbtOutput(std::ostream &ostream) const {
+		// Grab type
+		char typeByte = static_cast<char>(this->getContentType());
+		// Check element numbers
+		if (this->size() > INT32_MAX) {
+			throw std::runtime_error(LIST_TOO_LONG);
 		}
+		// Otherwise we can start writing, type byte, then length, then actual contents
+		ostream.write(&typeByte, 1);
+		IntTag tmp(this->size());
+		tmp.nbtOutput(ostream);
+		outputPayloadOnly(ostream, BIN, 0);
 		return ostream;
 	}
 
 	std::ostream &ListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		std::string typeString = TypeNames[this->getContentType()];
-		char *message = new char[LINE_MAX];
-		snprintf(message, LINE_MAX - 1, "List of type %s with %li elements:", typeString.c_str(), this->size());
-		ostream << message << std::endl;
-		delete[] message;
+		ostream << fmt::format(REPR_LIST, TypeNames[this->getContentType()], this->size()) << std::endl;
 		this->outputPayloadOnly(ostream, PRETTY_PRINT, indent);
 		return ostream;
 	}
@@ -207,29 +196,19 @@ namespace NBTP {
 
 	void TypedListTag::setContentType(TagType type) noexcept {}
 
-	std::ostream &TypedListTag::output(std::ostream &ostream, IOFormat format) const {
-		switch (format) {
-			case PRETTY_PRINT:
-				this->textOutput(ostream, 0);
-				break;
-			case BIN:
-				// Do size sanity checking
-				if (this->size() > INT32_MAX) {
-					throw std::runtime_error(LIST_TOO_LONG);
-				}
-				IntTag tmp(this->size());
-				tmp.nbtOutput(ostream);
-				outputPayloadOnly(ostream, BIN, 0);
-				break;
+	std::ostream &TypedListTag::nbtOutput(std::ostream &ostream) const {
+		// Do size sanity checking
+		if (this->size() > INT32_MAX) {
+			throw std::runtime_error(LIST_TOO_LONG);
 		}
+		IntTag tmp(this->size());
+		tmp.nbtOutput(ostream);
+		outputPayloadOnly(ostream, BIN, 0);
 		return ostream;
 	}
 
 	std::ostream &TypedListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		char *message = new char[LINE_MAX];
-		snprintf(message, LINE_MAX - 1, "%s with %li elements:", TypeNames[this->typeCode()].c_str(), this->size());
-		ostream << message << std::endl;
-		delete[] message;
+		ostream << fmt::format(REPR_TYPED_LIST, TypeNames[this->typeCode()], this->size()) << std::endl;
 		outputPayloadOnly(ostream, PRETTY_PRINT, indent);
 		return ostream;
 	}

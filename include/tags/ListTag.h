@@ -138,9 +138,9 @@ namespace NBTP {
 		 */
 		ListTag(std::istream &input, ssize_t &counter, IOFormat format);
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
-
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
+
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
 
 		bool equal(Tag &rhs) const override;
 
@@ -169,7 +169,7 @@ namespace NBTP {
 		 */
 		void setContentType(TagType type) noexcept override;
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 

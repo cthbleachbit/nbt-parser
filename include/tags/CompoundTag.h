@@ -97,7 +97,7 @@ namespace NBTP {
 		 */
 		CompoundTag& operator=(CompoundTag&& tag) noexcept;
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 

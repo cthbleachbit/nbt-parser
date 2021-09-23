@@ -25,6 +25,9 @@
 #define ROOT_HAS_NAME       "Root tag has non-empty name string"
 
 #define REPR_SINGLE_VALUED    "({}) {}" // Type + value
+#define REPR_LIST             "List of type {} with {} elements:"
+#define REPR_TYPED_LIST       "{} with {} elements:"
+#define REPR_COMPOUND         "Compound with {} elements:"
 
 namespace NBTP {
 

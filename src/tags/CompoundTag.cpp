@@ -15,36 +15,21 @@ namespace NBTP {
 		return this->payload.size();
 	}
 
-	std::ostream &CompoundTag::output(std::ostream &ostream, IOFormat format) const {
-		switch (format) {
-			case PRETTY_PRINT:
-				this->textOutput(ostream, 0);
-				break;
-			case BIN:
-				// For each tag in there
-				//    - dump its type
-				//    - dump its name
-				//    - dump itself
-				// Add END
-				for (const auto &itr: this->payload) {
-					char typeByte = static_cast<char>(itr.second->typeCode());
-					ostream.write(&typeByte, 1);
-					StringTag tmp(itr.first);
-					tmp.nbtOutput(ostream);
-					itr.second->output(ostream, BIN);
-				}
-				char endByte = static_cast<char>(TagType::END);
-				ostream.write(&endByte, 1);
-				break;
+	std::ostream &CompoundTag::nbtOutput(std::ostream &ostream) const {
+		for (const auto &itr: this->payload) {
+			char typeByte = static_cast<char>(itr.second->typeCode());
+			ostream.write(&typeByte, 1);
+			StringTag tmp(itr.first);
+			tmp.nbtOutput(ostream);
+			itr.second->output(ostream, BIN);
 		}
+		char endByte = static_cast<char>(TagType::END);
+		ostream.write(&endByte, 1);
 		return ostream;
 	}
 
 	std::ostream &CompoundTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		char *message = new char[LINE_MAX];
-		snprintf(message, LINE_MAX - 1, "Compound with %li elements:", this->size());
-		ostream << message << std::endl;
-		delete[] message;
+		ostream << fmt::format(REPR_COMPOUND, this->size()) << std::endl;
 		for (const auto &elemItr: this->payload) {
 			Tag::indent(ostream, indent + 1);
 			ostream << elemItr.first << ": ";
