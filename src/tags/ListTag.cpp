@@ -68,7 +68,7 @@ namespace NBTP {
 			this->contentType = v->typeCode();
 		} else {
 			if (this->contentType != v->typeCode()) {
-				throw ListTypeUnmatchException(this->typeCode(), typeCode());
+				throw ListTypeMismatchException(this->typeCode(), typeCode());
 			}
 		}
 		this->payload.push_back(v);

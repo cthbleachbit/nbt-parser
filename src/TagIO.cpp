@@ -3,8 +3,7 @@
 //
 
 #include <iostream>
-#include <utility>
-#include <climits>
+#include <fmt/format.h>
 #include "TagIO.h"
 #include "tags/StringTag.h"
 #include "tags/ShortTag.h"
@@ -47,39 +46,24 @@ namespace NBTP {
 		return nullptr;
 	}
 
+	// TagParseException
 	TagParseException::TagParseException(ssize_t offset, std::string reason) noexcept
-		: runtime_error(reason), offset(offset), reason(std::move(reason)) {
-		message = static_cast<char *>(malloc(LINE_MAX));
+		: runtime_error(reason), offset(offset) {
+		message = fmt::format("Error at byte offset {}: {}", offset, reason);
 	}
 
 	const char *TagParseException::what() const noexcept {
-		snprintf(message, LINE_MAX - 1, "Error at byte offset %li: %s", offset, reason.c_str());
-		return this -> message;
+		return message.c_str();
 	}
 
-	TagParseException::~TagParseException() {
-		free(message);
+	// ListTypeUnmatchException
+	ListTypeMismatchException::ListTypeMismatchException(TagType expected, TagType got) noexcept
+			:std::runtime_error("List Type Unmatch"), expected(expected), got(got) {
+		message = fmt::format(LIST_ADD_UNMATCH, TypeNames[got], TypeNames[expected]);
 	}
 
-	TagParseException::TagParseException(const TagParseException &arg) noexcept
-			: std::runtime_error(arg.reason), offset(arg.offset), reason(arg.reason) {
-		message = static_cast<char *>(malloc(LINE_MAX));
+	const char *ListTypeMismatchException::what() const noexcept {
+		return message.c_str();
 	}
-
-	ListTypeUnmatchException::ListTypeUnmatchException(TagType expected, TagType got) noexcept
-			:
-			std::runtime_error("List Type Unmatch"), expected(expected), got(got) {
-		message = static_cast<char *>(malloc(LINE_MAX));
-	}
-
-	const char *ListTypeUnmatchException::what() const noexcept {
-		snprintf(message, LINE_MAX - 1, LIST_ADD_UNMATCH,
-		         TypeNames[got].c_str(), TypeNames[expected].c_str());
-		return message;
-	}
-
-	ListTypeUnmatchException::~ListTypeUnmatchException() {
-		free(message);
-	};
 }
 

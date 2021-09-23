@@ -15,14 +15,14 @@ BOOST_AUTO_TEST_SUITE(MultiTagTester)
 		auto bytes = std::make_shared<NBTP::BytesTag>();
 		bytes->insert(5);
 		BOOST_ASSERT(bytes->size() == 1);
-		BOOST_REQUIRE_THROW(bytes->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), NBTP::ListTypeUnmatchException);
+		BOOST_REQUIRE_THROW(bytes->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), NBTP::ListTypeMismatchException);
 	}
 
 	BOOST_AUTO_TEST_CASE(Longs) {
 		auto longs = std::make_shared<NBTP::LongsTag>();
 		longs->insert(3874747474747474774L);
 		BOOST_ASSERT(longs->size() == 1);
-		BOOST_REQUIRE_THROW(longs->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), NBTP::ListTypeUnmatchException);
+		BOOST_REQUIRE_THROW(longs->insert(std::shared_ptr<NBTP::Tag>(new NBTP::IntTag(3))), NBTP::ListTypeMismatchException);
 	}
 
 	BOOST_AUTO_TEST_CASE(LongsItr) {

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 project(NBTP)
-set(VERSION "0.2.1")
+set(VERSION "0.3.0")
 
 # Version numbers
 set(VERSION_STRING ${VERSION})
@@ -69,6 +69,9 @@ set(INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include CACHE PATH "Installation
 set(INSTALL_PKGCONFIG_DIR ${CMAKE_INSTALL_PREFIX}/share/pkgconfig CACHE PATH "Installation directory for pkgconfig (.pc) files")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH ${INSTALL_LIB_DIR})
+
+# Dependencies
+find_package(fmt)
 
 # Source files
 include_directories(include)

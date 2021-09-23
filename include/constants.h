@@ -13,7 +13,7 @@
 
 // Disallowed operations
 #define LIST_CHANGE_TYPE    "Changing type on a non-empty list is not allowed"
-#define LIST_ADD_UNMATCH    "Inserting %s tag into a list with different type of contents %s"
+#define LIST_ADD_UNMATCH    "Inserting a {} tag into a list with different type of contents {}"
 
 // Compatibility issues
 #define LIST_END_NZ_LEN     "The list is marked with content type END but has non-zero length"
