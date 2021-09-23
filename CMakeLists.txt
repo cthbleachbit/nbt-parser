@@ -77,6 +77,8 @@ add_subdirectory(src)
 add_subdirectory(pkgconfig)
 if (NBTP_BUILD_TEST OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
 	if (NOT MSVC)
+		# Testing only done on non-msvc because I have no idea how windows works
+		enable_testing()
 		add_subdirectory(boost_tests)
 	endif()
 endif ()
@@ -91,8 +93,3 @@ if (NBTP_BUILD_PYTHON_MODULE)
 	message("Python module will be placed in ${PYTHON_MODULES_DIR}")
 	add_subdirectory(pynbtp)
 endif ()
-
-# Resources
-
-# Testing
-enable_testing()
