@@ -18,11 +18,7 @@ namespace NBTP {
 		 */
 		constexpr TagType typeCode() const noexcept override { return BYTE; }
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
-
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
-
-		explicit ByteTag(V value) : SingleValuedTag<int8_t>(value) {};
+		explicit ByteTag(V value) : SingleValuedTag<V>(value) {};
 
 		/**
 		 * Deserializer constructor for decompressed NBT input
@@ -42,10 +38,9 @@ namespace NBTP {
 		/**
 		 * Helper function to write a single byte to ostream
 		 * @param ostream
-		 * @param value
 		 * @return
 		 */
-		static std::ostream &nbtOutput(std::ostream &ostream, V value);
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
 	};
 }
 

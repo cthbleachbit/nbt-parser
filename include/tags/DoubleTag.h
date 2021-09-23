@@ -19,10 +19,6 @@ namespace NBTP {
 	public:
 		constexpr TagType typeCode() const noexcept override { return DOUBLE; }
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
-
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
-
 		explicit DoubleTag(V value) : SingleValuedTag<V>(value) {};
 
 		/**
@@ -46,7 +42,7 @@ namespace NBTP {
 		 * @param value
 		 * @return
 		 */
-		static std::ostream &nbtOutput(std::ostream &ostream, double value);
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
 	};
 }
 

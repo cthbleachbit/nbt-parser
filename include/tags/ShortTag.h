@@ -20,10 +20,6 @@ namespace NBTP {
 	public:
 		constexpr TagType typeCode() const noexcept override { return SHORT; }
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
-
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
-
 		explicit ShortTag(V value) : SingleValuedTag<int16_t>(value) {};
 
 		/**
@@ -49,11 +45,11 @@ namespace NBTP {
 		static V parseShort(std::istream &input, ssize_t &counter);
 
 		/**
-		 * Write a literal short to ostream in NBT format
+		 * Helper function to write a single byte to ostream
 		 * @param ostream
-		 * @return ostream
+		 * @return
 		 */
-		static std::ostream &nbtOutput(std::ostream &ostream, V value);
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
 	};
 }
 

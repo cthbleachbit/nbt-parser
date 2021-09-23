@@ -24,6 +24,8 @@
 #define ROOT_NOT_COMPOUND   "Root tag is not a compound"
 #define ROOT_HAS_NAME       "Root tag has non-empty name string"
 
+#define REPR_SINGLE_VALUED    "({}) {}" // Type + value
+
 namespace NBTP {
 
 	/**

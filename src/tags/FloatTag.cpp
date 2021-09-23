@@ -12,29 +12,9 @@ namespace NBTP {
 	FloatTag::EndianConv FloatTag::toH = Conversion::conv_f_beh;
 	FloatTag::EndianConv FloatTag::toJ = Conversion::conv_f_hbe;
 
-	std::ostream &FloatTag::output(std::ostream &ostream, IOFormat format) const {
-		switch (format) {
-			case PRETTY_PRINT:
-				textOutput(ostream, 0);
-				break;
-			case BIN:
-				nbtOutput(ostream, this->payload);
-				break;
-		}
-		return ostream;
-	}
-
-	std::ostream &FloatTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		char *message = new char[LINE_MAX];
-		snprintf(message, LINE_MAX - 1, "(%s) %f", TypeNames[this->typeCode()].c_str(), this->payload);
-		ostream << message << std::endl;
-		delete[] message;
-		return ostream;
-	}
-
-	std::ostream &FloatTag::nbtOutput(std::ostream &ostream, float value) {
+	std::ostream &FloatTag::nbtOutput(std::ostream &ostream) const {
 		// Perform host to java big endian conversion
-		float big = toJ(value);
+		float big = toJ(this->payload);
 		ostream.write(reinterpret_cast<const char *>(&big), sizeof(float));
 		return ostream;
 	}

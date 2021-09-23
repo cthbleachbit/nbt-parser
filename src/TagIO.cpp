@@ -29,7 +29,8 @@ namespace NBTP {
 		}
 		char typeByte = static_cast<char>(tag.typeCode());
 		ostream.write(&typeByte, 1);
-		ShortTag::nbtOutput(ostream, 0);
+		ShortTag tmp(0);
+		tmp.nbtOutput(ostream);
 		tag.output(ostream, BIN);
 	}
 

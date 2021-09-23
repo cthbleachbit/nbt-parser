@@ -88,7 +88,8 @@ namespace NBTP {
 		if (value.length() > INT16_MAX) {
 			throw std::runtime_error(STRING_TOO_LONG);
 		}
-		ShortTag::nbtOutput(ostream, value.length());
+		ShortTag tmp(value.length());
+		tmp.nbtOutput(ostream);
 		// Write string itself w/o null terminator
 		ostream.write(value.c_str(), value.length());
 		return ostream;

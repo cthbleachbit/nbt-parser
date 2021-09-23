@@ -23,10 +23,6 @@ namespace NBTP {
 		 */
 		constexpr TagType typeCode() const noexcept override { return LONG; }
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
-
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
-
 		explicit LongTag(V value) : SingleValuedTag<int64_t>(value) {};
 
 		/**
@@ -52,11 +48,11 @@ namespace NBTP {
 		LongTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
-		 * Write a literal long to ostream in NBT format
+		 * Helper function to write a single byte to ostream
 		 * @param ostream
-		 * @return ostream
+		 * @return
 		 */
-		static std::ostream &nbtOutput(std::ostream &ostream, V value);
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
 	};
 }
 

@@ -42,7 +42,8 @@ namespace NBTP {
 				}
 				// Otherwise we can start writing, type byte, then length, then actual contents
 				ostream.write(&typeByte, 1);
-				IntTag::nbtOutput(ostream, static_cast<IntTag::V>(this->size()));
+				IntTag tmp(this->size());
+				tmp.nbtOutput(ostream);
 				outputPayloadOnly(ostream, BIN, 0);
 				break;
 		}
@@ -216,7 +217,8 @@ namespace NBTP {
 				if (this->size() > INT32_MAX) {
 					throw std::runtime_error(LIST_TOO_LONG);
 				}
-				IntTag::nbtOutput(ostream, static_cast<IntTag::V>(this->size()));
+				IntTag tmp(this->size());
+				tmp.nbtOutput(ostream);
 				outputPayloadOnly(ostream, BIN, 0);
 				break;
 		}

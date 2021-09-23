@@ -5,36 +5,15 @@
 #include "tags/DoubleTag.h"
 #include "Conversion.h"
 #include <istream>
-#include <climits>
 #include "Logging.h"
 
 namespace NBTP {
 	DoubleTag::EndianConv DoubleTag::toH = Conversion::conv_d_beh;
 	DoubleTag::EndianConv DoubleTag::toJ = Conversion::conv_d_hbe;
 
-	std::ostream &DoubleTag::output(std::ostream &ostream, IOFormat format) const {
-		switch (format) {
-			case PRETTY_PRINT:
-				textOutput(ostream, 0);
-				break;
-			case BIN:
-				nbtOutput(ostream, this->payload);
-				break;
-		}
-		return ostream;
-	}
-
-	std::ostream &DoubleTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		char *message = new char[LINE_MAX];
-		snprintf(message, LINE_MAX - 1, "(%s) %f", TypeNames[this->typeCode()].c_str(), this->payload);
-		ostream << message << std::endl;
-		delete[] message;
-		return ostream;
-	}
-
-	std::ostream &DoubleTag::nbtOutput(std::ostream &ostream, double value) {
+	std::ostream &DoubleTag::nbtOutput(std::ostream &ostream) const {
 		// Perform host to java big endian conversion
-		double big = toJ(value);
+		double big = toJ(this->payload);
 		ostream.write(reinterpret_cast<const char *>(&big), sizeof(double));
 		return ostream;
 	}

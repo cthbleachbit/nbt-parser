@@ -5,6 +5,7 @@
 #ifndef NBTP_SINGLEVALUEDTAG_H
 #define NBTP_SINGLEVALUEDTAG_H
 
+#include <fmt/format.h>
 #include "Tag.h"
 
 namespace NBTP {
@@ -26,6 +27,45 @@ namespace NBTP {
 				return false;
 			}
 			return this->payload == ((SingleValuedTag<V> &) rhs).payload;
+		}
+
+		/**
+		 * Write out this single valued tag
+		 * @param ostream   output stream to write
+		 * @param format    format to write
+		 * @return          output stream itself
+		 */
+		std::ostream &output(std::ostream &ostream, IOFormat format) const override {
+			switch (format) {
+				case PRETTY_PRINT:
+					this->textOutput(ostream, 0);
+					break;
+				case BIN:
+					this->nbtOutput(ostream);
+					break;
+			}
+			return ostream;
+		}
+
+		/**
+		 * Format this tag
+		 * @param ostream   output stream to write formatted string info
+		 * @param indent    indentation ununsed for single valued tags
+		 * @return          output stream
+		 */
+		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override {
+			ostream << fmt::format(REPR_SINGLE_VALUED, TypeNames[this->typeCode()], this->payload) << std::endl;
+			return ostream;
+		}
+
+		/**
+ 		 * Helper function to write this tag in binary to ostream
+ 		 * @param ostream
+ 		 * @return
+ 		 */
+		virtual std::ostream &nbtOutput(std::ostream &ostream) const {
+			// FIXME this should not happen
+			return ostream;
 		}
 
 		/**
