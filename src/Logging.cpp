@@ -4,11 +4,12 @@
 
 #include "TagIO.h"
 #include <iostream>
+#include <fmt/format.h>
 #include "Logging.h"
 
 namespace NBTP {
 	void Logging::warn(const std::string &msg, ssize_t counter) {
-		fprintf(stderr, "Warning at byte offset %li: %s\n", counter, msg.c_str());
+		std::cerr << fmt::format(WARNING_PREFIX, counter, msg) << std::endl;
 	}
 
 	void Logging::error(const std::string &msg, ssize_t counter) {

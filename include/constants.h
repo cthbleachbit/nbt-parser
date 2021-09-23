@@ -2,6 +2,8 @@
 #define NBTP_CONSTANTS_H
 
 // Error messages
+#define WARNING_PREFIX      "Warning at byte offset {}: {}"
+
 // Invalid input data / parameter
 #define CONTENT_LEN_NEG     "Content length is negative"
 #define INVALID_TYPE        "Invalid content type"
