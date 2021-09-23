@@ -19,7 +19,7 @@ namespace NBTP {
 			this->contentType = type;
 		} else {
 			if (this->contentType != type) {
-				throw std::runtime_error(LIST_CHANGE_TYPE);
+				throw std::runtime_error(fmt::format(LIST_CHANGE_TYPE, TypeNames[this->contentType]));
 			}
 		}
 	}

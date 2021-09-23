@@ -50,7 +50,7 @@ namespace NBTP {
 	// TagParseException
 	TagParseException::TagParseException(ssize_t offset, std::string reason) noexcept
 		: runtime_error(reason), offset(offset) {
-		message = fmt::format("Error at byte offset {}: {}", offset, reason);
+		message = fmt::format(ERROR_PREFIX, offset, reason);
 	}
 
 	const char *TagParseException::what() const noexcept {

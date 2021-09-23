@@ -2,19 +2,20 @@
 #define NBTP_CONSTANTS_H
 
 // Error messages
-#define WARNING_PREFIX      "Warning at byte offset {}: {}"
+#define WARNING_PREFIX      "Warning at byte offset {:#x}: {}"
+#define ERROR_PREFIX        "Error at byte offset {:#x}: {}"
 
 // Invalid input data / parameter
 #define CONTENT_LEN_NEG     "Content length is negative"
 #define INVALID_TYPE        "Invalid content type"
-#define GENERIC_METHOD      "Generic tag method"
+#define GENERIC_METHOD      "{} is a generic tag method and should not be called"
 #define IO_UNEXPECTED_EOF   "Premature end-of-file"
 #define PARSE_PRETTY        "Parsing pretty input isn't supported yet"
 #define PARSE_UNKNOWN_FMT   "Unknown IOFormat"
 #define SUBTAG_NOT_FOUND    "Tag not in compound"
 
 // Disallowed operations
-#define LIST_CHANGE_TYPE    "Changing type on a non-empty list is not allowed"
+#define LIST_CHANGE_TYPE    "Changing type on a non-empty list with existing type {} is not allowed"
 #define LIST_ADD_UNMATCH    "Inserting a {} tag into a list with different type of contents {}"
 
 // Compatibility issues
@@ -32,7 +33,6 @@
 #define REPR_COMPOUND         "Compound with {} elements:"
 
 namespace NBTP {
-
 	/**
 	 * Indicates the format of related input or output buffer
 	 */

@@ -10,6 +10,7 @@
 #include <map>
 #include <unordered_map>
 #include <memory>
+#include <fmt/format.h>
 
 namespace NBTP {
 
@@ -77,16 +78,15 @@ namespace NBTP {
  		 * @return
  		 */
 		virtual std::ostream &nbtOutput(std::ostream &ostream) const {
-			throw(std::runtime_error("This method should not be called!"));
-			return ostream;
+			// FIXME: Use std::source_location::current().function_name() when we have GCC 11
+			throw(std::runtime_error(fmt::format(GENERIC_METHOD, __FUNCTION__)));
 		}
 
 		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const {
-			throw(std::runtime_error("This method should not be called!"));
-			return ostream;
+			throw(std::runtime_error(fmt::format(GENERIC_METHOD, __FUNCTION__)));
 		}
 
-		std::string toString() const;
+		virtual std::string toString() const;
 
 		virtual bool equal(Tag &rhs) const = 0;
 
