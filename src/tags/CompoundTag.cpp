@@ -9,7 +9,6 @@
 #include <tags/CompoundTag.h>
 #include <climits>
 
-
 namespace NBTP {
 
 	ssize_t CompoundTag::size() const {
@@ -27,7 +26,7 @@ namespace NBTP {
 				//    - dump its name
 				//    - dump itself
 				// Add END
-				for (CompoundElem itr : this->payload) {
+				for (const auto &itr: this->payload) {
 					char typeByte = static_cast<char>(itr.second->typeCode());
 					ostream.write(&typeByte, 1);
 					StringTag tmp(itr.first);
@@ -46,7 +45,7 @@ namespace NBTP {
 		snprintf(message, LINE_MAX - 1, "Compound with %li elements:", this->size());
 		ostream << message << std::endl;
 		delete[] message;
-		for (const auto &elemItr : this->payload) {
+		for (const auto &elemItr: this->payload) {
 			Tag::indent(ostream, indent + 1);
 			ostream << elemItr.first << ": ";
 			elemItr.second->textOutput(ostream, indent + 1);
@@ -86,7 +85,7 @@ namespace NBTP {
 		if (lhs.size() != rhs.size()) {
 			return false;
 		}
-		for (const auto &l : lhs) {
+		for (const auto &l: lhs) {
 			auto r = rhs.find(l.first);
 			if (r == rhs.end()) {
 				return false;
@@ -95,7 +94,7 @@ namespace NBTP {
 				return false;
 			}
 		}
-		for (const auto &r : rhs) {
+		for (const auto &r: rhs) {
 			auto l = lhs.find(r.first);
 			if (l == lhs.end()) {
 				return false;
@@ -128,7 +127,7 @@ namespace NBTP {
 	// COPY
 	CompoundTag::CompoundTag(const CompoundTag &tag) noexcept {
 		this->payload.clear();
-		for (const auto &elemItr : tag.payload) {
+		for (const auto &elemItr: tag.payload) {
 			std::shared_ptr<Tag> from = Tag::deepCopy(elemItr.second);
 			this->payload[elemItr.first] = from;
 		}
@@ -138,7 +137,7 @@ namespace NBTP {
 	CompoundTag &CompoundTag::operator=(const CompoundTag &tag) noexcept {
 		if (&tag != this) {
 			this->payload.clear();
-			for (const auto &elemItr : tag.payload) {
+			for (const auto &elemItr: tag.payload) {
 				std::shared_ptr<Tag> from = Tag::deepCopy(elemItr.second);
 				this->payload[elemItr.first] = from;
 			}
