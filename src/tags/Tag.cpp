@@ -38,7 +38,7 @@ namespace NBTP {
 		int8_t buf;
 		input.read(reinterpret_cast<char *>(&buf), 1);
 		if (input.fail()) {
-			Logging::error(IO_UNEXPECTED_EOF, counter);
+			Logging::error(fmt::format(IO_UNEXPECTED_EOF, 1), counter);
 		}
 		counter++;
 		return static_cast<TagType>(buf);
@@ -96,7 +96,7 @@ namespace NBTP {
 				ptr = std::make_shared<LongsTag>(input, counter);
 				break;
 			default:
-				Logging::error(INVALID_TYPE, counter);
+				Logging::error(fmt::format(INVALID_TYPE, typeCode), counter);
 		}
 		return ptr;
 	}

@@ -21,7 +21,7 @@ namespace NBTP {
 				V buffer;
 				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 				if (input.fail()) {
-					Logging::error(IO_UNEXPECTED_EOF, counter);
+					Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
 				}
 				this->payload = buffer;
 				counter += sizeof(V);

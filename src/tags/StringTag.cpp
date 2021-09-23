@@ -53,14 +53,15 @@ namespace NBTP {
 	std::string StringTag::parseString(std::istream &input, ssize_t &counter) {
 		int16_t length = ShortTag::parseShort(input, counter);
 		if (length < 0) {
-			Logging::error(CONTENT_LEN_NEG, counter);
+			Logging::error(fmt::format(CONTENT_LEN_NEG, length), counter);
 		}
 		char *copy_buf = new char[length + 1];
 		input.read(copy_buf, length);
 		copy_buf[length] = 0x00;
 		if (input.fail()) {
 			delete[] copy_buf;
-			Logging::error(IO_UNEXPECTED_EOF, counter);
+			Logging::error(fmt::format(IO_UNEXPECTED_EOF, length), counter);
+			return "";
 		}
 		std::string ret = std::string(copy_buf);
 		delete[] copy_buf;

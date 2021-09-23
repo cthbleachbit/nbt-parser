@@ -6,6 +6,8 @@ set(TEST_DATA
 		simplelist.nbt
 		world.dat.nbt
 		wrongsize.nbt
+		negativesize.nbt
+		listendtype.nbt
 		)
 
 foreach(NBT ${TEST_DATA})

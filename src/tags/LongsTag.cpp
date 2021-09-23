@@ -22,7 +22,7 @@ namespace NBTP {
 			case BIN:
 				size = IntTag::parseInt(input, counter);
 				if (size < 0) {
-					Logging::error(CONTENT_LEN_NEG, counter);
+					Logging::error(fmt::format(CONTENT_LEN_NEG, size), counter);
 				}
 				for (int i = 0; i < size; i++) {
 					this->payload.push_back(std::shared_ptr<Tag>(new LongTag(input, counter)));

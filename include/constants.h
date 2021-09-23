@@ -2,14 +2,14 @@
 #define NBTP_CONSTANTS_H
 
 // Error messages
-#define WARNING_PREFIX      "Warning at byte offset {:#x}: {}"
-#define ERROR_PREFIX        "Error at byte offset {:#x}: {}"
+#define WARNING_PREFIX      "Warning at byte offset {:#010x}: {}"
+#define ERROR_PREFIX        "  Error at byte offset {:#010x}: {}"
 
 // Invalid input data / parameter
-#define CONTENT_LEN_NEG     "Content length is negative"
-#define INVALID_TYPE        "Invalid content type"
+#define CONTENT_LEN_NEG     "Content length {} is negative"
+#define INVALID_TYPE        "Invalid content type {}"
 #define GENERIC_METHOD      "{} is a generic tag method and should not be called"
-#define IO_UNEXPECTED_EOF   "Premature end-of-file"
+#define IO_UNEXPECTED_EOF   "Premature end-of-file, {} bytes needed"
 #define PARSE_PRETTY        "Parsing pretty input isn't supported yet"
 #define PARSE_UNKNOWN_FMT   "Unknown IOFormat"
 #define SUBTAG_NOT_FOUND    "Tag not in compound"
@@ -19,7 +19,7 @@
 #define LIST_ADD_UNMATCH    "Inserting a {} tag into a list with different type of contents {}"
 
 // Compatibility issues
-#define LIST_END_NZ_LEN     "The list is marked with content type END but has non-zero length"
+#define LIST_END_NZ_LEN     "The list is marked with content type END but has non-zero length {}"
 #define LIST_TOO_LONG       "The list is too long for NBT format"
 #define STRING_TOO_LONG     "String field is too long"
 

@@ -19,7 +19,7 @@ namespace NBTP {
 		// Perform java big-endian to host conversion
 		buffer = toH(buffer);
 		if (input.fail()) {
-			Logging::error(IO_UNEXPECTED_EOF, counter);
+			Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
 		}
 		counter += sizeof(V);
 		return buffer;

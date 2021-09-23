@@ -22,15 +22,15 @@ namespace NBTP {
 	FloatTag::FloatTag(std::istream &input, ssize_t &counter, IOFormat format) {
 		switch (format) {
 			case BIN:
-				float buffer;
-				input.read(reinterpret_cast<char *>(&buffer), sizeof(float));
+				V buffer;
+				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
 				// Perform java big-endian to host conversion
 				buffer = toH(buffer);
 				if (input.fail()) {
-					Logging::error(IO_UNEXPECTED_EOF, counter);
+					Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
 				}
 				this->payload = buffer;
-				counter += sizeof(float);
+				counter += sizeof(V);
 				break;
 			case PRETTY_PRINT:
 				Logging::error(PARSE_PRETTY, counter);

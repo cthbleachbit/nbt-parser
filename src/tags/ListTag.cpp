@@ -99,20 +99,20 @@ namespace NBTP {
 	}
 
 	ListTag::ListTag(std::istream &input, ssize_t &counter, IOFormat format) {
-		TagType typeCode;
+		std::optional<TagType> typeCode;
 		int32_t size;
 		switch (format) {
 			case BIN:
 				// Check content type
 				typeCode = readType(input, counter);
-				if (static_cast<int8_t>(typeCode) > LONGS || static_cast<int8_t>(typeCode) < END) {
-					Logging::error(INVALID_TYPE, counter);
+				if (!typeCode.has_value() || static_cast<int8_t>(*typeCode) > LONGS || static_cast<int8_t>(*typeCode) < END) {
+					Logging::error(fmt::format(INVALID_TYPE, *typeCode), counter);
 				}
 
 				// Read in payload length
 				size = IntTag::parseInt(input, counter);
 				if (size < 0) {
-					Logging::error(CONTENT_LEN_NEG, counter);
+					Logging::error(fmt::format(CONTENT_LEN_NEG, size), counter);
 				}
 
 				// Check if type and length agree with each other
@@ -121,13 +121,13 @@ namespace NBTP {
 					this->contentType = END;
 					return;
 				} else if (typeCode == END && size != 0) {
-					Logging::error(LIST_END_NZ_LEN, counter);
+					Logging::error(fmt::format(LIST_END_NZ_LEN, size), counter);
 				}
 
 				// Otherwise this list has sensible contents:
-				this->contentType = typeCode;
+				this->contentType = *typeCode;
 				for (int32_t i = 0; i < size; i++) {
-					this->payload.push_back(Tag::parseTag(input, typeCode, counter));
+					this->payload.push_back(Tag::parseTag(input, *typeCode, counter));
 				}
 				break;
 			case PRETTY_PRINT:
