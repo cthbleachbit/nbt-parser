@@ -53,9 +53,38 @@ namespace NBTP {
 		 */
 		static std::ostream &indent(std::ostream &ostream, unsigned int n);
 
-		virtual std::ostream &output(std::ostream &ostream, IOFormat format) const;
+		/**
+		 * Write out this tag
+		 * @param ostream   output stream to write
+		 * @param format    format to write
+		 * @return          output stream itself
+		 */
+		virtual std::ostream &output(std::ostream &ostream, IOFormat format) const {
+			switch (format) {
+				case PRETTY_PRINT:
+					this->textOutput(ostream, 0);
+					break;
+				case BIN:
+					this->nbtOutput(ostream);
+					break;
+			}
+			return ostream;
+		}
 
-		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const;
+		/**
+ 		 * Helper function to write this tag in binary to ostream
+ 		 * @param ostream
+ 		 * @return
+ 		 */
+		virtual std::ostream &nbtOutput(std::ostream &ostream) const {
+			throw(std::runtime_error("This method should not be called!"));
+			return ostream;
+		}
+
+		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const {
+			throw(std::runtime_error("This method should not be called!"));
+			return ostream;
+		}
 
 		std::string toString() const;
 

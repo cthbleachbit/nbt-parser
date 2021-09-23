@@ -30,7 +30,8 @@ namespace NBTP {
 				for (CompoundElem itr : this->payload) {
 					char typeByte = static_cast<char>(itr.second->typeCode());
 					ostream.write(&typeByte, 1);
-					StringTag::nbtOutput(ostream, itr.first);
+					StringTag tmp(itr.first);
+					tmp.nbtOutput(ostream);
 					itr.second->output(ostream, BIN);
 				}
 				char endByte = static_cast<char>(TagType::END);

@@ -22,7 +22,6 @@ namespace NBTP {
 		 */
 		constexpr TagType typeCode() const noexcept override { return STRING; }
 
-		std::ostream &output(std::ostream &ostream, IOFormat format) const override;
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
 		/**
@@ -80,10 +79,9 @@ namespace NBTP {
 		/**
 		 * Writes a string in NBT encoded format, i.e. length + non-termininated string
 		 * @param ostream
-		 * @param value
 		 * @return
 		 */
-		static std::ostream &nbtOutput(std::ostream &ostream, const std::string &value);
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
 
 		bool equal(Tag &rhs) const override;
 	};

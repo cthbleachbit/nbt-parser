@@ -21,24 +21,9 @@ namespace NBTP {
 		return this->payload == ((StringTag &) rhs).payload;
 	}
 
-	std::ostream &StringTag::output(std::ostream &ostream, IOFormat format) const {
-		switch (format) {
-			case PRETTY_PRINT:
-				this->textOutput(ostream, 0);
-				break;
-			case BIN:
-				nbtOutput(ostream, this->payload);
-				break;
-		}
-		return ostream;
-	}
-
 	std::ostream &StringTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		std::string print = this->payload.length() ? this->payload : "(empty string)";
-		char *message = new char[LINE_MAX];
-		snprintf(message, LINE_MAX - 1, "(%s) %s", TypeNames[this->typeCode()].c_str(), print.c_str());
-		ostream << message << std::endl;
-		delete[] message;
+		const std::string &to_print = this->payload == "" ? "(Empty String)" : this->payload;
+		ostream << fmt::format(REPR_SINGLE_VALUED, TypeNames[this->typeCode()], to_print) << std::endl;
 		return ostream;
 	}
 
@@ -83,15 +68,15 @@ namespace NBTP {
 		return ret;
 	}
 
-	std::ostream &StringTag::nbtOutput(std::ostream &ostream, const std::string &value) {
+	std::ostream &StringTag::nbtOutput(std::ostream &ostream) const {
 		// Length sanity checking
-		if (value.length() > INT16_MAX) {
+		if (this->payload.length() > INT16_MAX) {
 			throw std::runtime_error(STRING_TOO_LONG);
 		}
-		ShortTag tmp(value.length());
+		ShortTag tmp(this->payload.length());
 		tmp.nbtOutput(ostream);
 		// Write string itself w/o null terminator
-		ostream.write(value.c_str(), value.length());
+		ostream.write(this->payload.c_str(), this->payload.length());
 		return ostream;
 	}
 
