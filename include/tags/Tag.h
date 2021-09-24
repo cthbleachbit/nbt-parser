@@ -28,12 +28,13 @@ namespace NBTP {
 		LIST = 9,
 		COMPOUND = 10,
 		INTS = 11,
-		LONGS = 12
+		LONGS = 12,
+		END_OF_TAG_TYPE,
 	};
 
 	TagType readType(std::istream &input, ssize_t &counter);
 
-	extern std::string TypeNames[];
+	extern const std::array<const char*, TagType::END_OF_TAG_TYPE> TypeNames;
 
 	/**
 	 * A Tag is defined as either a single value or a container of key-tag pairs

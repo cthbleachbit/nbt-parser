@@ -3,24 +3,24 @@
 #include <istream>
 #include <sstream>
 #include <tags/Tag.h>
-
+#include <array>
 
 namespace NBTP {
 
-	std::string TypeNames[] = {
-			"End of Tag",
+	const std::array<const char*, TagType::END_OF_TAG_TYPE> TypeNames = {
+			"End of Compound",
 			"Byte",
 			"Short",
 			"Int",
 			"Long",
 			"Float",
 			"Double",
-			"Byte array",
+			"Array of Bytes",
 			"String",
 			"List",
 			"Compound",
-			"Integet array",
-			"Long array"
+			"Array of Ints",
+			"Array of Longs"
 	};
 
 	std::ostream &Tag::indent(std::ostream &ostream, unsigned int n) {
