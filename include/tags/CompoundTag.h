@@ -101,8 +101,11 @@ namespace NBTP {
 
 		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
 
-		bool equal(Tag &rhs) const override;
+		bool equal(const Tag &rhs) const override;
 
+		~CompoundTag() override = default;
+
+	protected:
 		/**
 		 * Helper function for compound equals
 		 * @param lhs
@@ -110,8 +113,6 @@ namespace NBTP {
 		 * @return
 		 */
 		static bool equal(const Compound &lhs, const Compound &rhs);
-
-		~CompoundTag() override = default;
 	};
 }
 

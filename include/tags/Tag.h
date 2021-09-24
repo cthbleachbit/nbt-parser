@@ -4,7 +4,6 @@
 #include "WindowsHacks.h"
 #include "constants.h"
 
-#include <cstdint>
 #include <vector>
 #include <string>
 #include <map>
@@ -74,7 +73,8 @@ namespace NBTP {
 		}
 
 		/**
- 		 * Helper function to write this tag in binary to ostream
+ 		 * Helper function to write this tag in binary to ostream.
+ 		 * Left broken deliberately as this function should not be called from outside
  		 * @param ostream
  		 * @return
  		 */
@@ -83,21 +83,32 @@ namespace NBTP {
 			throw(std::runtime_error(fmt::format(GENERIC_METHOD, __FUNCTION__)));
 		}
 
+		/**
+		 * Helper function to write this tag in text to ostream.
+ 		 * Left broken deliberately as this function should not be called from outside
+		 * @param ostream
+		 * @param indent
+		 * @return
+		 */
 		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const {
 			throw(std::runtime_error(fmt::format(GENERIC_METHOD, __FUNCTION__)));
 		}
 
-		virtual std::string toString() const;
+		[[nodiscard]] virtual std::string toString() const;
 
-		virtual bool equal(Tag &rhs) const = 0;
+		[[nodiscard]] virtual bool equal(const Tag &rhs) const = 0;
 
-		bool equal(std::shared_ptr<Tag> &rhs) const;
+		[[nodiscard]] bool equal(const std::shared_ptr<Tag> &rhs) const {
+			return this->equal(*rhs);
+		}
 
 		friend std::ostream &operator<<(std::ostream &ostream, Tag &tag);
 
-		bool operator==(Tag &rhs) const;
+		bool operator==(const Tag &rhs) const {
+			return this->equal(rhs);
+		}
 
-		bool operator!=(Tag &rhs) const;
+		bool operator!=(const Tag &rhs) const = default;
 
 		/**
 		 * A wrapper to parse tags based on type

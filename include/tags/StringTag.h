@@ -83,7 +83,7 @@ namespace NBTP {
 		 */
 		std::ostream &nbtOutput(std::ostream &ostream) const override;
 
-		bool equal(Tag &rhs) const override;
+		bool equal(const Tag &rhs) const override;
 	};
 }
 

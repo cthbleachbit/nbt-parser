@@ -22,11 +22,11 @@ namespace NBTP {
 			return this->payload;
 		}
 
-		bool equal(Tag &rhs) const override {
+		bool equal(const Tag &rhs) const override {
 			if (rhs.typeCode() != this->typeCode()) {
 				return false;
 			}
-			return this->payload == ((SingleValuedTag<V> &) rhs).payload;
+			return this->payload == ((const SingleValuedTag<V> &) rhs).payload;
 		}
 
 		/**

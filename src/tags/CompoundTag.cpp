@@ -55,7 +55,7 @@ namespace NBTP {
 		this->payload.erase(k);
 	}
 
-	bool CompoundTag::equal(Tag &rhs) const {
+	bool CompoundTag::equal(const Tag &rhs) const {
 		if (rhs.typeCode() != TagType::COMPOUND) {
 			return false;
 		}

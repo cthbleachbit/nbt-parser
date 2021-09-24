@@ -14,11 +14,11 @@ namespace NBTP {
 		return this->payload.length();
 	}
 
-	bool StringTag::equal(Tag &rhs) const {
+	bool StringTag::equal(const Tag &rhs) const {
 		if (rhs.typeCode() != TagType::STRING) {
 			return false;
 		}
-		return this->payload == ((StringTag &) rhs).payload;
+		return this->payload == ((const StringTag &) rhs).payload;
 	}
 
 	std::ostream &StringTag::textOutput(std::ostream &ostream, unsigned int indent) const {

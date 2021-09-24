@@ -68,11 +68,11 @@ namespace NBTP {
 		this->contentType = TagType::END;
 	}
 
-	bool ListTag::equal(Tag &rhs) const {
+	bool ListTag::equal(const Tag &rhs) const {
 		if (rhs.typeCode() != TagType::LIST) {
 			return false;
 		}
-		auto &rhs_ref = (ListTag &) rhs;
+		const auto &rhs_ref = (const ListTag &) rhs;
 		if (rhs_ref.getContentType() != this->getContentType()) {
 			return false;
 		}
@@ -86,7 +86,7 @@ namespace NBTP {
 
 		auto l_itr = l_p.cbegin();
 		auto r_itr = r_p.cbegin();
-		for (; l_itr != l_p.end() && r_itr != r_p.end(); l_itr++, r_itr++) {
+		for (; l_itr != l_p.cend() && r_itr != r_p.cend(); l_itr++, r_itr++) {
 			if (*l_itr != *r_itr) {
 				return false;
 			}

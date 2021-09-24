@@ -44,18 +44,6 @@ namespace NBTP {
 		return static_cast<TagType>(buf);
 	}
 
-	bool Tag::equal(std::shared_ptr<Tag> &rhs) const {
-		return this->equal(*rhs);
-	}
-
-	bool Tag::operator==(Tag &rhs) const {
-		return this->equal(rhs);
-	}
-
-	bool Tag::operator!=(Tag &rhs) const {
-		return !(this->operator==(rhs));
-	}
-
 	std::shared_ptr<Tag> Tag::parseTag(std::istream &input, TagType typeCode, ssize_t &counter) {
 		std::shared_ptr<Tag> ptr;
 		switch (typeCode) {
