@@ -27,7 +27,7 @@ if (NOT WIN32)
 	add_library(nbtp SHARED ${LIBNBTP_SRC})
 	target_link_libraries(nbtp PUBLIC fmt)
 	set_target_properties(nbtp PROPERTIES VERSION ${VERSION})
-	set_target_properties(nbtp PROPERTIES SOVERSION 0.2)
+	set_target_properties(nbtp PROPERTIES SOVERSION ${SOVERSION})
 
 	install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
 endif()

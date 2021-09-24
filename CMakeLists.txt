@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
 project(NBTP)
-set(VERSION "0.3.1")
+set(SOVERSION "0.3")
+set(PATCHVER "1")
+set(VERSION ${SOVERSION}.${PATCHVER})
 
 # Version numbers
 set(VERSION_STRING ${VERSION})
