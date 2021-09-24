@@ -29,7 +29,7 @@ namespace NBTP {
 		constexpr TagType typeCode() const noexcept override { return COMPOUND; }
 
 		/**
-		 * Get a reference to internals. Note that will return a immutable reference
+		 * Get a reference to internals. Note that will return a mutable references and may bypass checks
 		 * @return a reference to the vector
 		 */
 		Compound &getPayload();
