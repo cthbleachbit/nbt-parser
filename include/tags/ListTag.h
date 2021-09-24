@@ -6,6 +6,7 @@
 #define NBTP_LISTTAG_H
 
 #include "Tag.h"
+#include <vector>
 
 namespace NBTP {
 	/**

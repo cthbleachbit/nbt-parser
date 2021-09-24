@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <optional>
 
 #include "tags/ListTag.h"
 #include "libnbtp.h"
