@@ -2,7 +2,6 @@
 // Created by cth451 on 2020/05/10.
 //
 
-#include <ostream>
 #include "tags/IntTag.h"
 #include "tags/IntsTag.h"
 #include "Logging.h"

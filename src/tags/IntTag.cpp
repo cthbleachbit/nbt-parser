@@ -2,12 +2,12 @@
 // Created by cth451 on 2020/05/09.
 //
 
+#include <istream>
+
 #include "tags/IntTag.h"
 #include "Conversion.h"
 #include "constants.h"
 #include "Logging.h"
-#include <istream>
-#include <climits>
 
 namespace NBTP {
 	IntTag::EndianConv IntTag::toH = Conversion::conv_32_beh;

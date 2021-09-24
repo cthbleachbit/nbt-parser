@@ -2,11 +2,11 @@
 // Created by cth451 on 2020/05/10.
 //
 
+#include <istream>
+
 #include "tags/FloatTag.h"
 #include "Logging.h"
-#include <Conversion.h>
-#include <istream>
-#include <climits>
+#include "Conversion.h"
 
 namespace NBTP {
 	FloatTag::EndianConv FloatTag::toH = Conversion::conv_f_beh;

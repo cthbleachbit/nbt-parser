@@ -4,10 +4,10 @@
 
 #include "libnbtp.h"
 #include "Logging.h"
+#include "tags/CompoundTag.h"
+
 #include <memory>
 #include <iostream>
-#include <tags/CompoundTag.h>
-#include <climits>
 
 namespace NBTP {
 

@@ -3,9 +3,8 @@
 //
 
 #include <iostream>
-#include <tags/ListTag.h>
-#include <climits>
 
+#include "tags/ListTag.h"
 #include "libnbtp.h"
 #include "Logging.h"
 

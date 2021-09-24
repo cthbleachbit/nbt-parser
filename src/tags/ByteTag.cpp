@@ -2,10 +2,9 @@
 // Created by cth451 on 2020/05/09.
 //
 
+#include <istream>
 #include "tags/ByteTag.h"
 #include "constants.h"
-#include <istream>
-#include <climits>
 #include "Logging.h"
 
 namespace NBTP {

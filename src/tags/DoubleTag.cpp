@@ -2,9 +2,9 @@
 // Created by cth451 on 2020/05/10.
 //
 
+#include <istream>
 #include "tags/DoubleTag.h"
 #include "Conversion.h"
-#include <istream>
 #include "Logging.h"
 
 namespace NBTP {

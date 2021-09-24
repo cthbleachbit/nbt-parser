@@ -3,7 +3,6 @@
 //
 
 #include <istream>
-#include <climits>
 #include "tags/StringTag.h"
 #include "tags/ShortTag.h"
 #include "Conversion.h"
