@@ -73,7 +73,7 @@ set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH ${INSTALL_LIB_DIR})
 
 # Dependencies
-find_package(fmt)
+find_package(fmt REQUIRED)
 
 # Source files
 include_directories(include)
