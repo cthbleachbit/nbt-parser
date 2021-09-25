@@ -5,7 +5,6 @@
 #include "Conversion.h"
 
 // This dirty hack comes from https://gist.github.com/panzi/6856583#file-portable_endian-h
-
 #if defined(__WINDOWS__)
 #include <winsock2.h>
 
@@ -18,7 +17,14 @@ int64_t htonll(int64_t x) {
 	return (int64_t) ((high << 32) + low);
 }
 #endif
+#endif
 
+// Apple puts this in a different place and uses the same naming convention as M$ does.
+#if defined(__APPLE__)
+#include <machine/endian.h>
+#endif
+
+#if defined(__WINDOWS__) || defined(__APPLE__)
 #ifndef ntohll
 #define ntohll(x) htonll(x)
 #endif

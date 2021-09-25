@@ -63,6 +63,11 @@ if (MSVC)
 	add_compile_definitions(ssize_t=uint64_t)
 endif()
 
+# Apple Hacks
+if (APPLE)
+	include_directories(SYSTEM ${CMAKE_OSX_SYSROOT}/usr/include)
+endif()
+
 # Compilation options
 set(CMAKE_CXX_STANDARD 20)
 set(INSTALL_BIN_DIR ${CMAKE_INSTALL_PREFIX}/bin CACHE PATH "Installation directory for executables")
