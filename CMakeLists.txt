@@ -66,6 +66,7 @@ endif()
 # Apple Hacks
 if (APPLE)
 	include_directories(SYSTEM ${CMAKE_OSX_SYSROOT}/usr/include)
+	link_directories(AFTER /opt/local/lib)
 endif()
 
 # Compilation options
