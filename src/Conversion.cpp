@@ -39,10 +39,16 @@ int64_t htonll(int64_t x) {
 #define be32toh(x) ntohl(x)
 #define le32toh(x) (x)
 
+#ifdef MSC_VER
 #define htobe64(x) htonll(x)
 #define htole64(x) (x)
 #define be64toh(x) ntohll(x)
 #define le64toh(x) (x)
+#else
+#define htobe64(x) ((1==htonl(1)) ? (x) : (((uint64_t)htonl((x) & 0xFFFFFFFFUL)) << 32) | htonl((uint32_t)((x) >> 32)))
+#define be64toh(x) ((1==ntohl(1)) ? (x) : (((uint64_t)ntohl((x) & 0xFFFFFFFFUL)) << 32) | ntohl((uint32_t)((x) >> 32)))
+#endif
+
 #else
 #include <endian.h>
 #endif
