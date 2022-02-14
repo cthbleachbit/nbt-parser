@@ -96,13 +96,15 @@ namespace pyNBTP {
 				actual_read = pybind11::len(b);
 				std::string incoming(b);
 				const char * cstring = incoming.c_str();
+				/*
 				for (ssize_t j = 0; j < 20; j++) {
 					fprintf(stderr, "%02X ", cstring[j]);
 				}
 				fprintf(stderr, "\n");
+				 */
 				std::memcpy(d_buffer.get(), cstring, actual_read);
 			}
-			fprintf(stderr, "Advancing buffer, len = %li\n", actual_read);
+			// fprintf(stderr, "Advancing buffer, len = %li\n", actual_read);
 			int ret = actual_read == 0 ? traits_type::eof() : traits_type::not_eof(*gptr());
 			return ret;
 		}
