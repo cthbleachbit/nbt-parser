@@ -25,7 +25,7 @@ set(NBTP_CLI_SRC
 
 if (NOT WIN32)
 	add_library(nbtp SHARED ${LIBNBTP_SRC})
-	target_link_libraries(nbtp PUBLIC fmt)
+	target_link_libraries(nbtp PUBLIC fmt::fmt)
 	set_target_properties(nbtp PROPERTIES VERSION ${VERSION})
 	set_target_properties(nbtp PROPERTIES SOVERSION ${SOVERSION})
 
@@ -34,7 +34,7 @@ endif()
 
 if (NBTP_BUILD_STATIC_LIB OR WIN32)
 	add_library(nbtp-static STATIC ${LIBNBTP_SRC})
-	target_link_libraries(nbtp-static PRIVATE fmt)
+	target_link_libraries(nbtp-static PRIVATE fmt::fmt-header-only)
 	set_target_properties(nbtp-static PROPERTIES OUTPUT_NAME nbtp)
 
 	if (WIN32)
