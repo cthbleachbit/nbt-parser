@@ -153,9 +153,9 @@ PYBIND11_MODULE(pynbtp, m) {
 
 	// Parsing entry point
 	{
-		m.def("parseRoot", &pyNBTP::pyParseRoot, "Parse Root Tag");
-		m.def("parseRoot", &pyNBTP::pyParseRootFormat, "Parse Root Tag");
-		m.def("writeRoot", &pyNBTP::pyWriteRoot, "Write Root Tag");
+		m.def("parseRoot", &pyNBTP::pyParseRoot, "Parse a root tag from a binary input stream");
+		// m.def("parseRoot", &pyNBTP::pyParseRootFormat, "Parse Root Tag");
+		m.def("writeRoot", &pyNBTP::pyWriteRoot, "Write a root tag to a binary output stream");
 	}
 
 	m.def("mksimple", &pyNBTP::mksimple, "A function to create a simple compound tag");
