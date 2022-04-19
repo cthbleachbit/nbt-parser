@@ -29,7 +29,7 @@ if (NOT WIN32)
 	set_target_properties(nbtp PROPERTIES VERSION ${VERSION})
 	set_target_properties(nbtp PROPERTIES SOVERSION ${SOVERSION})
 
-	install(TARGETS nbtp DESTINATION ${INSTALL_LIB_DIR})
+	install(TARGETS nbtp)
 endif()
 
 if (NBTP_BUILD_STATIC_LIB OR WIN32)
@@ -40,7 +40,7 @@ if (NBTP_BUILD_STATIC_LIB OR WIN32)
 	if (WIN32)
 		target_link_libraries(nbtp-static PRIVATE ws2_32)
 	endif()
-	install(TARGETS nbtp-static DESTINATION ${INSTALL_LIB_DIR})
+	install(TARGETS nbtp-static)
 endif()
 
 add_executable(nbtp-cli ${NBTP_CLI_SRC})
@@ -50,6 +50,6 @@ else()
 	target_link_libraries(nbtp-cli nbtp)
 endif()
 
-install(TARGETS nbtp-cli DESTINATION ${INSTALL_BIN_DIR})
+install(TARGETS nbtp-cli)
 
 
