@@ -104,3 +104,6 @@ if (NBTP_BUILD_PYTHON_MODULE)
 	message("Python module will be placed in ${PYTHON_MODULES_DIR}")
 	add_subdirectory(pynbtp)
 endif ()
+
+set(nbtp::nbtp nbtp ALIAS)
+set(nbtp::pynbtp pynbtp ALIAS)
