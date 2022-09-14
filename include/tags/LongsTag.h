@@ -8,7 +8,7 @@
 #include "ListTag.h"
 
 namespace NBTP {
-	class LongsTag : public ListTag {
+	class LongsTag : public TypedListTag {
 	public:
 		/**
 		 * @return NBT type long array 12

@@ -32,6 +32,7 @@ namespace NBTP {
 				Logging::error(PARSE_PRETTY, counter);
 				break;
 		}
+		this->contentType = NBTP::BYTE;
 	}
 }
 

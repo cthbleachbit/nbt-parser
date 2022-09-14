@@ -30,5 +30,6 @@ namespace NBTP {
 			case PRETTY_PRINT:
 				Logging::error(PARSE_PRETTY, counter);
 		}
+		this->contentType = NBTP::INT;
 	}
 }

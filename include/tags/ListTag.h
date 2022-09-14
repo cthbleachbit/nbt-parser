@@ -16,13 +16,12 @@ namespace NBTP {
 	public:
 		typedef std::vector<std::shared_ptr<Tag>> List;
 		typedef std::vector<std::shared_ptr<Tag>>::iterator ListIterator;
-	private:
+	protected:
+		List payload;
 		/**
 		 * The type of tags in this list. Defaults to END for an empty list.
 		 */
 		TagType contentType;
-	protected:
-		List payload;
 	public:
 		/**
 		 * @return size of this compound map
