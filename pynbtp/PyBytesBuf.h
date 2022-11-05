@@ -14,7 +14,7 @@ namespace pyNBTP {
 	/**
 	 * This is a modified version of pythonbuf from pybind11 to read / write bytes
 	 */
-	class PyOBytesBuf : public std::streambuf {
+	class PyOBytesBuf final : public std::streambuf {
 	private:
 		using traits_type = std::streambuf::traits_type;
 
@@ -23,7 +23,8 @@ namespace pyNBTP {
 		pybind11::object pywrite;
 		pybind11::object pyflush;
 
-		int overflow(int c) {
+	public:
+		int overflow(int c) final {
 			if (!traits_type::eq_int_type(c, traits_type::eof())) {
 				*pptr() = traits_type::to_char_type(c);
 				pbump(1);
@@ -31,7 +32,7 @@ namespace pyNBTP {
 			return sync() == 0 ? traits_type::not_eof(c) : traits_type::eof();
 		}
 
-		int sync() {
+		int sync() final {
 			if (pbase() != pptr()) {
 				pybind11::bytes line(pbase(), static_cast<size_t>(pptr() - pbase()));
 
@@ -46,9 +47,7 @@ namespace pyNBTP {
 			return 0;
 		}
 
-	public:
-
-		PyOBytesBuf(pybind11::object pyostream, size_t buffer_size = 1024)
+		explicit PyOBytesBuf(pybind11::object pyostream, size_t buffer_size = 1024)
 				: buf_size(buffer_size),
 				  d_buffer(new char[buf_size]),
 				  pywrite(pyostream.attr("write")),
@@ -56,15 +55,15 @@ namespace pyNBTP {
 			setp(d_buffer.get(), d_buffer.get() + buf_size - 1);
 		}
 
-		PyOBytesBuf(PyOBytesBuf&&) = default;
+		PyOBytesBuf(PyOBytesBuf &&) = default;
 
-		/// Sync before destroy
-		~PyOBytesBuf() {
+		// Sync before destroy
+		~PyOBytesBuf() final {
 			sync();
 		}
 	};
 
-	class PyIBytesBuf : public std::streambuf {
+	class PyIBytesBuf final : public std::streambuf {
 	private:
 		using traits_type = std::streambuf::traits_type;
 
@@ -76,7 +75,7 @@ namespace pyNBTP {
 		/**
 		 * Executed when the buffer is out of contents
 		 */
-		int underflow() {
+		int underflow() final {
 			ssize_t actual_read = 0;
 			if (!traits_type::eq_int_type(*gptr(), traits_type::eof())) {
 				// Not EOF yet, try to read more stuff from pyistream
@@ -95,13 +94,7 @@ namespace pyNBTP {
 
 				actual_read = pybind11::len(b);
 				std::string incoming(b);
-				const char * cstring = incoming.c_str();
-				/*
-				for (ssize_t j = 0; j < 20; j++) {
-					fprintf(stderr, "%02X ", cstring[j]);
-				}
-				fprintf(stderr, "\n");
-				 */
+				const char *cstring = incoming.c_str();
 				std::memcpy(d_buffer.get(), cstring, actual_read);
 			}
 			// fprintf(stderr, "Advancing buffer, len = %li\n", actual_read);
@@ -109,14 +102,14 @@ namespace pyNBTP {
 			return ret;
 		}
 
-		PyIBytesBuf(pybind11::object pyistream, size_t buffer_size = 1024)
+		explicit PyIBytesBuf(pybind11::object pyistream, size_t buffer_size = 1024)
 				: buf_size(buffer_size),
 				  d_buffer(new char[buf_size]),
 				  pyread(pyistream.attr("read")) {
 			setg(d_buffer.get(), d_buffer.get() + buf_size, d_buffer.get() + buf_size);
 		};
 
-		PyIBytesBuf(PyIBytesBuf&&) = default;
+		PyIBytesBuf(PyIBytesBuf &&) = default;
 	};
 }
 
