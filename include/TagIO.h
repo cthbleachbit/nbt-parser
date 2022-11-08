@@ -1,12 +1,11 @@
-//
-// Created by cth451 on 2020/05/10.
-//
+/**
+ * @file libnbtp tag input/output routines
+ */
 
 #ifndef NBTP_TAGIO_H
 #define NBTP_TAGIO_H
 
 #include <stdexcept>
-#include "WindowsHacks.h"
 #include "tags/Tag.h"
 
 namespace NBTP {
@@ -36,6 +35,9 @@ namespace NBTP {
 		void writeRoot(std::ostream &ostream, Tag &tag);
 	}
 
+	/**
+	 * @class Exception thrown when the parser encounters an irrecoverable error
+	 */
 	class TagParseException : std::runtime_error {
 	private:
 		const ssize_t offset;
@@ -46,6 +48,9 @@ namespace NBTP {
 		const char *what() const noexcept override;
 	};
 
+	/**
+	 * @class Exception thrown when a tag of one type is inserted into a list with tags of another type
+	 */
 	class ListTypeMismatchException : std::runtime_error {
 	private:
 		const TagType expected;

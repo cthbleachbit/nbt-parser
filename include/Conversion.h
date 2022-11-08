@@ -1,6 +1,6 @@
-//
-// Created by cth451 on 2020/05/09.
-//
+/**
+ * @file Conversion functions - taking care of big endian integers used by JVM and minecraft
+ */
 
 #ifndef NBTP_CONVERSION_H
 #define NBTP_CONVERSION_H

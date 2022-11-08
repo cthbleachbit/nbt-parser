@@ -1,7 +1,6 @@
 #ifndef NBTP_TAG_H
 #define NBTP_TAG_H
 
-#include "WindowsHacks.h"
 #include "constants.h"
 
 #include <string>

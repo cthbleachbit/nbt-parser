@@ -1,3 +1,7 @@
+/**
+ * @file Main libnbtp library header
+ */
+
 #ifndef NBTP_LIBNBTP_H
 #define NBTP_LIBNBTP_H
 
@@ -8,10 +12,6 @@
 
 #include "tags/Tag.h"
 #include "tags/SingleValuedTag.h"
-
-#if defined(_MSC_VER)
-#include "WindowsHacks.h"
-#endif
 
 #include "tags/ByteTag.h"
 #include "tags/ShortTag.h"

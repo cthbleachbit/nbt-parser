@@ -1,11 +1,10 @@
-//
-// Created by cth451 on 2020/05/12.
-//
+/**
+ * @file NBTP logging routines
+ */
 
 #ifndef NBTP_LOGGING_H
 #define NBTP_LOGGING_H
 
-#include "WindowsHacks.h"
 #include "tags/Tag.h"
 
 namespace NBTP {

@@ -1,11 +1,15 @@
+/**
+ * @file String literal constants used by this project
+ */
+
 #ifndef NBTP_CONSTANTS_H
 #define NBTP_CONSTANTS_H
 
-// Error messages
+/* Error messages */
 #define WARNING_PREFIX      "Warning at byte offset {:#010x}: {}"
 #define ERROR_PREFIX        "  Error at byte offset {:#010x}: {}"
 
-// Invalid input data / parameter
+/* Invalid input data / parameter */
 #define CONTENT_LEN_NEG     "Content length {} is negative"
 #define INVALID_TYPE        "Invalid content type {}"
 #define GENERIC_METHOD      "{} is a generic tag method and should not be called"
@@ -14,19 +18,20 @@
 #define PARSE_UNKNOWN_FMT   "Unknown IOFormat"
 #define SUBTAG_NOT_FOUND    "Tag not in compound"
 
-// Disallowed operations
+/* Disallowed operations */
 #define LIST_CHANGE_TYPE    "Changing type on a non-empty list with existing type {} is not allowed"
 #define LIST_ADD_UNMATCH    "Inserting a {} tag into a list with different type of contents {}"
 
-// Compatibility issues
+/* Compatibility issues */
 #define LIST_END_NZ_LEN     "The list is marked with content type END but has non-zero length {}"
 #define LIST_TOO_LONG       "The list is too long for NBT format"
 #define STRING_TOO_LONG     "String field is too long"
 
-// Warning messages
+/* Warning messages */
 #define ROOT_NOT_COMPOUND   "Root tag is not a compound"
 #define ROOT_HAS_NAME       "Root tag has non-empty name string"
 
+/* Human-readable formatting directives for tags */
 #define REPR_SINGLE_VALUED    "({}) {}" // Type + value
 #define REPR_LIST             "List of type {} with {} elements:"
 #define REPR_TYPED_LIST       "{} with {} elements:"
