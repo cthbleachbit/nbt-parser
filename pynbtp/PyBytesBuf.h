@@ -1,6 +1,9 @@
-//
-// Created by cth451 on 2020/05/13.
-//
+/**
+ * @file python byte buffer wrapper
+ *
+ * Python seems to make a clear distinction between a str-like I/O object and a binary I/O object.
+ * pybind11::detail::pythonbuf only handles plain-text I/O. So we are rolling our own for binary I/O.
+ */
 
 #ifndef NBTP_PYBYTESBUF_H
 #define NBTP_PYBYTESBUF_H
@@ -12,18 +15,39 @@
 
 namespace pyNBTP {
 	/**
-	 * This is a modified version of pythonbuf from pybind11 to read / write bytes
+	 * @class A C++ usable output stream that writes to a binary I/O handle opened in python
 	 */
 	class PyOBytesBuf final : public std::streambuf {
 	private:
 		using traits_type = std::streambuf::traits_type;
 
+		/**
+		 * Buffer size - set in C-tor
+		 */
 		const size_t buf_size;
+
+		/**
+		 * Internal write buffer - allocated in C-tor
+		 * Contents from C++ side will be buffered here and flushed out to python side as needed
+		 */
 		std::unique_ptr<char[]> d_buffer;
+
+		/**
+		 * Python binary output, write method
+		 */
 		pybind11::object pywrite;
+
+		/**
+		 * Python binary output, flush method
+		 */
 		pybind11::object pyflush;
 
 	public:
+		/**
+		 * Executed when the buffer is full of contents
+		 *
+		 * Write them to python side and clear the buffer.
+		 */
 		int overflow(int c) final {
 			if (!traits_type::eq_int_type(c, traits_type::eof())) {
 				*pptr() = traits_type::to_char_type(c);
@@ -47,7 +71,7 @@ namespace pyNBTP {
 			return 0;
 		}
 
-		explicit PyOBytesBuf(pybind11::object pyostream, size_t buffer_size = 1024)
+		explicit PyOBytesBuf(pybind11::object &pyostream, size_t buffer_size = 1024)
 				: buf_size(buffer_size),
 				  d_buffer(new char[buf_size]),
 				  pywrite(pyostream.attr("write")),
@@ -57,23 +81,38 @@ namespace pyNBTP {
 
 		PyOBytesBuf(PyOBytesBuf &&) = default;
 
-		// Sync before destroy
 		~PyOBytesBuf() final {
 			sync();
 		}
 	};
 
+	/**
+	 * @class A C++ usable input stream that reads from a binary I/O handle opened in python
+	 */
 	class PyIBytesBuf final : public std::streambuf {
 	private:
 		using traits_type = std::streambuf::traits_type;
 
+		/**
+		 * Buffer size - set in C-tor
+		 */
 		const size_t buf_size;
+
+		/**
+		 * Internal read buffer - allocated in C-tor
+		 */
 		std::unique_ptr<char[]> d_buffer;
+
+		/**
+		 * Python input handle for reading
+		 */
 		pybind11::object pyread;
 
 	public:
 		/**
 		 * Executed when the buffer is out of contents
+		 *
+		 * Read more from python side, write them to the buffer.
 		 */
 		int underflow() final {
 			ssize_t actual_read = 0;
@@ -102,7 +141,7 @@ namespace pyNBTP {
 			return ret;
 		}
 
-		explicit PyIBytesBuf(pybind11::object pyistream, size_t buffer_size = 1024)
+		explicit PyIBytesBuf(pybind11::object &pyistream, size_t buffer_size = 1024)
 				: buf_size(buffer_size),
 				  d_buffer(new char[buf_size]),
 				  pyread(pyistream.attr("read")) {
@@ -112,6 +151,5 @@ namespace pyNBTP {
 		PyIBytesBuf(PyIBytesBuf &&) = default;
 	};
 }
-
 
 #endif //NBTP_PYBYTESBUF_H
