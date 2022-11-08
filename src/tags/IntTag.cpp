@@ -16,11 +16,11 @@ namespace NBTP {
 	IntTag::V IntTag::parseInt(std::istream &input, ssize_t &counter) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-		// Perform java big-endian to host conversion
-		buffer = toH(buffer);
 		if (input.fail()) {
 			Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
 		}
+		// Perform java big-endian to host conversion
+		buffer = toH(buffer);
 		counter += sizeof(V);
 		return buffer;
 	}

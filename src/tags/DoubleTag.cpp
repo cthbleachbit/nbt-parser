@@ -23,11 +23,11 @@ namespace NBTP {
 			case BIN:
 				V buffer;
 				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-				// Perform java big-endian to host conversion
-				buffer = toH(buffer);
 				if (input.fail()) {
 					Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
 				}
+				// Perform java big-endian to host conversion
+				buffer = toH(buffer);
 				this->payload = buffer;
 				counter += sizeof(V);
 				break;
