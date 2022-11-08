@@ -13,9 +13,9 @@
 #define CONTENT_LEN_NEG     "Content length {} is negative"
 #define INVALID_TYPE        "Invalid content type {}"
 #define GENERIC_METHOD      "{} is a generic tag method and should not be called"
-#define IO_UNEXPECTED_EOF   "Premature end-of-file, {} bytes needed"
-#define PARSE_PRETTY        "Parsing pretty input isn't supported yet"
-#define PARSE_UNKNOWN_FMT   "Unknown IOFormat"
+#define IO_UNEXPECTED_EOF   "Premature end-of-file due to I/O error: {}"
+#define PARSE_PRETTY        "Parsing pretty input is not supported"
+#define PARSE_UNKNOWN_FMT   "Parsing unknown IOFormat"
 #define SUBTAG_NOT_FOUND    "Tag not in compound"
 
 /* Disallowed operations */

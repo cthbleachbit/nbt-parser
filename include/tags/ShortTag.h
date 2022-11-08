@@ -40,7 +40,10 @@ namespace NBTP {
 		/**
 		 * Helper function to read in a single short from input binary stream
 		 * @param input
-		 * @return short
+		 * @param counter current offset into parsed stream
+		 * @return parsed 16b integer
+		 *
+		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
 		static V parseShort(std::istream &input, ssize_t &counter);
 

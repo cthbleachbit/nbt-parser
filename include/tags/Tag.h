@@ -29,6 +29,14 @@ namespace NBTP {
 		END_OF_TAG_TYPE,
 	};
 
+	/**
+	 * Read type code at next byte and advance in the stream
+	 * @param input input stream
+	 * @param counter current offset into parsed stream
+	 * @return type code
+	 *
+	 * @throw std::ios_base::failure  if I/O error has occurred
+	 */
 	TagType readType(std::istream &input, ssize_t &counter);
 
 	extern const std::array<const char*, TagType::END_OF_TAG_TYPE> TypeNames;

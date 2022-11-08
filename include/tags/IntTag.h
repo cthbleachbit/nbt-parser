@@ -40,7 +40,10 @@ namespace NBTP {
 		/**
 		 * Read an NBT encoded 32 bit integer from istream
 		 * @param input
-		 * @return
+		 * @param counter current offset into parsed stream
+		 * @return parsed integer
+		 *
+		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
 		static V parseInt(std::istream &input, ssize_t &counter);
 

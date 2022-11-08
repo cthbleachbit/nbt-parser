@@ -3,7 +3,6 @@ set(NBTP_PUBLIC_HEADERS
 		constants.h
 		Conversion.h
 		TagIO.h
-		Logging.h
 		)
 
 install(FILES ${NBTP_PUBLIC_HEADERS} DESTINATION ${INSTALL_INCLUDE_DIR}/nbtp)

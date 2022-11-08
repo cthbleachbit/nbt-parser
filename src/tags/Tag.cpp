@@ -1,13 +1,14 @@
-#include "libnbtp.h"
-#include "Logging.h"
 #include <istream>
 #include <sstream>
 #include <tags/Tag.h>
 #include <array>
 
+#include "libnbtp.h"
+#include "TagIO.h"
+
 namespace NBTP {
 
-	const std::array<const char*, TagType::END_OF_TAG_TYPE> TypeNames = {
+	const std::array<const char *, TagType::END_OF_TAG_TYPE> TypeNames = {
 			"End of Compound",
 			"Byte",
 			"Short",
@@ -37,9 +38,7 @@ namespace NBTP {
 	TagType readType(std::istream &input, ssize_t &counter) {
 		int8_t buf;
 		input.read(reinterpret_cast<char *>(&buf), 1);
-		if (input.fail()) {
-			Logging::error(fmt::format(IO_UNEXPECTED_EOF, 1), counter);
-		}
+		input.exceptions(std::istream::failbit);
 		counter++;
 		return static_cast<TagType>(buf);
 	}
@@ -84,7 +83,7 @@ namespace NBTP {
 				ptr = std::make_shared<LongsTag>(input, counter);
 				break;
 			default:
-				Logging::error(fmt::format(INVALID_TYPE, typeCode), counter);
+				throw TagParseException(counter, fmt::format(INVALID_TYPE, typeCode));
 		}
 		return ptr;
 	}
@@ -94,14 +93,10 @@ namespace NBTP {
 			case BIN:
 				return parseTag(input, typeCode, counter);
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
-				break;
+				throw std::invalid_argument(PARSE_PRETTY);
 			default:
-				Logging::error(PARSE_UNKNOWN_FMT, counter);
-				break;
+				throw std::invalid_argument(PARSE_UNKNOWN_FMT);
 		}
-		// This should never happen
-		return std::shared_ptr<Tag>(nullptr);
 	}
 
 	std::shared_ptr<Tag> Tag::deepCopy(const std::shared_ptr<Tag> &from) noexcept {

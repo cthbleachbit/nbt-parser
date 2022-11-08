@@ -4,7 +4,7 @@
 
 #include "tags/IntTag.h"
 #include "tags/IntsTag.h"
-#include "Logging.h"
+#include "TagIO.h"
 
 namespace NBTP {
 	void IntsTag::insert(int32_t v) {
@@ -21,14 +21,14 @@ namespace NBTP {
 			case BIN:
 				size = IntTag::parseInt(input, counter);
 				if (size < 0) {
-					Logging::error(fmt::format(CONTENT_LEN_NEG, size), counter);
+					throw TagParseException(counter, fmt::format(CONTENT_LEN_NEG, size));
 				}
 				for (int i = 0; i < size; i++) {
 					this->payload.push_back(std::shared_ptr<Tag>(new IntTag(input, counter)));
 				}
 				break;
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
+				throw std::invalid_argument(PARSE_PRETTY);
 		}
 		this->contentType = NBTP::INT;
 	}

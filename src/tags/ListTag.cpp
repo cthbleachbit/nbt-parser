@@ -7,7 +7,6 @@
 
 #include "tags/ListTag.h"
 #include "libnbtp.h"
-#include "Logging.h"
 
 namespace NBTP {
 	ssize_t ListTag::size() const {
@@ -105,14 +104,15 @@ namespace NBTP {
 			case BIN:
 				// Check content type
 				typeCode = readType(input, counter);
-				if (!typeCode.has_value() || static_cast<int8_t>(*typeCode) > LONGS || static_cast<int8_t>(*typeCode) < END) {
-					Logging::error(fmt::format(INVALID_TYPE, *typeCode), counter);
+				if (!typeCode.has_value() || static_cast<int8_t>(*typeCode) > LONGS ||
+				    static_cast<int8_t>(*typeCode) < END) {
+					throw TagParseException(counter, fmt::format(INVALID_TYPE, *typeCode));
 				}
 
 				// Read in payload length
 				size = IntTag::parseInt(input, counter);
 				if (size < 0) {
-					Logging::error(fmt::format(CONTENT_LEN_NEG, size), counter);
+					throw TagParseException(counter, fmt::format(CONTENT_LEN_NEG, size));
 				}
 
 				// Check if type and length agree with each other
@@ -121,7 +121,7 @@ namespace NBTP {
 					this->contentType = END;
 					return;
 				} else if (typeCode == END && size != 0) {
-					Logging::error(fmt::format(LIST_END_NZ_LEN, size), counter);
+					throw TagParseException(counter, fmt::format(LIST_END_NZ_LEN, size));
 				}
 
 				// Otherwise this list has sensible contents:
@@ -131,7 +131,7 @@ namespace NBTP {
 				}
 				break;
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
+				throw std::invalid_argument(PARSE_PRETTY);
 				break;
 		}
 	}
@@ -139,13 +139,13 @@ namespace NBTP {
 	std::ostream &ListTag::outputPayloadOnly(std::ostream &ostream, IOFormat format, unsigned int indent) const {
 		switch (format) {
 			case PRETTY_PRINT:
-				for (const auto &elemItr : this->payload) {
+				for (const auto &elemItr: this->payload) {
 					Tag::indent(ostream, indent + 1);
 					elemItr->textOutput(ostream, indent + 1);
 				}
 				break;
 			case BIN:
-				for (const auto &elemItr : this->payload) {
+				for (const auto &elemItr: this->payload) {
 					elemItr->output(ostream, BIN);
 				}
 				break;
@@ -156,7 +156,7 @@ namespace NBTP {
 	ListTag::ListTag(const ListTag &tag) noexcept {
 		this->contentType = tag.contentType;
 		this->payload.clear();
-		for (const auto &elemItr : tag.payload) {
+		for (const auto &elemItr: tag.payload) {
 			this->payload.push_back(Tag::deepCopy(elemItr));
 		}
 	}
@@ -165,7 +165,7 @@ namespace NBTP {
 		if (this != &tag) {
 			this->contentType = tag.contentType;
 			this->payload.clear();
-			for (const auto &elemItr : tag.payload) {
+			for (const auto &elemItr: tag.payload) {
 				this->payload.push_back(Tag::deepCopy(elemItr));
 			}
 		}

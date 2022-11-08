@@ -52,6 +52,8 @@ int main(int argc, char **argv) {
 	} catch (NBTP::TagParseException &e) {
 		std::cerr << e.what() << std::endl;
 		exit(2);
+	} catch (std::ios_base::failure &e) {
+		std::cerr << fmt::format(IO_UNEXPECTED_EOF, e.what()) << std::endl;
 	}
 
 	std::cerr << tagSize << " bytes read" << std::endl;

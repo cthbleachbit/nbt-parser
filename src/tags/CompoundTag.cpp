@@ -2,12 +2,12 @@
 // Created by cth451 on 2020/05/09.
 //
 
-#include "libnbtp.h"
-#include "Logging.h"
-#include "tags/CompoundTag.h"
-
 #include <memory>
 #include <iostream>
+
+#include "libnbtp.h"
+#include "TagIO.h"
+#include "tags/CompoundTag.h"
 
 namespace NBTP {
 
@@ -104,7 +104,7 @@ namespace NBTP {
 				}
 				break;
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
+				throw std::invalid_argument(PARSE_PRETTY);
 				break;
 		}
 	}

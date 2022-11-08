@@ -14,7 +14,11 @@ namespace NBTP {
 		 * Parse a root tag, this will initialize this tag's type and stuff.
 		 * @param input     the decompressed NBT binary stream
 		 * @param counter   the number of bytes parsed
-		 * @return
+		 *
+		 * @return successfully parsed tag on successful parse
+		 *
+		 * @throw std::ios_base::failure for any I/O error occurred
+		 * @throw std::TagParseException for errors occured due to malformed tag
 		 */
 		std::shared_ptr<Tag> parseRoot(std::istream &input, ssize_t &counter);
 
@@ -23,7 +27,12 @@ namespace NBTP {
 		 * @param input     the input stream
 		 * @param counter   the number of bytes parsed
 		 * @param format    specifies the format of incoming data
-		 * @return
+		 *
+		 * @return successfully parsed tag on successful parse
+		 *
+		 * @throw std::ios_base::failure    for any I/O error occurred
+		 * @throw NBTP::TagParseException   for errors due to malformed tag
+		 * @throw std::invalid_argument     if incorrect IOFormat were specified
 		 */
 		std::shared_ptr<Tag> parseRoot(std::istream &input, ssize_t &counter, IOFormat format);
 

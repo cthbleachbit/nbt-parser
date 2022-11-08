@@ -28,7 +28,10 @@ namespace NBTP {
 		/**
 		 * Helper function to read in a single long from input binary stream
 		 * @param input
-		 * @return short
+		 * @param counter current offset into parsed stream
+		 * @return parsed 64b integer
+		 *
+		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
 		static V parseLong(std::istream &input, ssize_t &counter);
 

@@ -44,6 +44,9 @@ namespace NBTP {
 		 * @param input
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 * @param format       specifies the format of incoming data
+		 *
+		 * @throw NBTP::TagParseException if array length is negative
+		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
 		BytesTag(std::istream &input, ssize_t &counter, IOFormat format);
 

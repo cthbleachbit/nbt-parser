@@ -5,7 +5,7 @@
 #include "tags/IntTag.h"
 #include "tags/LongTag.h"
 #include "tags/LongsTag.h"
-#include "Logging.h"
+#include "TagIO.h"
 
 namespace NBTP {
 	void LongsTag::insert(int64_t v) {
@@ -22,14 +22,14 @@ namespace NBTP {
 			case BIN:
 				size = IntTag::parseInt(input, counter);
 				if (size < 0) {
-					Logging::error(fmt::format(CONTENT_LEN_NEG, size), counter);
+					throw TagParseException(counter, fmt::format(CONTENT_LEN_NEG, size));
 				}
 				for (int i = 0; i < size; i++) {
 					this->payload.push_back(std::shared_ptr<Tag>(new LongTag(input, counter)));
 				}
 				break;
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
+				throw std::invalid_argument(PARSE_PRETTY);
 		}
 		this->contentType = NBTP::LONG;
 	}

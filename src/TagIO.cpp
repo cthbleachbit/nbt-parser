@@ -7,25 +7,29 @@
 #include "TagIO.h"
 #include "tags/StringTag.h"
 #include "tags/ShortTag.h"
-#include "Logging.h"
 
 namespace NBTP {
+
+	void static _warn(const char *msg, ssize_t counter) {
+		std::cerr << fmt::format(WARNING_PREFIX, counter, msg) << std::endl;
+	}
+
 	std::shared_ptr<Tag> TagIO::parseRoot(std::istream &input, ssize_t &counter) {
 		counter = 0;
 		TagType typeCode = readType(input, counter);
 		if (typeCode != COMPOUND) {
-			Logging::warn(ROOT_NOT_COMPOUND, counter);
+			_warn(ROOT_NOT_COMPOUND, counter);
 		}
 		std::string name = StringTag::parseString(input, counter);
 		if (name.length() != 0) {
-			Logging::warn(ROOT_HAS_NAME, counter);
+			_warn(ROOT_HAS_NAME, counter);
 		}
 		return Tag::parseTag(input, typeCode, counter);
 	}
 
 	void TagIO::writeRoot(std::ostream &ostream, Tag &tag) {
 		if (tag.typeCode() != COMPOUND) {
-			Logging::warn(ROOT_NOT_COMPOUND, 0);
+			_warn(ROOT_NOT_COMPOUND, 0);
 		}
 		char typeByte = static_cast<char>(tag.typeCode());
 		ostream.write(&typeByte, 1);
@@ -39,17 +43,14 @@ namespace NBTP {
 			case BIN:
 				return parseRoot(input, counter);
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
-				break;
+				throw std::invalid_argument(PARSE_PRETTY);
 			default:
-				return std::shared_ptr<Tag>(nullptr);
+				throw std::invalid_argument(PARSE_UNKNOWN_FMT);
 		}
-		return nullptr;
 	}
 
-	// TagParseException
 	TagParseException::TagParseException(ssize_t offset, std::string reason) noexcept
-		: runtime_error(reason), offset(offset) {
+			: runtime_error(reason), offset(offset) {
 		message = fmt::format(ERROR_PREFIX, offset, reason);
 	}
 
@@ -57,9 +58,8 @@ namespace NBTP {
 		return message.c_str();
 	}
 
-	// ListTypeUnmatchException
 	ListTypeMismatchException::ListTypeMismatchException(TagType expected, TagType got) noexcept
-			:std::runtime_error("List Type Unmatch"), expected(expected), got(got) {
+			: std::runtime_error("List Type Unmatch"), expected(expected), got(got) {
 		message = fmt::format(LIST_ADD_UNMATCH, TypeNames[got], TypeNames[expected]);
 	}
 

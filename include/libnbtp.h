@@ -7,7 +7,6 @@
 
 #include "constants.h"
 #include "Conversion.h"
-#include "Logging.h"
 #include "TagIO.h"
 
 #include "tags/Tag.h"

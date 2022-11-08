@@ -15,7 +15,6 @@ set(LIBNBTP_SRC
 		tags/StringTag.cpp
 
 		Conversion.cpp
-		Logging.cpp
 		TagIO.cpp
 		)
 

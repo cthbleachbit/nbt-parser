@@ -2,11 +2,11 @@
 // Created by cth451 on 2020/05/09.
 //
 
+#include <istream>
+
 #include "tags/ShortTag.h"
 #include "constants.h"
 #include "Conversion.h"
-#include "Logging.h"
-#include <istream>
 
 namespace NBTP {
 	ShortTag::EndianConv ShortTag::toH = Conversion::conv_16_beh;
@@ -18,7 +18,7 @@ namespace NBTP {
 				this->payload = parseShort(input, counter);
 				break;
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
+				throw std::invalid_argument(PARSE_PRETTY);
 				break;
 		}
 	}
@@ -26,9 +26,7 @@ namespace NBTP {
 	ShortTag::V ShortTag::parseShort(std::istream &input, ssize_t &counter) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-		if (input.fail()) {
-			Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
-		}
+		input.exceptions(std::istream::failbit);
 		// Perform java big-endian to host conversion
 		buffer = toH(buffer);
 		counter += sizeof(V);

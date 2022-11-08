@@ -33,6 +33,8 @@ namespace NBTP {
 		 * @param input
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 * @param format       specifies the format of incoming data
+		 *
+		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
 		FloatTag(std::istream &input, ssize_t &counter, IOFormat format);
 

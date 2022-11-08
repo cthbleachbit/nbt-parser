@@ -2,10 +2,11 @@
 // Created by cth451 on 2020/05/09.
 //
 
+#include <istream>
+
 #include "tags/LongTag.h"
 #include "Conversion.h"
-#include "Logging.h"
-#include <istream>
+#include "TagIO.h"
 
 namespace NBTP {
 	LongTag::EndianConv LongTag::toH = Conversion::conv_64_beh;
@@ -17,17 +18,14 @@ namespace NBTP {
 				this->payload = parseLong(input, counter);
 				break;
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
-				break;
+				throw std::invalid_argument(PARSE_PRETTY);
 		}
 	}
 
 	LongTag::V LongTag::parseLong(std::istream &input, ssize_t &counter) {
 		V buffer;
 		input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-		if (input.fail()) {
-			Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
-		}
+		input.exceptions(std::istream::failbit);
 		// Perform java big-endian to host conversion
 		buffer = toH(buffer);
 		counter += sizeof(V);

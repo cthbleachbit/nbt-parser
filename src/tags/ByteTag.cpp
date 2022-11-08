@@ -5,7 +5,6 @@
 #include <istream>
 #include "tags/ByteTag.h"
 #include "constants.h"
-#include "Logging.h"
 
 namespace NBTP {
 
@@ -19,14 +18,12 @@ namespace NBTP {
 			case BIN:
 				V buffer;
 				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-				if (input.fail()) {
-					Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
-				}
+				input.exceptions(std::istream::failbit);
 				this->payload = buffer;
 				counter += sizeof(V);
 				break;
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
+				throw std::invalid_argument(PARSE_PRETTY);
 				break;
 		}
 	}

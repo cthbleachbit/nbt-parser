@@ -72,7 +72,11 @@ namespace NBTP {
 		 *
 		 * @param input    stream of uncompressed NBT data
 		 * @param counter  updated to reflect the number of bytes read from the input stream
-		 * @return
+		 *
+		 * @return parsed string
+		 *
+		 * @throw NBTP::TagParseException if string length is negative
+		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
 		static std::string parseString(std::istream &input, ssize_t &counter);
 

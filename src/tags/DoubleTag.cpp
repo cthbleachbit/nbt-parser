@@ -3,9 +3,9 @@
 //
 
 #include <istream>
+
 #include "tags/DoubleTag.h"
 #include "Conversion.h"
-#include "Logging.h"
 
 namespace NBTP {
 	DoubleTag::EndianConv DoubleTag::toH = Conversion::conv_d_beh;
@@ -23,17 +23,14 @@ namespace NBTP {
 			case BIN:
 				V buffer;
 				input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
-				if (input.fail()) {
-					Logging::error(fmt::format(IO_UNEXPECTED_EOF, sizeof(V)), counter);
-				}
+				input.exceptions(std::istream::failbit);
 				// Perform java big-endian to host conversion
 				buffer = toH(buffer);
 				this->payload = buffer;
 				counter += sizeof(V);
 				break;
 			case PRETTY_PRINT:
-				Logging::error(PARSE_PRETTY, counter);
-				break;
+				throw std::invalid_argument(PARSE_PRETTY);
 		}
 	}
 }
