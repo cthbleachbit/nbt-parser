@@ -79,14 +79,20 @@ namespace NBTP {
 		// This thing -> return this->payload == rhs_ref.payload;
 		auto l_p = this->payload;
 		auto r_p = rhs_ref.payload;
-		if (l_p.size() == r_p.size()) {
+		if (l_p.size() != r_p.size()) {
 			return false;
 		}
 
 		auto l_itr = l_p.cbegin();
 		auto r_itr = r_p.cbegin();
 		for (; l_itr != l_p.cend() && r_itr != r_p.cend(); l_itr++, r_itr++) {
-			if (*l_itr != *r_itr) {
+			// Make sure we don't overrun the list
+			if ((l_itr == l_p.cend()) != (r_itr == r_p.cend())) {
+				return false;
+			}
+
+			// Using double * to force value comparison instead of pointer comparison
+			if (**l_itr != **r_itr) {
 				return false;
 			}
 		}
