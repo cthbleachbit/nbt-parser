@@ -5,8 +5,8 @@
 #ifndef NBTP_COMPOUNDTAG_H
 #define NBTP_COMPOUNDTAG_H
 
-#include "tags/Tag.h"
 #include <unordered_map>
+#include "tags/Tag.h"
 
 namespace NBTP {
 	/**

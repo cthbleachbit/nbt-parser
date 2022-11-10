@@ -6,7 +6,7 @@
 #include <fmt/format.h>
 #include "TagIO.h"
 #include "tags/StringTag.h"
-#include "tags/ShortTag.h"
+#include "tags/SingleValuedTag.h"
 
 namespace NBTP {
 

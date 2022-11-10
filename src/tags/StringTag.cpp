@@ -5,7 +5,7 @@
 #include <istream>
 
 #include "tags/StringTag.h"
-#include "tags/ShortTag.h"
+#include "tags/SingleValuedTag.h"
 #include "Conversion.h"
 #include "TagIO.h"
 

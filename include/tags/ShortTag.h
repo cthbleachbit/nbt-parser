@@ -7,6 +7,8 @@
 
 #include "SingleValuedTag.h"
 
+#pragma message "This header has been deprecated and might be removed in the future. Include tags/SingleValuedTag.h instead for ShortTag."
+
 /**
  * ShortTag definition has moved to SingleValuedTag.h
  */

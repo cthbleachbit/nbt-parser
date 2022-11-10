@@ -2,9 +2,8 @@
 // Created by cth451 on 5/10/20.
 //
 
-#include "tags/IntTag.h"
-#include "tags/LongTag.h"
 #include "tags/LongsTag.h"
+#include "tags/SingleValuedTag.h"
 #include "TagIO.h"
 
 namespace NBTP {
