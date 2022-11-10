@@ -157,6 +157,18 @@ PYBIND11_MODULE(pynbtp, m) {
 						"getContentType",
 						&ListTag::getContentType,
 						"Get content type for a list. If the list is empty, return value is undefined."
+				)
+				.def(
+						"__getitem__",
+						[](ListTag *tag, ssize_t index) {
+							return tag->getPayload().at(index);
+						}
+				)
+				.def(
+						"__setitem__",
+						[](ListTag *tag, ssize_t index, std::shared_ptr<Tag> newValue) {
+							tag->getPayload()[index] = newValue;
+						}
 				);
 		py::class_<CompoundTag, ContainerTag, Tag, shared_ptr<CompoundTag>>
 				(
