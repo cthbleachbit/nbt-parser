@@ -35,14 +35,8 @@ namespace NBTP {
 		 *
 		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
-		ByteTag(std::istream &input, ssize_t &counter, IOFormat format);
-
-		/**
-		 * Helper function to write a single byte to ostream
-		 * @param ostream
-		 * @return
-		 */
-		std::ostream &nbtOutput(std::ostream &ostream) const override;
+		ByteTag(std::istream &input, ssize_t &counter, IOFormat format)
+				: SingleValuedTag<int8_t>(input, counter, format) {};
 	};
 }
 

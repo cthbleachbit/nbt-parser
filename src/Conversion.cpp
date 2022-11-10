@@ -50,7 +50,9 @@ int64_t htonll(int64_t x) {
 #endif
 
 #else
+
 #include <endian.h>
+
 #endif
 
 
@@ -134,6 +136,66 @@ namespace NBTP {
 #else
 			return swap_d(v);
 #endif
+		}
+
+		template<>
+		int8_t toH(int8_t v) {
+			return v;
+		}
+
+		template<>
+		int8_t toJ(int8_t v) {
+			return v;
+		}
+
+		template<>
+		int16_t toH(int16_t v) {
+			return conv_16_beh(v);
+		}
+
+		template<>
+		int16_t toJ(int16_t v) {
+			return conv_16_hbe(v);
+		}
+
+		template<>
+		int32_t toH(int32_t v) {
+			return conv_32_beh(v);
+		}
+
+		template<>
+		int32_t toJ(int32_t v) {
+			return conv_32_hbe(v);
+		}
+
+		template<>
+		int64_t toH(int64_t v) {
+			return conv_64_beh(v);
+		}
+
+		template<>
+		int64_t toJ(int64_t v) {
+			return conv_64_hbe(v);
+		}
+
+		template<>
+		float toH(float v) {
+			return conv_f_beh(v);
+		}
+
+		template<>
+		float toJ(float v) {
+			return conv_f_hbe(v);
+		}
+
+		template<>
+		double toH(double v) {
+			return conv_d_beh(v);
+		}
+
+		template<>
+		double toJ(double v) {
+			return conv_d_hbe(v);
 		}
 	}
 }

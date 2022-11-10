@@ -12,11 +12,6 @@ namespace NBTP {
 	class LongTag : public SingleValuedTag<int64_t> {
 	public:
 		typedef int64_t V;
-
-		typedef V (*EndianConv)(V);
-
-		static EndianConv toH;
-		static EndianConv toJ;
 	public:
 		/**
 		 * @return NBT type code compound 1
@@ -24,16 +19,6 @@ namespace NBTP {
 		constexpr TagType typeCode() const noexcept override { return LONG; }
 
 		explicit LongTag(V value) : SingleValuedTag<int64_t>(value) {};
-
-		/**
-		 * Helper function to read in a single long from input binary stream
-		 * @param input
-		 * @param counter current offset into parsed stream
-		 * @return parsed 64b integer
-		 *
-		 * @throw std::ios_base::failure  if I/O error has occurred
-		 */
-		static V parseLong(std::istream &input, ssize_t &counter);
 
 		/**
 		 * Deserializer constructor for decompressed NBT input
@@ -48,14 +33,20 @@ namespace NBTP {
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 * @param format       specifies the format of incoming data
 		 */
-		LongTag(std::istream &input, ssize_t &counter, IOFormat format);
+		LongTag(std::istream &input, ssize_t &counter, IOFormat format)
+				: SingleValuedTag<int64_t>(input, counter, format) {}
 
 		/**
-		 * Helper function to write a single byte to ostream
-		 * @param ostream
-		 * @return
+		 * Helper function to read in a single long from input binary stream
+		 * @param input
+		 * @param counter current offset into parsed stream
+		 * @return parsed 64b integer
+		 *
+		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
-		std::ostream &nbtOutput(std::ostream &ostream) const override;
+		static V parseLong(std::istream &input, ssize_t &counter) {
+			return SingleValuedTag<V>::parseBinaryNumeric(input, counter);
+		}
 	};
 }
 

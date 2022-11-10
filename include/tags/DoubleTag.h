@@ -12,10 +12,6 @@ namespace NBTP {
 	class DoubleTag : public SingleValuedTag<double> {
 	public:
 		typedef double V;
-		typedef V (*EndianConv)(double);
-
-		static EndianConv toH;
-		static EndianConv toJ;
 	public:
 		constexpr TagType typeCode() const noexcept override { return DOUBLE; }
 
@@ -36,15 +32,8 @@ namespace NBTP {
 		 *
 		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
-		DoubleTag(std::istream &input, ssize_t &counter, IOFormat format);
-
-		/**
-		 * Helper function to write a double NBT encoded to ostream
-		 * @param ostream
-		 * @param value
-		 * @return
-		 */
-		std::ostream &nbtOutput(std::ostream &ostream) const override;
+		DoubleTag(std::istream &input, ssize_t &counter, IOFormat format)
+				: SingleValuedTag<double>(input, counter, format) {};
 	};
 }
 

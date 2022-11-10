@@ -12,10 +12,6 @@ namespace NBTP {
 	class FloatTag : public SingleValuedTag<float> {
 	public:
 		typedef float V;
-		typedef V (*EndianConv)(float);
-
-		static EndianConv toH;
-		static EndianConv toJ;
 	public:
 		constexpr TagType typeCode() const noexcept override { return FLOAT; }
 
@@ -36,15 +32,8 @@ namespace NBTP {
 		 *
 		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
-		FloatTag(std::istream &input, ssize_t &counter, IOFormat format);
-
-		/**
-		 * Helper function to write a float NBT-encoded to ostream
-		 * @param ostream
-		 * @param value
-		 * @return
-		 */
-		std::ostream &nbtOutput(std::ostream &ostream) const override;
+		FloatTag(std::istream &input, ssize_t &counter, IOFormat format)
+				: SingleValuedTag<float>(input, counter, format) {};
 	};
 }
 

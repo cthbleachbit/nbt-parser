@@ -12,11 +12,6 @@ namespace NBTP {
 	class ShortTag : public SingleValuedTag<int16_t> {
 	public:
 		typedef int16_t V;
-
-		typedef V (*EndianConv)(V);
-
-		static EndianConv toH;
-		static EndianConv toJ;
 	public:
 		constexpr TagType typeCode() const noexcept override { return SHORT; }
 
@@ -35,7 +30,8 @@ namespace NBTP {
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 * @param format       specifies the format of incoming data
 		 */
-		ShortTag(std::istream &input, ssize_t &counter, IOFormat format);
+		ShortTag(std::istream &input, ssize_t &counter, IOFormat format)
+				: SingleValuedTag<int16_t>(input, counter, format) {}
 
 		/**
 		 * Helper function to read in a single short from input binary stream
@@ -45,14 +41,9 @@ namespace NBTP {
 		 *
 		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
-		static V parseShort(std::istream &input, ssize_t &counter);
-
-		/**
-		 * Helper function to write a single byte to ostream
-		 * @param ostream
-		 * @return
-		 */
-		std::ostream &nbtOutput(std::ostream &ostream) const override;
+		static V parseShort(std::istream &input, ssize_t &counter) {
+			return SingleValuedTag<V>::parseBinaryNumeric(input, counter);
+		}
 	};
 }
 

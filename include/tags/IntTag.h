@@ -12,11 +12,6 @@ namespace NBTP {
 	class IntTag : public SingleValuedTag<int32_t> {
 	public:
 		typedef int32_t V;
-
-		typedef V (*EndianConv)(V);
-
-		static EndianConv toH;
-		static EndianConv toJ;
 	public:
 		constexpr TagType typeCode() const noexcept override { return INT; }
 
@@ -35,7 +30,8 @@ namespace NBTP {
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 * @param format       specifies the format of incoming data
 		 */
-		IntTag(std::istream &input, ssize_t &counter, IOFormat format);
+		IntTag(std::istream &input, ssize_t &counter, IOFormat format)
+				: SingleValuedTag<int32_t>(input, counter, format) {};
 
 		/**
 		 * Read an NBT encoded 32 bit integer from istream
@@ -45,14 +41,9 @@ namespace NBTP {
 		 *
 		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
-		static V parseInt(std::istream &input, ssize_t &counter);
-
-		/**
-		 * Helper function to write a single byte to ostream
-		 * @param ostream
-		 * @return
-		 */
-		std::ostream &nbtOutput(std::ostream &ostream) const override;
+		static V parseInt(std::istream &input, ssize_t &counter) {
+			return SingleValuedTag<V>::parseBinaryNumeric(input, counter);
+		}
 	};
 }
 

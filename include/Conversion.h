@@ -32,6 +32,25 @@ namespace NBTP {
 		double conv_d_beh(double v);
 
 		double conv_d_hbe(double v);
+
+		template<typename V>
+		V toH(V v) = delete;
+
+		template<typename V>
+		V toJ(V v) = delete;
+
+		template<> int8_t toH(int8_t);
+		template<> int16_t toH(int16_t);
+		template<> int32_t toH(int32_t);
+		template<> int64_t toH(int64_t);
+		template<> float toH(float);
+		template<> double toH(double);
+		template<> int8_t toJ(int8_t);
+		template<> int16_t toJ(int16_t);
+		template<> int32_t toJ(int32_t);
+		template<> int64_t toJ(int64_t);
+		template<> float toJ(float);
+		template<> double toJ(double);
 	}
 }
 
