@@ -1,3 +1,7 @@
+/**
+ * @file Tag definitions - the basic for all other types of tags
+ */
+
 #ifndef NBTP_TAG_H
 #define NBTP_TAG_H
 
@@ -11,6 +15,9 @@
 
 namespace NBTP {
 
+	/**
+	 * Possible tag types and type code used for NBT tags
+	 */
 	enum TagType {
 		INVALID = -1,
 		END = 0,
@@ -39,6 +46,9 @@ namespace NBTP {
 	 */
 	TagType readType(std::istream &input, ssize_t &counter);
 
+	/**
+	 * Compile-time list of human readable names of every tag type
+	 */
 	extern const std::array<const char*, TagType::END_OF_TAG_TYPE> TypeNames;
 
 	/**
@@ -52,6 +62,7 @@ namespace NBTP {
 	public:
 		virtual constexpr TagType typeCode() const noexcept { return INVALID; }
 
+	public: /* Output control */
 		/**
 		 * A helper function to print 4n spaces
 		 * @param ostream   printing output
@@ -84,10 +95,7 @@ namespace NBTP {
  		 * @param ostream
  		 * @return
  		 */
-		virtual std::ostream &nbtOutput(std::ostream &ostream) const {
-			// FIXME: Use std::source_location::current().function_name() when we have GCC 11
-			throw(std::runtime_error(fmt::format(GENERIC_METHOD, __FUNCTION__)));
-		}
+		virtual std::ostream &nbtOutput(std::ostream &ostream) const = 0;
 
 		/**
 		 * Helper function to write this tag in text to ostream.
@@ -96,11 +104,13 @@ namespace NBTP {
 		 * @param indent
 		 * @return
 		 */
-		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const {
-			throw(std::runtime_error(fmt::format(GENERIC_METHOD, __FUNCTION__)));
-		}
+		virtual std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const = 0;
 
-		[[nodiscard]] virtual std::string toString() const;
+		[[nodiscard]] std::string toString() const;
+
+		friend std::ostream &operator<<(std::ostream &ostream, Tag &tag);
+
+	public: /* Comparison operators */
 
 		[[nodiscard]] virtual bool equal(const Tag &rhs) const = 0;
 
@@ -108,14 +118,13 @@ namespace NBTP {
 			return this->equal(*rhs);
 		}
 
-		friend std::ostream &operator<<(std::ostream &ostream, Tag &tag);
-
 		bool operator==(const Tag &rhs) const {
 			return this->equal(rhs);
 		}
 
 		bool operator!=(const Tag &rhs) const = default;
 
+	public: /* Parse entry points and copy generator*/
 		/**
 		 * A wrapper to parse tags based on type
 		 * @param input        input decompressed NBT binary stream
@@ -142,11 +151,12 @@ namespace NBTP {
 		 */
 		static std::shared_ptr<Tag> deepCopy(const std::shared_ptr<Tag> &from) noexcept;
 
+	public: /* Destructor */
 		virtual ~Tag() = default;
 	};
 
 	/**
-	 * A prototype class for container tags, namely compounds, lists, bytes, chars ...
+	 * @class Container tags, namely compounds, lists, bytes, ints. Tags that hold other tags.
 	 */
 	class ContainerTag : public Tag {
 	public:

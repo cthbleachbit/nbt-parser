@@ -5,8 +5,8 @@
 #ifndef NBTP_LISTTAG_H
 #define NBTP_LISTTAG_H
 
-#include "Tag.h"
 #include <vector>
+#include "Tag.h"
 
 namespace NBTP {
 	/**
@@ -16,12 +16,18 @@ namespace NBTP {
 	public:
 		typedef std::vector<std::shared_ptr<Tag>> List;
 		typedef std::vector<std::shared_ptr<Tag>>::iterator ListIterator;
+
 	protected:
+		/**
+		 * Content stpred in this list
+		 */
 		List payload;
+
 		/**
 		 * The type of tags in this list. Defaults to END for an empty list.
 		 */
 		TagType contentType;
+
 	public:
 		/**
 		 * @return size of this compound map
