@@ -99,11 +99,11 @@ PYBIND11_MODULE(pynbtp, m) {
 				.value("PRETTY_PRINT", IOFormat::PRETTY_PRINT, "Human readable text - as tag output only");
 	}
 
-	/* Classes */
+	/* Tag Types */
 	{
 		using namespace NBTP;
 		using namespace std;
-		// Virtual Classes
+		/* Purely virtual Classes */
 		py::class_<Tag, std::shared_ptr<Tag>>(m, "Tag", "Abstract class encompassing all tag types")
 				.def("__copy__", [](const shared_ptr<Tag> &self) {
 					return Tag::deepCopy(self);
@@ -267,6 +267,21 @@ PYBIND11_MODULE(pynbtp, m) {
 						"LongsTag",
 						"A container tag that holds multiple signed 64-bit integer tags"
 				);
+	}
+
+	/* Exception Types */
+	{
+		using namespace NBTP;
+		py::register_local_exception<TagParseException>(m, "TagParseError", PyExc_RuntimeError);
+		py::register_local_exception<ListTypeMismatchException>(m, "ListTypeMismatchError", PyExc_RuntimeError);
+		py::register_local_exception_translator([](std::exception_ptr p) {
+			try {
+				if (p) std::rethrow_exception(p);
+			} catch (const std::ios_base::failure &e) {
+				auto err = e.code().value();
+				PyErr_SetObject(PyExc_IOError, py::make_tuple(err, e.what()).ptr());
+			}
+		});
 	}
 
 	/* Parsing / binary output entry point */
