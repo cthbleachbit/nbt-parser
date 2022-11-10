@@ -51,7 +51,7 @@ namespace NBTP {
 	}
 
 	std::string StringTag::parseString(std::istream &input, ssize_t &counter) {
-		int16_t length = ShortTag::parseShort(input, counter);
+		int16_t length = SingleValuedTag<int16_t>::parseBinaryNumeric(input, counter);
 		if (length < 0) {
 			throw TagParseException(counter, fmt::format(CONTENT_LEN_NEG, length));
 		}

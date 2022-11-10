@@ -10,6 +10,21 @@
 #include "Conversion.h"
 #include "Tag.h"
 
+/**
+ * Define a new tag type based off SingleValuedTagd
+ * @param Primitive     C/C++ type of primitive stored in the tag
+ * @param ClassName     Name of the class
+ * @param TagTypeEnum   TagType value for this type of tag
+ */
+#define __DEFINE_SINGLE_VALUED_TAG_TYPE(Primitive, ClassName, TagTypeEnum) \
+class ClassName : public SingleValuedTag<Primitive> { \
+public: \
+constexpr TagType typeCode() const noexcept override { return TagTypeEnum ; } \
+explicit ClassName(Primitive value) : SingleValuedTag<Primitive>(value) {}; \
+ClassName(std::istream &input, ssize_t &counter) : ClassName(input, counter, BIN) {}; \
+ClassName(std::istream &input, ssize_t &counter, IOFormat format) : SingleValuedTag<Primitive>(input, counter, format) {}; \
+};
+
 namespace NBTP {
 	/**
 	 * @class A tag that contains a fix-sized primitive - integers or decimals.
@@ -189,6 +204,13 @@ namespace NBTP {
 		 */
 		~SingleValuedTag() override = default;
 	};
+
+	__DEFINE_SINGLE_VALUED_TAG_TYPE(int8_t, ByteTag, TagType::BYTE);
+	__DEFINE_SINGLE_VALUED_TAG_TYPE(int16_t, ShortTag, TagType::SHORT);
+	__DEFINE_SINGLE_VALUED_TAG_TYPE(int32_t, IntTag, TagType::INT);
+	__DEFINE_SINGLE_VALUED_TAG_TYPE(int64_t, LongTag, TagType::LONG);
+	__DEFINE_SINGLE_VALUED_TAG_TYPE(float, FloatTag, TagType::FLOAT);
+	__DEFINE_SINGLE_VALUED_TAG_TYPE(double, DoubleTag, TagType::DOUBLE);
 }
 
 #endif //NBTP_SINGLEVALUEDTAG_H
