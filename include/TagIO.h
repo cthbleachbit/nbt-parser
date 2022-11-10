@@ -14,19 +14,25 @@ namespace NBTP {
 		 * Parse a root tag, this will initialize this tag's type and stuff.
 		 * @param input     the decompressed NBT binary stream
 		 * @param counter   the number of bytes parsed
+		 * @param logging   warning output stream, defaults to nullptr
 		 *
 		 * @return successfully parsed tag on successful parse
 		 *
 		 * @throw std::ios_base::failure for any I/O error occurred
 		 * @throw std::TagParseException for errors occured due to malformed tag
 		 */
-		std::shared_ptr<Tag> parseRoot(std::istream &input, ssize_t &counter);
+		std::shared_ptr<Tag> parseRoot(
+				std::istream &input,
+				ssize_t &counter,
+				std::ostream *logging = nullptr
+		);
 
 		/**
 		 * Parse a root tag, this will initialize this tag's type and stuff.
 		 * @param input     the input stream
 		 * @param counter   the number of bytes parsed
 		 * @param format    specifies the format of incoming data
+		 * @param logging   warning output stream, defaults to nullptr
 		 *
 		 * @return successfully parsed tag on successful parse
 		 *
@@ -34,14 +40,20 @@ namespace NBTP {
 		 * @throw NBTP::TagParseException   for errors due to malformed tag
 		 * @throw std::invalid_argument     if incorrect IOFormat were specified
 		 */
-		std::shared_ptr<Tag> parseRoot(std::istream &input, ssize_t &counter, IOFormat format);
+		std::shared_ptr<Tag> parseRoot(
+				std::istream &input,
+				ssize_t &counter,
+				IOFormat format,
+				std::ostream *logging = nullptr
+		);
 
 		/**
 		 * Output the specified tag as the root tag to the ostream NBT-encoded
-		 * @param ostream
-		 * @param tag
+		 * @param ostream   data output stream
+		 * @param tag       tag to output
+		 * @param logging   warning output stream, defaults to nullptr
 		 */
-		void writeRoot(std::ostream &ostream, Tag &tag);
+		void writeRoot(std::ostream &ostream, Tag &tag, std::ostream *logging = nullptr);
 	}
 
 	/**

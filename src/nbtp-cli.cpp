@@ -40,14 +40,14 @@ int main(int argc, char **argv) {
 	std::string input_file = argv[1];
 	try {
 		if (input_file == "-") {
-			tag = NBTP::TagIO::parseRoot(std::cin, tagSize, NBTP::IOFormat::BIN);
+			tag = NBTP::TagIO::parseRoot(std::cin, tagSize, NBTP::IOFormat::BIN, &std::cerr);
 		} else {
 			std::ifstream in(input_file, std::ios::in | std::ios::binary);
 			if (in.fail()) {
 				std::cerr << "Cannot open file " << input_file << std::endl;
 				exit(1);
 			}
-			tag = NBTP::TagIO::parseRoot(in, tagSize, NBTP::IOFormat::BIN);
+			tag = NBTP::TagIO::parseRoot(in, tagSize, NBTP::IOFormat::BIN, &std::cerr);
 		}
 	} catch (NBTP::TagParseException &e) {
 		std::cerr << e.what() << std::endl;

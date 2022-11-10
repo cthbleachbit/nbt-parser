@@ -10,26 +10,27 @@
 
 namespace NBTP {
 
-	void static _warn(const char *msg, ssize_t counter) {
-		std::cerr << fmt::format(WARNING_PREFIX, counter, msg) << std::endl;
+	void static _warn(const char *msg, ssize_t counter, std::ostream *logging) {
+		if (logging)
+			*logging << fmt::format(WARNING_PREFIX, counter, msg) << std::endl;
 	}
 
-	std::shared_ptr<Tag> TagIO::parseRoot(std::istream &input, ssize_t &counter) {
+	std::shared_ptr<Tag> TagIO::parseRoot(std::istream &input, ssize_t &counter, std::ostream *logging) {
 		counter = 0;
 		TagType typeCode = readType(input, counter);
 		if (typeCode != COMPOUND) {
-			_warn(ROOT_NOT_COMPOUND, counter);
+			_warn(ROOT_NOT_COMPOUND, counter, logging);
 		}
 		std::string name = StringTag::parseString(input, counter);
 		if (name.length() != 0) {
-			_warn(ROOT_HAS_NAME, counter);
+			_warn(ROOT_HAS_NAME, counter, logging);
 		}
 		return Tag::parseTag(input, typeCode, counter);
 	}
 
-	void TagIO::writeRoot(std::ostream &ostream, Tag &tag) {
+	void TagIO::writeRoot(std::ostream &ostream, Tag &tag, std::ostream *logging) {
 		if (tag.typeCode() != COMPOUND) {
-			_warn(ROOT_NOT_COMPOUND, 0);
+			_warn(ROOT_NOT_COMPOUND, 0, logging);
 		}
 		char typeByte = static_cast<char>(tag.typeCode());
 		ostream.write(&typeByte, 1);
@@ -38,10 +39,14 @@ namespace NBTP {
 		tag.output(ostream, BIN);
 	}
 
-	std::shared_ptr<Tag> TagIO::parseRoot(std::istream &input, ssize_t &counter, IOFormat format) {
+	std::shared_ptr<Tag> TagIO::parseRoot(
+			std::istream &input,
+			ssize_t &counter,
+			IOFormat format,
+			std::ostream *logging) {
 		switch (format) {
 			case BIN:
-				return parseRoot(input, counter);
+				return parseRoot(input, counter, logging);
 			case PRETTY_PRINT:
 				throw std::invalid_argument(PARSE_PRETTY);
 			default:
