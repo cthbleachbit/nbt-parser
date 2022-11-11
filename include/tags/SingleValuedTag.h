@@ -16,21 +16,23 @@ namespace NBTP {
 	 *
 	 * Byte / Short / Int / Long / Float / Double tags all derive from this class.
 	 *
-	 * @tparam V  type of the primitive value in the tag
+	 * @tparam P  type of the primitive value in the tag
 	 * @tparam T  NBT TagType this tag should have
 	 */
 	template<
-			typename V,
+			typename P,
 			TagType T,
-			std::enable_if_t<(std::is_floating_point_v<V> || std::is_integral_v<V>) && std::is_signed_v<V>, int> = 0
+			std::enable_if_t<(std::is_floating_point_v<P> || std::is_integral_v<P>) && std::is_signed_v<P>, int> = 0
 	>
 	class SingleValuedTag : public Tag {
+	public:
+		typedef P V;
 
 	protected:
 		/**
 		 * Payload contained within tag
 		 */
-		V payload;
+		P payload;
 
 	public: /* Get and set payload */
 		constexpr TagType typeCode() const noexcept override {
@@ -41,7 +43,7 @@ namespace NBTP {
 		 * Set payload
 		 * @param value incoming value
 		 */
-		virtual void setPayload(V value) {
+		virtual void setPayload(P value) {
 			this->payload = value;
 		}
 
@@ -49,7 +51,7 @@ namespace NBTP {
 		 * Retrieve payload
 		 * @return primitive value contained in the tag
 		 */
-		virtual V getPayload() const {
+		virtual P getPayload() const {
 			return this->payload;
 		}
 
@@ -59,8 +61,8 @@ namespace NBTP {
 		 * @param rhs   the other tag
 		 * @return      std::strong_ordering of the tags
 		 */
-		template<typename V1 = V, std::enable_if_t<std::is_integral_v<V1>, bool> = true>
-		std::strong_ordering operator<=>(const SingleValuedTag<V, T> &rhs) const {
+		template<typename P1 = P, std::enable_if_t<std::is_integral_v<P1>, bool> = true>
+		std::strong_ordering operator<=>(const SingleValuedTag<P, T> &rhs) const {
 			return this->payload <=> rhs.payload;
 		}
 
@@ -71,8 +73,8 @@ namespace NBTP {
 		 * @param rhs   the other tag
 		 * @return      std::partial_ordering of the tags
 		 */
-		template<typename V1 = V, std::enable_if_t<std::is_floating_point_v<V1>, bool> = true>
-		std::partial_ordering operator<=>(const SingleValuedTag<V, T> &rhs) const {
+		template<typename P1 = P, std::enable_if_t<std::is_floating_point_v<P1>, bool> = true>
+		std::partial_ordering operator<=>(const SingleValuedTag<P, T> &rhs) const {
 			return this->payload <=> rhs.payload;
 		}
 
@@ -85,7 +87,7 @@ namespace NBTP {
 			if (rhs.typeCode() != this->typeCode()) {
 				return false;
 			}
-			return std::is_eq(*this <=> ((const SingleValuedTag<V, T> &) rhs));
+			return std::is_eq(*this <=> ((const SingleValuedTag<P, T> &) rhs));
 		}
 
 	public: /* I/O */
@@ -106,9 +108,9 @@ namespace NBTP {
 		 * @param counter      updated to reflect the number of bytes read from the input stream
 		 * @return
 		 */
-		static V parseBinaryNumeric(std::istream &input, ssize_t &counter) {
-			V buffer;
-			input.read(reinterpret_cast<char *>(&buffer), sizeof(V));
+		static P parseBinaryNumeric(std::istream &input, ssize_t &counter) {
+			P buffer;
+			input.read(reinterpret_cast<char *>(&buffer), sizeof(P));
 			try {
 				input.exceptions(std::istream::failbit);
 			} catch (std::ios_base::failure &e) {
@@ -116,7 +118,7 @@ namespace NBTP {
 			}
 			/* Perform java big-endian to host conversion */
 			buffer = Conversion::toH(buffer);
-			counter += sizeof(V);
+			counter += sizeof(P);
 			return buffer;
 		}
 
@@ -127,8 +129,8 @@ namespace NBTP {
 		 */
 		std::ostream &nbtOutput(std::ostream &ostream) const override {
 			/* Perform host to java big endian conversion */
-			V big = Conversion::toJ(this->payload);
-			ostream.write(reinterpret_cast<const char *>(&big), sizeof(V));
+			P big = Conversion::toJ(this->payload);
+			ostream.write(reinterpret_cast<const char *>(&big), sizeof(P));
 			return ostream;
 		}
 
@@ -139,7 +141,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to copy from
 		 */
-		SingleValuedTag(const SingleValuedTag<V, T> &tag) noexcept {
+		SingleValuedTag(const SingleValuedTag<P, T> &tag) noexcept {
 			this->payload = tag.payload;
 		}
 
@@ -148,7 +150,7 @@ namespace NBTP {
 		 * @param tag  The right hand side to copy from
 		 * @return Updated tag
 		 */
-		SingleValuedTag &operator=(const SingleValuedTag<V, T> &tag) noexcept {
+		SingleValuedTag &operator=(const SingleValuedTag<P, T> &tag) noexcept {
 			if (&tag == this) {
 				return *this;
 			}
@@ -163,7 +165,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to move from
 		 */
-		SingleValuedTag(SingleValuedTag<V, T> &&tag) noexcept {
+		SingleValuedTag(SingleValuedTag<P, T> &&tag) noexcept {
 			this->payload = tag.payload;
 		}
 
@@ -172,7 +174,7 @@ namespace NBTP {
 		 * @param tag   The right hand side to move from
 		 * @return Updated tag
 		 */
-		SingleValuedTag &operator=(SingleValuedTag<V, T> &&tag) noexcept {
+		SingleValuedTag &operator=(SingleValuedTag<P, T> &&tag) noexcept {
 			this->payload = tag.payload;
 			return *this;
 		}
@@ -186,7 +188,7 @@ namespace NBTP {
 		 * Direct constructor
 		 * @param value    value this tag should take
 		 */
-		explicit SingleValuedTag(V value) : payload(value) {};
+		explicit SingleValuedTag(P value) : payload(value) {};
 
 		/**
 		 * Deserializer constructor for decompressed NBT input

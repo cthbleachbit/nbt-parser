@@ -173,15 +173,15 @@ namespace NBTP {
 	 * A prototype class for fixed type lists.
 	 * 3 types are currently in use by Minecraft: Ints, Bytes, and Longs, implemented as typedefs from this template.
 	 *
-	 * @tparam V    primitive type in C/C++ for tags stored here
+	 * @tparam P    primitive type in C/C++ for tags stored here
 	 * @tparam T    NBT tag type for tags stored here
 	 * @tparam L    NBT tag type for the list itself
 	 *
-	 * Note: SingleValuedTag<V, T> should be a tag type that is typedef'd in SingleValueTags.
+	 * Note: SingleValuedTag<P, T> should be a tag type that is typedef'd in SingleValueTags.
 	 */
-	template<typename V, TagType T, TagType L>
+	template<typename P, TagType T, TagType L>
 	class TypedListTag : public ListTag {
-		typedef SingleValuedTag<V, T> ContentTag;
+		typedef SingleValuedTag<P, T> ContentTag;
 	public: /* Content Type information */
 		/**
 		 * For a fixed size list, this function does nothing as the type cannot be changed
@@ -204,7 +204,7 @@ namespace NBTP {
 		 * Insert a literal value into the byte array. Type of argument must match fixed content for this list.
 		 * @param v the byte to insert
 		 */
-		void insert(V v) {
+		void insert(P v) {
 			ListTag::insert(std::make_shared<ContentTag>(v));
 		}
 
