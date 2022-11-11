@@ -16,7 +16,7 @@
  * @param ClassName     Name of the class
  * @param TagTypeEnum   TagType value for this type of tag
  */
-#define __DEFINE_SINGLE_VALUED_TAG_TYPE(Primitive, ClassName, TagTypeEnum) \
+#define DEFINE_SINGLE_VALUED_TAG_TYPE(Primitive, ClassName, TagTypeEnum) \
 class ClassName : public SingleValuedTag<Primitive> { \
 public: \
 constexpr TagType typeCode() const noexcept override { return TagTypeEnum ; } \
@@ -33,7 +33,8 @@ namespace NBTP {
 	 *
 	 * @tparam V  type of the primitive value in the tag
 	 */
-	template<typename V>
+	template<typename V, std::enable_if_t<
+			(std::is_floating_point_v<V> || std::is_integral_v<V>) && std::is_signed_v<V>, bool> = true>
 	class SingleValuedTag : public Tag {
 
 	protected:
@@ -61,7 +62,29 @@ namespace NBTP {
 
 	public: /* Comparison operators */
 		/**
-		 * Equality operator
+		 * Spaceship operator for tags that contains integer types.
+		 * @param rhs   the other tag
+		 * @return      std::strong_ordering of the tags
+		 */
+		template<typename V1 = V, std::enable_if_t<std::is_integral_v<V1>, bool> = true>
+		std::strong_ordering operator<=>(const SingleValuedTag<V> &rhs) const {
+			return this->payload <=> rhs.payload;
+		}
+
+		/**
+		 * Spaceship operator for tags that contains decimal types.
+		 * Note: the return type is std::partial_ordering since floating point in IEEE754 allows NaN and Inf.
+		 *
+		 * @param rhs   the other tag
+		 * @return      std::partial_ordering of the tags
+		 */
+		template<typename V1 = V, std::enable_if_t<std::is_floating_point_v<V1>, bool> = true>
+		std::partial_ordering operator<=>(const SingleValuedTag<V> &rhs) const {
+			return this->payload <=> rhs.payload;
+		}
+
+		/**
+		 * Equality operator for potentially other tag types
 		 * @param rhs  the other tag to compare
 		 * @return  whether tags are equal
 		 */
@@ -69,7 +92,7 @@ namespace NBTP {
 			if (rhs.typeCode() != this->typeCode()) {
 				return false;
 			}
-			return this->payload == ((const SingleValuedTag<V> &) rhs).payload;
+			return std::is_eq(*this <=> ((const SingleValuedTag<V> &) rhs));
 		}
 
 	public: /* I/O */
@@ -205,12 +228,12 @@ namespace NBTP {
 		~SingleValuedTag() override = default;
 	};
 
-	__DEFINE_SINGLE_VALUED_TAG_TYPE(int8_t, ByteTag, TagType::BYTE);
-	__DEFINE_SINGLE_VALUED_TAG_TYPE(int16_t, ShortTag, TagType::SHORT);
-	__DEFINE_SINGLE_VALUED_TAG_TYPE(int32_t, IntTag, TagType::INT);
-	__DEFINE_SINGLE_VALUED_TAG_TYPE(int64_t, LongTag, TagType::LONG);
-	__DEFINE_SINGLE_VALUED_TAG_TYPE(float, FloatTag, TagType::FLOAT);
-	__DEFINE_SINGLE_VALUED_TAG_TYPE(double, DoubleTag, TagType::DOUBLE);
+	DEFINE_SINGLE_VALUED_TAG_TYPE(int8_t, ByteTag, TagType::BYTE);
+	DEFINE_SINGLE_VALUED_TAG_TYPE(int16_t, ShortTag, TagType::SHORT);
+	DEFINE_SINGLE_VALUED_TAG_TYPE(int32_t, IntTag, TagType::INT);
+	DEFINE_SINGLE_VALUED_TAG_TYPE(int64_t, LongTag, TagType::LONG);
+	DEFINE_SINGLE_VALUED_TAG_TYPE(float, FloatTag, TagType::FLOAT);
+	DEFINE_SINGLE_VALUED_TAG_TYPE(double, DoubleTag, TagType::DOUBLE);
 }
 
 #endif //NBTP_SINGLEVALUEDTAG_H
