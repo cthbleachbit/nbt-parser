@@ -138,7 +138,8 @@ namespace NBTP {
 				break;
 			case PRETTY_PRINT:
 				throw std::invalid_argument(PARSE_PRETTY);
-				break;
+			default:
+				throw std::invalid_argument(PARSE_UNKNOWN_FMT);
 		}
 	}
 
@@ -198,24 +199,5 @@ namespace NBTP {
 		auto ret = this->payload[index];
 		this->payload.erase(this->payload.begin() + index);
 		return ret;
-	}
-
-	void TypedListTag::setContentType(TagType type) noexcept {}
-
-	std::ostream &TypedListTag::nbtOutput(std::ostream &ostream) const {
-		// Do size sanity checking
-		if (this->size() > INT32_MAX) {
-			throw std::runtime_error(LIST_TOO_LONG);
-		}
-		IntTag tmp(this->size());
-		tmp.nbtOutput(ostream);
-		outputPayloadOnly(ostream, BIN, 0);
-		return ostream;
-	}
-
-	std::ostream &TypedListTag::textOutput(std::ostream &ostream, unsigned int indent) const {
-		ostream << fmt::format(REPR_TYPED_LIST, TypeNames[this->typeCode()], this->size()) << std::endl;
-		outputPayloadOnly(ostream, PRETTY_PRINT, indent);
-		return ostream;
 	}
 }

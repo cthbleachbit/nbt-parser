@@ -7,6 +7,7 @@
 
 #include <vector>
 #include "Tag.h"
+#include "SingleValuedTag.h"
 
 namespace NBTP {
 	/**
@@ -144,6 +145,7 @@ namespace NBTP {
 		 *
 		 * @throw NBTP::TagParseException if array length is negative
 		 * @throw std::ios_base::failure  if I/O error has occurred
+		 * @throw std::invalid_argument   if an invalid format is specified
 		 */
 		ListTag(std::istream &input, ssize_t &counter, IOFormat format);
 
@@ -168,19 +170,113 @@ namespace NBTP {
 	};
 
 	/**
-	 * A prototype class for fixed type lists, namely Int, Byte, and Float array
+	 * A prototype class for fixed type lists.
+	 * 3 types are currently in use by Minecraft: Ints, Bytes, and Longs, implemented as typedefs from this template.
+	 *
+	 * @tparam V    primitive type in C/C++ for tags stored here
+	 * @tparam T    NBT tag type for tags stored here
+	 * @tparam L    NBT tag type for the list itself
+	 *
+	 * Note: SingleValuedTag<V, T> should be a tag type that is typedef'd in SingleValueTags.
 	 */
+	template<typename V, TagType T, TagType L>
 	class TypedListTag : public ListTag {
-	public:
+		typedef SingleValuedTag<V, T> ContentTag;
+	public: /* Content Type information */
 		/**
 		 * For a fixed size list, this function does nothing as the type cannot be changed
 		 * @param type
 		 */
-		void setContentType(TagType type) noexcept override;
+		void setContentType(TagType type) noexcept override {}
 
-		std::ostream &nbtOutput(std::ostream &ostream) const override;
+		/**
+		 * @return NBT type for the list itself
+		 */
+		constexpr TagType typeCode() const noexcept override { return L; }
 
-		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override;
+		/**
+		 * @return NBT type for tags stored within
+		 */
+		constexpr TagType getContentType() const noexcept override { return T; }
+
+	public: /* Content manipulation */
+		/**
+		 * Insert a literal value into the byte array. Type of argument must match fixed content for this list.
+		 * @param v the byte to insert
+		 */
+		void insert(V v) {
+			ListTag::insert(std::make_shared<ContentTag>(v));
+		}
+
+		/**
+		 * Insert a pre-formed tag. Type of argument must match fixed content for this list.
+		 * @param v the byte to insert
+		 * @throw std::runtime_error if the tag to be inserted doesn't match type for this list.
+		 */
+		void insert(const std::shared_ptr<Tag> &v) override {
+			ListTag::insert(v);
+		}
+
+	public: /* Constructor and I/O */
+		/**
+		 * Deserializer constructor with specified format
+		 * @param input        data input stream
+		 * @param counter      updated to reflect the number of bytes read from the input stream
+		 * @param format       specifies the format of incoming data
+		 *
+		 * @throw NBTP::TagParseException if array length is negative
+		 * @throw std::ios_base::failure  if I/O error has occurred
+		 * @throw std::invalid_argument   if an invalid format is specified
+		 */
+		TypedListTag(std::istream &input, ssize_t &counter, IOFormat format = BIN) {
+			int32_t size;
+			switch (format) {
+				case BIN:
+					size = IntTag::parseBinaryNumeric(input, counter);
+					if (size < 0) {
+						throw TagParseException(counter, fmt::format(CONTENT_LEN_NEG, size));
+					}
+					for (int i = 0; i < size; i++) {
+						this->payload.push_back(std::make_shared<ContentTag>(input, counter));
+					}
+					break;
+				case PRETTY_PRINT:
+					throw std::invalid_argument(PARSE_PRETTY);
+				default:
+					throw std::invalid_argument(PARSE_UNKNOWN_FMT);
+			}
+			this->contentType = T;
+		}
+
+		/**
+		 * Helper function to write a fix-typed list tag to ostream
+		 * @param ostream        output data stream
+		 * @return the ostream passed in
+		 */
+		std::ostream &nbtOutput(std::ostream &ostream) const override {
+			/* Do size sanity checking */
+			if (this->size() > INT32_MAX) {
+				throw std::runtime_error(LIST_TOO_LONG);
+			}
+			/* Write header, i.e. length of the list */
+			IntTag tmp(this->size());
+			tmp.nbtOutput(ostream);
+			/* Write payload */
+			outputPayloadOnly(ostream, BIN, 0);
+			return ostream;
+		}
+
+		/**
+		 * Format this tag in human readable output
+		 * @param ostream   output stream to write formatted string info
+		 * @param indent    indentation - content will be indented 1 level deeper
+		 * @return          output stream
+		 */
+		std::ostream &textOutput(std::ostream &ostream, unsigned int indent) const override {
+			ostream << fmt::format(REPR_TYPED_LIST, TypeNames[this->typeCode()], this->size()) << std::endl;
+			outputPayloadOnly(ostream, PRETTY_PRINT, indent);
+			return ostream;
+		}
 
 		TypedListTag() = default;
 
@@ -202,6 +298,10 @@ namespace NBTP {
 
 		TypedListTag &operator=(TypedListTag &&from) noexcept = default;
 	};
+
+	typedef TypedListTag<int8_t, TagType::BYTE, TagType::BYTES> BytesTag;
+	typedef TypedListTag<int32_t, TagType::INT, TagType::INTS> IntsTag;
+	typedef TypedListTag<int64_t, TagType::LONG, TagType::LONGS> LongsTag;
 }
 
 
