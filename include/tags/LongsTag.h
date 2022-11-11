@@ -7,4 +7,10 @@
 
 #include "ListTag.h"
 
+#pragma message "This header has been deprecated and might be removed in the future. Include tags/ListTag.h instead for LongsTag."
+
+/**
+ * LongsTag definition has moved to ListTag.h
+ */
+
 #endif //NBTP_LONGSTAG_H

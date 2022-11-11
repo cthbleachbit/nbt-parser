@@ -12,9 +12,6 @@
 #include "tags/Tag.h"
 #include "tags/SingleValuedTag.h"
 
-#include "tags/BytesTag.h"
-#include "tags/IntsTag.h"
-#include "tags/LongsTag.h"
 #include "tags/CompoundTag.h"
 #include "tags/ListTag.h"
 #include "tags/StringTag.h"

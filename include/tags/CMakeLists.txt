@@ -1,9 +1,6 @@
 set(NBTP_TAGS_HEADERS
 		Tag.h
 		SingleValuedTag.h
-		BytesTag.h
-		IntsTag.h
-		LongsTag.h
 		CompoundTag.h
 		ListTag.h
 		StringTag.h
@@ -16,6 +13,9 @@ set(NBTP_TAGS_HEADERS_DEPRECATED
 		LongTag.h
 		FloatTag.h
 		DoubleTag.h
+		BytesTag.h
+		IntsTag.h
+		LongsTag.h
 		)
 
 install(FILES ${NBTP_TAGS_HEADERS} DESTINATION ${INSTALL_INCLUDE_DIR}/nbtp/tags)
