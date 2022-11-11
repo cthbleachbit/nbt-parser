@@ -111,12 +111,6 @@ PYBIND11_MODULE(pynbtp, m) {
 				.def("output", pyNBTP::pyOutputTag, "Serialize the tag and write to external file")
 				.def("typeCode", &Tag::typeCode, "Retrieve type code for this tag")
 				.def("__repr__", &Tag::toString);
-		py::class_<SingleValuedTag<int8_t>, Tag, shared_ptr<SingleValuedTag<int8_t>>>(m, "__SingleValuedInt8Tag");
-		py::class_<SingleValuedTag<int16_t>, Tag, shared_ptr<SingleValuedTag<int16_t>>>(m, "__SingleValuedInt16Tag");
-		py::class_<SingleValuedTag<int32_t>, Tag, shared_ptr<SingleValuedTag<int32_t>>>(m, "__SingleValuedInt32Tag");
-		py::class_<SingleValuedTag<int64_t>, Tag, shared_ptr<SingleValuedTag<int64_t>>>(m, "__SingleValuedInt64Tag");
-		py::class_<SingleValuedTag<float>, Tag, shared_ptr<SingleValuedTag<float>>>(m, "__SingleValuedFloatTag");
-		py::class_<SingleValuedTag<double>, Tag, shared_ptr<SingleValuedTag<double>>>(m, "__SingleValuedDoubleTag");
 		py::class_<ContainerTag, Tag, shared_ptr<ContainerTag>>
 				(
 						m,
@@ -205,7 +199,7 @@ PYBIND11_MODULE(pynbtp, m) {
 				.def("getPayload", &StringTag::getPayload);
 
 		/* Single Valued Tags */
-		py::class_<ByteTag, SingleValuedTag<int8_t>, Tag, shared_ptr<ByteTag>>
+		py::class_<ByteTag, Tag, shared_ptr<ByteTag>>
 				(
 						m,
 						"ByteTag",
@@ -214,7 +208,7 @@ PYBIND11_MODULE(pynbtp, m) {
 				.def(py::init<int8_t>())
 				.def("setPayload", &ByteTag::setPayload)
 				.def("getPayload", &ByteTag::getPayload);
-		py::class_<ShortTag, SingleValuedTag<int16_t>, Tag, shared_ptr<ShortTag>>
+		py::class_<ShortTag, Tag, shared_ptr<ShortTag>>
 				(
 						m,
 						"ShortTag",
@@ -223,7 +217,7 @@ PYBIND11_MODULE(pynbtp, m) {
 				.def(py::init<int16_t>())
 				.def("setPayload", &ShortTag::setPayload)
 				.def("getPayload", &ShortTag::getPayload);
-		py::class_<IntTag, SingleValuedTag<int32_t>, Tag, shared_ptr<IntTag>>
+		py::class_<IntTag, Tag, shared_ptr<IntTag>>
 				(
 						m,
 						"IntTag",
@@ -232,7 +226,7 @@ PYBIND11_MODULE(pynbtp, m) {
 				.def(py::init<int32_t>())
 				.def("setPayload", &IntTag::setPayload)
 				.def("getPayload", &IntTag::getPayload);
-		py::class_<LongTag, SingleValuedTag<int64_t>, Tag, shared_ptr<LongTag>>
+		py::class_<LongTag, Tag, shared_ptr<LongTag>>
 				(
 						m,
 						"LongTag",
@@ -241,7 +235,7 @@ PYBIND11_MODULE(pynbtp, m) {
 				.def(py::init<int64_t>())
 				.def("setPayload", &LongTag::setPayload)
 				.def("getPayload", &LongTag::getPayload);
-		py::class_<FloatTag, SingleValuedTag<float>, Tag, shared_ptr<FloatTag>>
+		py::class_<FloatTag, Tag, shared_ptr<FloatTag>>
 				(
 						m,
 						"FloatTag",
@@ -250,7 +244,7 @@ PYBIND11_MODULE(pynbtp, m) {
 				.def(py::init<float>())
 				.def("setPayload", &FloatTag::setPayload)
 				.def("getPayload", &FloatTag::getPayload);
-		py::class_<DoubleTag, SingleValuedTag<double>, Tag, shared_ptr<DoubleTag>>
+		py::class_<DoubleTag, Tag, shared_ptr<DoubleTag>>
 				(
 						m,
 						"DoubleTag",

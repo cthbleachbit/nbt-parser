@@ -2,36 +2,36 @@
 #include <cstdint>
 #include "tags/SingleValuedTag.h"
 
-template<typename T, std::enable_if_t<std::is_integral_v<T> || std::is_floating_point_v<T>, bool> = true>
+template<typename V, std::enable_if_t<std::is_integral_v<V> || std::is_floating_point_v<V>, bool> = true>
 class SingleValuedTagTest : public ::testing::Test {
 protected:
 	/**
 	 * Test constructors and parsers
 	 * @param value value to construct
 	 */
-	static void testConstruct(T value) {
+	static void testConstruct(V value) {
 		using namespace NBTP;
-		SingleValuedTag<T> direct(value);
+		SingleValuedTag<V, TagType::END> direct(value);
 		ASSERT_EQ(direct.getPayload(), value);
 
-		SingleValuedTag<T> copied(direct);
+		SingleValuedTag<V, TagType::END> copied(direct);
 		ASSERT_EQ(direct.getPayload(), copied.getPayload());
 
 		copied.setPayload(value + 1);
 		ASSERT_EQ(direct.getPayload() + 1, copied.getPayload());
 	}
 
-	static void testParseBinary(T value) {
+	static void testParseBinary(V value) {
 		using namespace NBTP;
 
 		/* Dump big endian into memory */
-		T bigEndian = Conversion::toJ(value);
+		V bigEndian = Conversion::toJ(value);
 		std::stringstream ss;
-		ss.write(reinterpret_cast<const char *>(&bigEndian), sizeof(T));
+		ss.write(reinterpret_cast<const char *>(&bigEndian), sizeof(V));
 
 		ssize_t counter = 0;
-		T parsed = SingleValuedTag<T>::parseBinaryNumeric(ss, counter);
-		ASSERT_EQ(counter, sizeof(T));
+		V parsed = SingleValuedTag<V, TagType::END>::parseBinaryNumeric(ss, counter);
+		ASSERT_EQ(counter, sizeof(V));
 		ASSERT_EQ(parsed, value);
 	}
 };

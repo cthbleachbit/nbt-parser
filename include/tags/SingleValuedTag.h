@@ -10,21 +10,6 @@
 #include "Conversion.h"
 #include "Tag.h"
 
-/**
- * Define a new tag type based off SingleValuedTagd
- * @param Primitive     C/C++ type of primitive stored in the tag
- * @param ClassName     Name of the class
- * @param TagTypeEnum   TagType value for this type of tag
- */
-#define DEFINE_SINGLE_VALUED_TAG_TYPE(Primitive, ClassName, TagTypeEnum) \
-class ClassName : public SingleValuedTag<Primitive> { \
-public: \
-constexpr TagType typeCode() const noexcept override { return TagTypeEnum ; } \
-explicit ClassName(Primitive value) : SingleValuedTag<Primitive>(value) {}; \
-ClassName(std::istream &input, ssize_t &counter) : ClassName(input, counter, BIN) {}; \
-ClassName(std::istream &input, ssize_t &counter, IOFormat format) : SingleValuedTag<Primitive>(input, counter, format) {}; \
-};
-
 namespace NBTP {
 	/**
 	 * @class A tag that contains a fix-sized primitive - integers or decimals.
@@ -32,9 +17,13 @@ namespace NBTP {
 	 * Byte / Short / Int / Long / Float / Double tags all derive from this class.
 	 *
 	 * @tparam V  type of the primitive value in the tag
+	 * @tparam T  NBT TagType this tag should have
 	 */
-	template<typename V, std::enable_if_t<
-			(std::is_floating_point_v<V> || std::is_integral_v<V>) && std::is_signed_v<V>, bool> = true>
+	template<
+			typename V,
+			TagType T,
+			std::enable_if_t<(std::is_floating_point_v<V> || std::is_integral_v<V>) && std::is_signed_v<V>, int> = 0
+	>
 	class SingleValuedTag : public Tag {
 
 	protected:
@@ -44,6 +33,10 @@ namespace NBTP {
 		V payload;
 
 	public: /* Get and set payload */
+		constexpr TagType typeCode() const noexcept override {
+			return T;
+		}
+
 		/**
 		 * Set payload
 		 * @param value incoming value
@@ -67,7 +60,7 @@ namespace NBTP {
 		 * @return      std::strong_ordering of the tags
 		 */
 		template<typename V1 = V, std::enable_if_t<std::is_integral_v<V1>, bool> = true>
-		std::strong_ordering operator<=>(const SingleValuedTag<V> &rhs) const {
+		std::strong_ordering operator<=>(const SingleValuedTag<V, T> &rhs) const {
 			return this->payload <=> rhs.payload;
 		}
 
@@ -79,7 +72,7 @@ namespace NBTP {
 		 * @return      std::partial_ordering of the tags
 		 */
 		template<typename V1 = V, std::enable_if_t<std::is_floating_point_v<V1>, bool> = true>
-		std::partial_ordering operator<=>(const SingleValuedTag<V> &rhs) const {
+		std::partial_ordering operator<=>(const SingleValuedTag<V, T> &rhs) const {
 			return this->payload <=> rhs.payload;
 		}
 
@@ -92,7 +85,7 @@ namespace NBTP {
 			if (rhs.typeCode() != this->typeCode()) {
 				return false;
 			}
-			return std::is_eq(*this <=> ((const SingleValuedTag<V> &) rhs));
+			return std::is_eq(*this <=> ((const SingleValuedTag<V, T> &) rhs));
 		}
 
 	public: /* I/O */
@@ -146,7 +139,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to copy from
 		 */
-		SingleValuedTag(const SingleValuedTag<V> &tag) noexcept {
+		SingleValuedTag(const SingleValuedTag<V, T> &tag) noexcept {
 			this->payload = tag.payload;
 		}
 
@@ -155,7 +148,7 @@ namespace NBTP {
 		 * @param tag  The right hand side to copy from
 		 * @return Updated tag
 		 */
-		SingleValuedTag &operator=(const SingleValuedTag<V> &tag) noexcept {
+		SingleValuedTag &operator=(const SingleValuedTag<V, T> &tag) noexcept {
 			if (&tag == this) {
 				return *this;
 			}
@@ -170,7 +163,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to move from
 		 */
-		SingleValuedTag(SingleValuedTag<V> &&tag) noexcept {
+		SingleValuedTag(SingleValuedTag<V, T> &&tag) noexcept {
 			this->payload = tag.payload;
 		}
 
@@ -179,7 +172,7 @@ namespace NBTP {
 		 * @param tag   The right hand side to move from
 		 * @return Updated tag
 		 */
-		SingleValuedTag &operator=(SingleValuedTag<V> &&tag) noexcept {
+		SingleValuedTag &operator=(SingleValuedTag<V, T> &&tag) noexcept {
 			this->payload = tag.payload;
 			return *this;
 		}
@@ -228,12 +221,35 @@ namespace NBTP {
 		~SingleValuedTag() override = default;
 	};
 
-	DEFINE_SINGLE_VALUED_TAG_TYPE(int8_t, ByteTag, TagType::BYTE);
-	DEFINE_SINGLE_VALUED_TAG_TYPE(int16_t, ShortTag, TagType::SHORT);
-	DEFINE_SINGLE_VALUED_TAG_TYPE(int32_t, IntTag, TagType::INT);
-	DEFINE_SINGLE_VALUED_TAG_TYPE(int64_t, LongTag, TagType::LONG);
-	DEFINE_SINGLE_VALUED_TAG_TYPE(float, FloatTag, TagType::FLOAT);
-	DEFINE_SINGLE_VALUED_TAG_TYPE(double, DoubleTag, TagType::DOUBLE);
+	/**
+	 * @typedef A tag that contains an 8-bit signed integer
+	 */
+	typedef SingleValuedTag<int8_t, TagType::BYTE> ByteTag;
+
+	/**
+	 * @typedef A tag that contains a 16-bit signed integer
+	 */
+	typedef SingleValuedTag<int16_t, TagType::SHORT> ShortTag;
+
+	/**
+	 * @typedef A tag that contains a 32-bit signed integer
+	 */
+	typedef SingleValuedTag<int32_t, TagType::INT> IntTag;
+
+	/**
+	 * @typedef A tag that contains a 64-bit signed integer
+	 */
+	typedef SingleValuedTag<int64_t, TagType::LONG> LongTag;
+
+	/**
+	 * @typedef A tag that contains a 32-bit IEEE754 decimal (i.e. float)
+	 */
+	typedef SingleValuedTag<float, TagType::FLOAT> FloatTag;
+
+	/**
+	 * @typedef A tag that contains a 64-bit IEEE754 decimal (i.e. double)
+	 */
+	typedef SingleValuedTag<double, TagType::DOUBLE> DoubleTag;
 }
 
 #endif //NBTP_SINGLEVALUEDTAG_H
