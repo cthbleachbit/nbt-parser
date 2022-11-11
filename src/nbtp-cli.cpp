@@ -18,10 +18,10 @@ void version(std::ostream &o) {
 
 void usage(std::ostream &o) {
 	using namespace std;
-	o << "Usage: nbtp-cli <NBT FILE>" << endl;
-	o << "Use - to specify standard input" << endl;
-	o << endl;
-	o << "Example program, a single decompressed NBT viewer, with libnbtp." << endl;
+	o << "Usage: nbtp-cli <DECOMPRESSED NBT FILE>" << endl;
+	o << "  A decompressed NBT viewer, built with libnbtp." << endl;
+	o << "  Use `-' to read from standard input." << endl;
+	o << "  Use `zcat <compressed nbt.dat> | nbtp-cli -' to inspect compressed NBT." << endl;
 	version(o);
 }
 
