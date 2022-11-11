@@ -11,4 +11,4 @@ You'll need the following dependencies:
 
 * `fmtlib` - required, handles formatting of human readable messages.
 * `python3` and `pybind11` - optional, builds python bindings for NBTP.
-* `boost_test` - optional, only if you want to run unit tests.
+* `googletest` - optional, only if you want to run unit tests.
