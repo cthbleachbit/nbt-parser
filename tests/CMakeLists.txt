@@ -8,6 +8,7 @@ set(NBTP_TESTS
 		ContainerTagTest
 		RealParseTest
 		UnparseTest
+		SingleValuedTagTest
 		)
 
 foreach(TEST_FILE ${NBTP_TESTS})
