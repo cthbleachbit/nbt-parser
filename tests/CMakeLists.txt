@@ -19,5 +19,3 @@ foreach(TEST_FILE ${NBTP_TESTS})
 	target_link_libraries(${TEST_FILE} PUBLIC gtest)
 	gtest_discover_tests(${TEST_FILE})
 endforeach()
-
-add_subdirectory(test_data)
