@@ -34,6 +34,7 @@ if (NBTP_BUILD_PYTHON_MODULE)
 endif ()
 option(NBTP_BUILD_STATIC_LIB "Build static library as well (Unix only)" OFF)
 option(NBTP_COVERAGE "Enable code coverage instrumentation" OFF)
+option(NBTP_INSTALL_DEPRECATED_HEADER "Install deprecated headers for compatibility" OFF)
 
 # Windows hacks
 if (NBTP_DEBUG OR (CMAKE_BUILD_TYPE STREQUAL "Debug"))
