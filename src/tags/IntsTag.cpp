@@ -19,7 +19,7 @@ namespace NBTP {
 		int32_t size;
 		switch (format) {
 			case BIN:
-				size = SingleValuedTag<int32_t>::parseBinaryNumeric(input, counter);
+				size = IntTag::parseBinaryNumeric(input, counter);
 				if (size < 0) {
 					throw TagParseException(counter, fmt::format(CONTENT_LEN_NEG, size));
 				}

@@ -116,7 +116,7 @@ namespace NBTP {
 				}
 
 				// Read in payload length
-				size = SingleValuedTag<int32_t>::parseBinaryNumeric(input, counter);
+				size = IntTag::parseBinaryNumeric(input, counter);
 				if (size < 0) {
 					throw TagParseException(counter, fmt::format(CONTENT_LEN_NEG, size));
 				}
