@@ -28,7 +28,7 @@ namespace NBTP {
 		return Tag::parseTag(input, typeCode, counter);
 	}
 
-	void TagIO::writeRoot(std::ostream &ostream, Tag &tag, std::ostream *logging) {
+	void TagIO::writeRoot(std::ostream &ostream, const Tag &tag, std::ostream *logging) {
 		if (tag.typeCode() != COMPOUND) {
 			_warn(ROOT_NOT_COMPOUND, 0, logging);
 		}

@@ -24,8 +24,11 @@ namespace NBTP {
 			TagType T,
 			std::enable_if_t<(std::is_floating_point_v<P> || std::is_integral_v<P>) && std::is_signed_v<P>, int> = 0
 	>
-	class SingleValuedTag : public Tag {
+	class SingleValuedTag final : public Tag {
 	public:
+		/**
+		 * @typedef Compatibility: some programs may still use this for value type.
+		 */
 		typedef P V;
 
 	protected:
@@ -43,7 +46,7 @@ namespace NBTP {
 		 * Set payload
 		 * @param value incoming value
 		 */
-		virtual void setPayload(P value) {
+		void setPayload(P value) noexcept {
 			this->payload = value;
 		}
 
@@ -51,7 +54,7 @@ namespace NBTP {
 		 * Retrieve payload
 		 * @return primitive value contained in the tag
 		 */
-		virtual P getPayload() const {
+		P getPayload() const noexcept {
 			return this->payload;
 		}
 
@@ -68,7 +71,8 @@ namespace NBTP {
 
 		/**
 		 * Spaceship operator for tags that contains decimal types.
-		 * Note: the return type is std::partial_ordering since floating point in IEEE754 allows NaN and Inf.
+		 *
+		 * @note The return type is std::partial_ordering since floating point in IEEE754 allows NaN and Inf.
 		 *
 		 * @param rhs   the other tag
 		 * @return      std::partial_ordering of the tags
@@ -141,7 +145,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to copy from
 		 */
-		SingleValuedTag(const SingleValuedTag<P, T> &tag) noexcept {
+		explicit SingleValuedTag(const SingleValuedTag<P, T> &tag) noexcept {
 			this->payload = tag.payload;
 		}
 
@@ -165,7 +169,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to move from
 		 */
-		SingleValuedTag(SingleValuedTag<P, T> &&tag) noexcept {
+		explicit SingleValuedTag(SingleValuedTag<P, T> &&tag) noexcept {
 			this->payload = tag.payload;
 		}
 

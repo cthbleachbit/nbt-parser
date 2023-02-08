@@ -19,7 +19,7 @@ namespace NBTP {
 		 * @return successfully parsed tag on successful parse
 		 *
 		 * @throw std::ios_base::failure for any I/O error occurred
-		 * @throw std::TagParseException for errors occured due to malformed tag
+		 * @throw std::TagParseException for errors occurred due to malformed tag
 		 */
 		std::shared_ptr<Tag> parseRoot(
 				std::istream &input,
@@ -53,7 +53,7 @@ namespace NBTP {
 		 * @param tag       tag to output
 		 * @param logging   warning output stream, defaults to nullptr
 		 */
-		void writeRoot(std::ostream &ostream, Tag &tag, std::ostream *logging = nullptr);
+		void writeRoot(std::ostream &ostream, const Tag &tag, std::ostream *logging = nullptr);
 	}
 
 	/**
@@ -65,6 +65,10 @@ namespace NBTP {
 		std::string message;
 
 	public:
+		/**
+		 * @param offset byte-offset into the input stream
+		 * @param reason human readable error string describing what went wrong
+		 */
 		TagParseException(ssize_t offset, std::string reason) noexcept;
 		const char *what() const noexcept override;
 	};
@@ -78,6 +82,10 @@ namespace NBTP {
 		const TagType got;
 		std::string message;
 	public:
+		/**
+		 * @param expected type expected under this context
+		 * @param got      actual tag type received
+		 */
 		ListTypeMismatchException(TagType expected, TagType got) noexcept;
 		const char *what() const noexcept override;
 	};
