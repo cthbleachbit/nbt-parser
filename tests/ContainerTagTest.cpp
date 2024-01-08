@@ -63,6 +63,17 @@ TEST(ContainerTagTest, Nonexistent) {
 	ASSERT_EQ(tag->lookup("www"), nullptr);
 }
 
+TEST(ContainerTagTest, ListMove) {
+	auto from_tag = std::make_shared<NBTP::ListTag>(NBTP::TagType::INT);
+	from_tag->insert(std::make_shared<NBTP::IntTag>(42));
+	auto to_tag = std::make_shared<NBTP::ListTag>(NBTP::TagType::INT);
+	ASSERT_EQ(from_tag->size(), 1);
+	ASSERT_EQ(to_tag->size(), 0);
+	*to_tag = std::move(*from_tag);
+	ASSERT_EQ(from_tag->size(), 0);
+	ASSERT_EQ(to_tag->size(), 1);
+}
+
 int main(int argc, char **argv) {
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

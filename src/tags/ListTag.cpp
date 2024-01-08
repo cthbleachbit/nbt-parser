@@ -181,13 +181,15 @@ namespace NBTP {
 
 	ListTag::ListTag(ListTag &&tag) noexcept {
 		this->contentType = tag.contentType;
-		this->payload = tag.payload;
+		this->payload = std::move(tag.payload);
+		tag.contentType = TagType::END;
 	}
 
 	ListTag &ListTag::operator=(ListTag &&tag) noexcept {
 		if (this != &tag) {
 			this->contentType = tag.contentType;
-			this->payload = tag.payload;
+			this->payload = std::move(tag.payload);
+			tag.contentType = TagType::END;
 		}
 		return *this;
 	}

@@ -170,7 +170,7 @@ namespace NBTP {
 		 * @param tag tag to move from
 		 */
 		SingleValuedTag(SingleValuedTag<P, T> &&tag) noexcept {
-			this->payload = tag.payload;
+			this->payload = std::move(tag.payload);
 		}
 
 		/**
@@ -179,7 +179,7 @@ namespace NBTP {
 		 * @return Updated tag
 		 */
 		SingleValuedTag &operator=(SingleValuedTag<P, T> &&tag) noexcept {
-			this->payload = tag.payload;
+			this->payload = std::move(tag.payload);
 			return *this;
 		}
 

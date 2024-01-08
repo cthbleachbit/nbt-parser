@@ -82,4 +82,44 @@ namespace NBTP {
 
 
 	StringTag::StringTag() = default;
+
+	/**
+	 * Copy constructor
+	 * @param tag
+	 */
+	StringTag::StringTag(const StringTag &tag) noexcept {
+		this->payload = tag.payload;
+	}
+
+	/**
+	 * Copy assignment operator
+	 * @param tag
+	 * @return
+	 */
+	StringTag &StringTag::operator=(const StringTag &tag) noexcept {
+		if (&tag != this) {
+			this->payload = tag.payload;
+		}
+		return *this;
+	}
+
+	/**
+	 * Move constructor
+	 * @param tag
+	 */
+	StringTag::StringTag(StringTag &&tag) noexcept {
+		this->payload = std::move(tag.payload);
+	}
+
+	/**
+	 * Move assignment operator
+	 * @param tag
+	 * @return
+	 */
+	StringTag &StringTag::operator=(StringTag &&tag) noexcept {
+		if (&tag != this) {
+			this->payload = std::move(tag.payload);
+		}
+		return *this;
+	}
 }

@@ -132,13 +132,13 @@ namespace NBTP {
 
 	// MOVE
 	CompoundTag::CompoundTag(CompoundTag &&tag) noexcept {
-		this->payload = tag.payload;
+		this->payload = std::move(tag.payload);
 	}
 
 	// MOVE
 	CompoundTag &CompoundTag::operator=(CompoundTag &&tag) noexcept {
 		if (&tag != this) {
-			this->payload = tag.payload;
+			this->payload = std::move(tag.payload);
 		}
 		return *this;
 	}

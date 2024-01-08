@@ -36,6 +36,14 @@ namespace NBTP {
 		void setPayload(std::string s);
 
 		/**
+		 * Compare whether two String tags are equal
+		 * @param rhs Tag - doesn't have to be StringTag
+		 * @return whether rhs is a StringTag and has identical content as this
+		 */
+		bool equal(const Tag &rhs) const override;
+
+	public: /* C-tor, D-tor, copy/move assignments */
+		/**
 		 * Construct a string tag from a c++ string
 		 * @param s
 		 */
@@ -45,6 +53,34 @@ namespace NBTP {
 		 * Default constructor
 		 */
 		StringTag();
+
+		/**
+		 * Copy constructor
+		 * @param tag
+		 */
+		StringTag(const StringTag &tag) noexcept;
+
+		/**
+		 * Copy assignment operator
+		 * @param tag
+		 * @return self
+		 */
+		StringTag &operator=(const StringTag &tag) noexcept;
+
+		/**
+		 * Move constructor
+		 * @param tag
+		 */
+		StringTag(StringTag &&tag) noexcept;
+
+		/**
+		 * Move assignment operator
+		 * @param tag
+		 * @return self
+		 */
+		StringTag &operator=(StringTag &&tag) noexcept;
+
+	public: /* I/O */
 
 		/**
 		 * Constructs a string tag from uncompressed NBT data stream
@@ -66,6 +102,13 @@ namespace NBTP {
 		StringTag(std::istream &input, ssize_t &counter, IOFormat format);
 
 		/**
+		 * Writes a string in NBT encoded format, i.e. length + non-termininated string
+		 * @param ostream
+		 * @return
+		 */
+		std::ostream &nbtOutput(std::ostream &ostream) const override;
+
+		/**
 		 * Static helper function for getting a string from NBT
 		 * This will consume two bytes, to read in length of the string X, then the following X bytes
 		 * for the string itself.
@@ -79,15 +122,6 @@ namespace NBTP {
 		 * @throw std::ios_base::failure  if I/O error has occurred
 		 */
 		static std::string parseString(std::istream &input, ssize_t &counter);
-
-		/**
-		 * Writes a string in NBT encoded format, i.e. length + non-termininated string
-		 * @param ostream
-		 * @return
-		 */
-		std::ostream &nbtOutput(std::ostream &ostream) const override;
-
-		bool equal(const Tag &rhs) const override;
 	};
 }
 
