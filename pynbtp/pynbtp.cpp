@@ -260,19 +260,22 @@ PYBIND11_MODULE(pynbtp, m) {
 						m,
 						"BytesTag",
 						"A container tag that holds multiple signed 8-bit integer tags"
-				);
+				)
+				.def(py::init<>());
 		py::class_<IntsTag, ListTag, ContainerTag, Tag, shared_ptr<IntsTag>>
 				(
 						m,
 						"IntsTag",
 						"A container tag that holds multiple signed 32-bit integer tags"
-				);
+				)
+				.def(py::init<>());
 		py::class_<LongsTag, ListTag, ContainerTag, Tag, shared_ptr<LongsTag>>
 				(
 						m,
 						"LongsTag",
 						"A container tag that holds multiple signed 64-bit integer tags"
-				);
+				)
+				.def(py::init<>());
 	}
 
 	/* Exception Types */
