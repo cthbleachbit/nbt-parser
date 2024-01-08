@@ -145,7 +145,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to copy from
 		 */
-		explicit SingleValuedTag(const SingleValuedTag<P, T> &tag) noexcept {
+		SingleValuedTag(const SingleValuedTag<P, T> &tag) noexcept {
 			this->payload = tag.payload;
 		}
 
@@ -169,7 +169,7 @@ namespace NBTP {
 		 * involve memory alloc / dealloc for the payload.
 		 * @param tag tag to move from
 		 */
-		explicit SingleValuedTag(SingleValuedTag<P, T> &&tag) noexcept {
+		SingleValuedTag(SingleValuedTag<P, T> &&tag) noexcept {
 			this->payload = tag.payload;
 		}
 
