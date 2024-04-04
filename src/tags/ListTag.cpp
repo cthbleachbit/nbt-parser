@@ -112,7 +112,7 @@ namespace NBTP {
 				typeCode = readType(input, counter);
 				if (!typeCode.has_value() || static_cast<int8_t>(*typeCode) > LONGS ||
 				    static_cast<int8_t>(*typeCode) < END) {
-					throw TagParseException(counter, fmt::format(INVALID_TYPE, *typeCode));
+					throw TagParseException(counter, fmt::format(INVALID_TYPE, std::underlying_type_t<TagType>(*typeCode)));
 				}
 
 				// Read in payload length
