@@ -2,6 +2,7 @@
 #include <sstream>
 #include <tags/Tag.h>
 #include <array>
+#include <type_traits>
 
 #include "libnbtp.h"
 #include "TagIO.h"
@@ -83,7 +84,7 @@ namespace NBTP {
 				ptr = std::make_shared<LongsTag>(input, counter);
 				break;
 			default:
-				throw TagParseException(counter, fmt::format(INVALID_TYPE, typeCode));
+				throw TagParseException(counter, fmt::format(INVALID_TYPE, std::underlying_type_t<TagType>(typeCode)));
 		}
 		return ptr;
 	}
