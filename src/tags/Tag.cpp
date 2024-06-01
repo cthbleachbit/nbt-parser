@@ -26,6 +26,10 @@ namespace NBTP {
 	};
 	static_assert(TypeNames.size() == TagType::END_OF_TAG_TYPE);
 
+	auto format_as(TagType t) -> fmt::underlying_t<TagType> {
+		return fmt::underlying(t);
+	}
+
 	std::ostream &Tag::indent(std::ostream &ostream, unsigned int n) {
 		for (unsigned int i = 0; i < n; i++) {
 			ostream << std::string("    ");

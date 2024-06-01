@@ -3,6 +3,7 @@ include_directories(${GTest_INCLUDE_DIR})
 
 set(NBTP_TESTS
 		BasicParseTest
+		FormatterTest
 		TagTest
 		FloatBigEndianTest
 		ContainerTagTest

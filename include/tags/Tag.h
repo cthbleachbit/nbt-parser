@@ -35,6 +35,7 @@ namespace NBTP {
 		LONGS = 12,
 		END_OF_TAG_TYPE,
 	};
+	auto format_as(TagType t) -> fmt::underlying_t<TagType>;
 
 	/**
 	 * Read type code at next byte and advance in the stream
