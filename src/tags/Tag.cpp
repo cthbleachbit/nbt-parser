@@ -24,6 +24,7 @@ namespace NBTP {
 			"Array of Ints",
 			"Array of Longs"
 	};
+	static_assert(TypeNames.size() == TagType::END_OF_TAG_TYPE);
 
 	std::ostream &Tag::indent(std::ostream &ostream, unsigned int n) {
 		for (unsigned int i = 0; i < n; i++) {
